@@ -1,0 +1,26 @@
+{
+    "name": "PhotoChallenge",
+    "version": "0.3.1",
+    "homepage": "https://github.com/webdude21/Homework",
+    "authors": [
+        "Димо Петров <webdude@webdude.eu>"
+    ],
+    "description": "Photo Challange Application",
+    "main": "server.js",
+    "moduleType": [
+        "node"
+    ],
+    "license": "MIT",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "./public/lib",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "jquery": "~2.1.1",
+        "bootstrap": "~3.2.0"
+    }
+}

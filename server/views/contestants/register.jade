@@ -1,0 +1,28 @@
+extends ../includes/layout
+
+block main-content
+        .well
+            form.form-horizontal(name="signUpForm" method="post" enctype="multipart/form-data" id="sign-up-form")
+                fieldset
+                    legend Регистриране на Участник
+                    .form-group
+                        label.col-md-2.control-label(for="full-name") Имена
+                        .col-md-10
+                            input.form-control(type="text", placeholder="Иван Георгиев Димитров", name="fullName", required)
+                    .form-group
+                        label.col-md-2.control-label(for="age") Възраст
+                        .col-md-10
+                            input.form-control(type="number", placeholder="12", name="age", required)
+                    .form-group
+                        label.col-md-2.control-label(for="comment") Коментар
+                        .col-md-10
+                            input.form-control(type="text", placeholder="optional comment", name="comment")
+                    .form-group
+                        label.col-md-2.control-label(for="file-0") Снимка
+                        .col-md-10
+                            input.form-control.upload-picture(id="file-0" type="file", name="file_0", required, pattern='/\.(gif|jpg|jpeg|png)$/i')
+                    #button-panel
+                        .pull-right
+                            input.btn.btn-primary(type="submit" value="Регистрация")
+                            a.btn.btn-primary(href="/") Отказ
+block page-scripts

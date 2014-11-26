@@ -1,0 +1,34 @@
+extends ../includes/layout
+
+block main-content
+    .well
+        form.form-horizontal(name="signUpForm" method="post")
+            fieldset
+                legend Регистрация
+                .form-group
+                    label.col-md-2.control-label(for="first-name") Име
+                    .col-md-10
+                        input.form-control(type="text", placeholder="Име", name="firstName", required)
+                .form-group
+                    label.col-md-2.control-label(for="last-name") Фамилия
+                    .col-md-10
+                        input.form-control(type="text", placeholder="Фамилия", name="lastName", required)
+                .form-group
+                    label.col-md-2.control-label(for="username") Потребителско име
+                    .col-md-10
+                        input.form-control(type="text", placeholder="Потребителско име", name="username", required)
+                .form-group
+                    label.col-md-2.control-label(for="emailAddress") Email
+                    .col-md-10
+                        input.form-control(type="email", placeholder="твоят@email.com", name="email", required)
+                .form-group
+                    label.col-md-2.control-label(for="password") Парола
+                    .col-md-10
+                        input.form-control(type="password", placeholder="Парола", name="password", required)
+                .form-group
+                    label.col-md-2.control-label(for="password") Потвърждаване на паролата
+                    .col-md-10
+                        input.form-control(type="password", placeholder="Парола", name="confirmPassword", required)
+                .pull-right
+                    input.btn.btn-primary(type="submit" value="Регистрация")
+                    a.btn.btn-primary(href="/") Отказ

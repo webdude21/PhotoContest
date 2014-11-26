@@ -1,0 +1,32 @@
+doctype
+html
+    head
+        title Фото Конкурс
+        link(rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css")
+        link(rel="stylesheet" href="/styles/bootstrap.min.css")
+        link(rel="stylesheet" href="/styles/app.css")
+    body
+        header.nav.navbar-inverse.navbar-fixed-top
+            .container
+                .navbar-header
+                    a.navbar-brand(href="/") Фото Конкурс
+                button(type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse")
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                include menu
+        .container
+            br
+            if errorMessage
+                .alert.alert-danger(role="alert") #{errorMessage}
+
+            block main-content
+
+        footer
+            hr
+            p.text-center
+                span
+                    a(href="http://webdude.eu/") Created by webdude
+
+        include scripts

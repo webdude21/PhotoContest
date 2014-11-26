@@ -1,0 +1,22 @@
+extends ../includes/layout
+
+block main-content
+    .well
+        form.form-horizontal(name="loginForm" method="post")
+            fieldset
+                legend Вход
+                .form-group
+                    label.col-md-2.control-label(for="username") Потребителско име
+                    .col-md-10
+                        input.form-control(type="text", placeholder="Потребителско име", name="username", required)
+                .form-group
+                    label.col-md-2.control-label(for="password") Парола
+                    .col-md-10
+                        input.form-control(type="password", placeholder="Парола", name="password", required)
+                hr
+                .pull-right
+                    input.btn.btn-primary(type="submit" value="Вход")
+                    a.btn.btn-primary(href="/") Отказ
+                .pull-left
+                    a.btn-primary(href="/auth/facebook")
+                        img(src="/img/facebook.png")

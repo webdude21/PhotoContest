@@ -1,0 +1,24 @@
+extends ../includes/layout
+block main-content
+        H4 Участници:
+        hr
+        .row#participants
+            for contestant in data
+                .col-sm-6.col-md-4.item
+                    .panel.panel-default
+                        .panel-heading.text-center
+                            span Име: #{contestant.fullName}
+                        div(class="panel-body image-container text-center")
+                            a(href="/contestants/" + contestant._id)
+                                if contestant.pictures
+                                    img(class="img-rounded img-thumbnail" src=contestant.pictures[0].url)
+                                else
+                                    h5 Няма снимки!
+                        p.text-center Възраст: #{contestant.age} години
+            else
+                h5.text-center Няма участници!
+        include ../includes/pager
+
+block page-scripts
+    script(type="text/javascript" src="/scripts/masonry.pkgd.min.js")
+    script(type="text/javascript" src="/scripts/responsive-images.js")

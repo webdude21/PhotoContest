@@ -1,0 +1,25 @@
+extends ../includes/layout
+block main-content
+    .well
+        form.form-horizontal(name="signUpForm" method="post")
+            fieldset
+                legend Обновяване на профила
+                .form-group
+                    label.col-md-2.control-label(for="first-name") Име
+                    .col-md-10
+                        input.form-control(type="text", placeholder="Име", name="firstName", required value="#{firstName}")
+                .form-group
+                    label.col-md-2.control-label(for="last-name") Фамилия
+                    .col-md-10
+                        input.form-control(type="text", placeholder="Фамилия", name="lastName", required value="#{lastName}")
+                .form-group
+                    label.col-md-2.control-label(for="password") Парола
+                    .col-md-10
+                        input.form-control(type="password", placeholder="Парола", name="password")
+                .form-group
+                    label.col-md-2.control-label(for="password") Потвърждаване на паролата
+                    .col-md-10
+                        input.form-control(type="password", placeholder="Парола", name="confirmPassword")
+                .pull-right
+                    input.btn.btn-primary(type="submit" value="Обновяване")
+                    a.btn.btn-primary(href="/") Отказ

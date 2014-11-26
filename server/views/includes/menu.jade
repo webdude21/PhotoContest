@@ -1,0 +1,25 @@
+.navbar-collapse.collapse
+    ul.nav.navbar-nav
+        li
+            a(href="/contestants/all") Участници
+    ul.nav.navbar-nav.navbar-right
+            if !currentUser
+                li
+                    a(href="/register") Регистрация
+                li
+                    a(href="/login") Вход
+                li
+                    a(href="/auth/facebook")
+                        img(src="/img/facebook.png")
+            else
+                li.dropdown.pull-right
+                    a.dropdown-toggle(href="", data-toggle="dropdown")
+                        | #{currentUser.username}
+                        span.caret
+                    ul.dropdown-menu
+                        li
+                            a(href="/profile") Моят профил
+                        li
+                            a(href="/contestants/register") Регистриране на участник
+                        li
+                            a(href="/logout") Изход
