@@ -12,10 +12,7 @@ block main-content
             p Възраст: #{age} години
             if comment
                 p.break-word Коментар: #{comment}
-            if votes.length
-                span Гласове: &nbsp
-                span.badge #{votes.length}
             hr
-                .fb-like(data-href="" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true")
+            .fb-like(data-href="" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true")
 block page-scripts
 script(type="text/javascript" src="/scripts/masonry.pkgd.min.js")
