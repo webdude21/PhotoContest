@@ -20,7 +20,7 @@
         "tests"
     ],
     "dependencies": {
-        "jquery": "^2.x.x",
+        "jquery": "^2.1.x",
         "bootstrap": "^3.x.x"
     }
 }
