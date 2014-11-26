@@ -1,7 +1,7 @@
 {
-    "name": "PhotoChallenge",
-    "version": "0.3.1",
-    "homepage": "https://github.com/webdude21/Homework",
+    "name": "PhotoContest",
+    "version": "0.3.5",
+    "homepage": "https://github.com/webdude21/PhotoContest",
     "authors": [
         "Димо Петров <webdude@webdude.eu>"
     ],
@@ -20,7 +20,7 @@
         "tests"
     ],
     "dependencies": {
-        "jquery": "~2.1.1",
-        "bootstrap": "~3.2.0"
+        "jquery": "^2.x.x",
+        "bootstrap": "^3.x.x"
     }
 }
