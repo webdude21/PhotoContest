@@ -5,11 +5,11 @@ var User = require('mongoose').model('User');
 var data = require('../data');
 var encryption = require('../utilities/encryption');
 
-module.exports = function (serverPort) {
+module.exports = function () {
     passport.use(new FacebookStrategy({
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
-            callbackURL: process.env.BASE_URL + ':' + serverPort + "/auth/facebook/callback"
+            callbackURL: process.env.BASE_URL + "/auth/facebook/callback"
         },
         function (accessToken, refreshToken, profile, done) {
             var fbUser = {
