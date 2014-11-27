@@ -42,7 +42,7 @@ module.exports = {
                 });
             }
 
-            res.render(CONTROLLER_NAME + '/all', contestants);
+            res.render(CONTROLLER_NAME + '/contestants/all', contestants);
         }, queryObject, PAGE_SIZE);
     }
 };

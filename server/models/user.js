@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var encryption = require('../utilities/encryption');
-var rolesConfig = require('../config/roles');
+var roles = require('../config/roles');
 
 var userSchema = mongoose.Schema({
     username: { type: String, require: '{PATH} is required', unique: true },
@@ -39,7 +39,7 @@ module.exports.seedInitialUsers = function () {
             salt = encryption.generateSalt();
             hashedPwd = encryption.generateHashedText(salt, 'secret');
             User.create({username: 'webdude', firstName: 'Димо', email: 'webdude@webdude.eu',
-                lastName: 'Петров', salt: salt, hashPass: hashedPwd, roles: [rolesConfig.identity.roles.admin]});
+                lastName: 'Петров', salt: salt, hashPass: hashedPwd, roles: [roles.admin]});
             console.log('Users added to database...');
         }
     });

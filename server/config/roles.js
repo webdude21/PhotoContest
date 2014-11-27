@@ -1,10 +1,6 @@
 module.exports = {
-    identity: {
-        roles: {
-            admin: 'admin',
-            editor: 'editor',
-            author: 'author',
-            user: 'user'
-        }
-    }
+    admin: 'admin',
+    editor: 'editor',
+    author: 'author',
+    user: 'user'
 };
