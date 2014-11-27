@@ -23,6 +23,11 @@ module.exports = {
                 res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
             });
     },
+    getResetContest: function(req, res, next){
+        res.render(CONTROLLER_NAME + '/reset-contest');
+    },
+    postResetContest: function(req, res, next){
+    },
     getAllContestants: function (req, res, next) {
         var queryObject = req.query;
 

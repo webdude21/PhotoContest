@@ -1,13 +1,13 @@
 ul.pagination.pagination
    - if (pager.currentPage > 1) {
    li
-      a(href='/contestants/all?page=' + (pager.currentPage - 1) ) «
+      a(href='/contestants?page=' + (pager.currentPage - 1) ) «
    - } else {
    li.disabled
-      a(href='/contestants/all?page=' + pager.currentPage ) «
+      a(href='/contestants?page=' + pager.currentPage ) «
    - }
    - for(var i = 1; i <= pager.totalPages; i++) {
-   - var url = '/contestants/all?page=' + i
+   - var url = '/contestants?page=' + i
    - if (pager.currentPage === i){
    li.active
       a(href="#{url}") #{i}
@@ -18,8 +18,8 @@ ul.pagination.pagination
    - }
    - if (pager.currentPage < pager.totalPages) {
    li
-      a(href='/contestants/all?page=' + (pager.currentPage + 1) ) »
+      a(href='/contestants?page=' + (pager.currentPage + 1) ) »
    - } else {
    li.disabled
-      a(href='/contestants/all?page=' + pager.currentPage ) »
+      a(href='/contestants?page=' + pager.currentPage ) »
    - }
