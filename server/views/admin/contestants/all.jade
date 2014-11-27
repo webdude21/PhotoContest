@@ -9,7 +9,7 @@ block main-content
                           .panel-heading.text-center
                               span Име: #{contestant.fullName}
                           div(class="panel-body image-container text-center")
-                              a(href="/contestants/" + contestant._id)
+                              a(href=path + '/' + contestant._id)
                                   if contestant.pictures
                                       img(class="img-rounded img-thumbnail" src=contestant.pictures[0].url)
                                   else

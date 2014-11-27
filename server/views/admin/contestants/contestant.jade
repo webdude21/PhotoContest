@@ -1,6 +1,6 @@
-extends ../includes/layout
+extends ../../includes/layout
 block main-content
-    include ../includes/facebookSDK
+    include ../../includes/facebookSDK
     .container-fluid
         H2.text-center.break-word #{fullName}
         div.participant-images.panel-body.image-container.text-center
@@ -14,5 +14,10 @@ block main-content
                 p.break-word Коментар: #{comment}
             hr
             .fb-like(data-href=path data-layout="button_count" data-action="like" data-show-faces="true" data-share="true")
+            hr
+            if approved
+                a(class="btn btn-danger" href=path + "/disapprove") Disapprove
+            else
+                a(class="btn btn-btn-success" href=path + "/approve") Approve
 block page-scripts
 script(type="text/javascript" src="/scripts/masonry.pkgd.min.js")

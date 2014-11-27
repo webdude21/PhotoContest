@@ -5,15 +5,12 @@ var PAGE_SIZE = 10;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
-    getRegister: function (req, res, next) {
-        res.render(CONTROLLER_NAME + '/register');
-    },
     getById: function (req, res, next) {
         data.contestants.getById(req.params.id
             , function (err) {
                 res.redirect('/not-found');
             }, function (contestant) {
-                res.render(CONTROLLER_NAME + '/contestant', contestant);
+                res.render(CONTROLLER_NAME + '/contestants/contestant', contestant);
             });
     },
     getAllContestants: function (req, res, next) {
