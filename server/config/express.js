@@ -8,14 +8,13 @@ var morgan = require('morgan');
 var STATIC_DIRECTORY = '/public';
 var secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF';
 
-
 module.exports = function (app, config) {
     app.set('view engine', 'jade');
     app.set('views', config.rootPath + '/server/views');
     app.use(cookieParser(secretPassPhrase));
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(busboy({ immediate: false }));
+    app.use(bodyParser.urlencoded({extended: true}));
+    app.use(busboy({immediate: false}));
     app.use(session({secret: secretPassPhrase, saveUninitialized: true, resave: true}));
     app.use(passport.initialize());
     app.use(passport.session());
@@ -26,7 +25,7 @@ module.exports = function (app, config) {
             var msg = req.session.errorMessage;
             req.session.errorMessage = undefined;
             app.locals.errorMessage = msg;
-        }else{
+        } else {
             app.locals.errorMessage = undefined;
         }
         next();

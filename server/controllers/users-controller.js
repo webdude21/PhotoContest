@@ -70,7 +70,6 @@ module.exports = {
                                 req.session.errorMessage = "A terrible error has occurred! " + err.toString();
                                 res.redirect('/error');
                             }
-
                             res.redirect('/');
                         });
                     });
