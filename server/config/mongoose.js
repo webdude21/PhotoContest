@@ -7,7 +7,7 @@ module.exports = function (config) {
 
     db.once('open', function (err) {
         if (err) {
-            console.log('Database could not be opened: ' + err);
+            console.log('Cannot connect to the database ...: ' + err);
             return;
         }
 

@@ -77,6 +77,7 @@ module.exports = {
         });
 
         req.busboy.on('finish', function () {
+            newContestant.registrant = req.user;
             savedContestant = data.contestants.addContestant(newContestant);
             res.redirect(savedContestant._id);
         })
