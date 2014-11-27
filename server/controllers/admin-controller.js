@@ -26,7 +26,14 @@ module.exports = {
     getResetContest: function(req, res, next){
         res.render(CONTROLLER_NAME + '/reset-contest');
     },
+    getResetApplication: function(req, res, next){
+        res.render(CONTROLLER_NAME + '/reset-application');
+    },
+    postResetApplication: function(req, res, next){
+        res.redirect('/');
+    },
     postResetContest: function(req, res, next){
+        res.redirect('/');
     },
     getAllContestants: function (req, res, next) {
         var queryObject = req.query;

@@ -7,6 +7,10 @@ module.exports = function (app) {
         .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.getResetContest)
         .post(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.postResetContest);
 
+    app.route('/admin/reset-application')
+        .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.getResetApplication)
+        .post(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.postResetApplication);
+
     app.route('/admin/contestants')
         .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.getAllContestants);
 
