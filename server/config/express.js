@@ -7,7 +7,6 @@ var busboy = require('connect-busboy');
 var morgan = require('morgan');
 var STATIC_DIRECTORY = '/public';
 var secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF';
-var auth = require('../config/auth');
 var roles = require('../config/roles');
 
 module.exports = function (app, config) {
@@ -35,11 +34,7 @@ module.exports = function (app, config) {
     app.use(function (req, res, next) {
         app.locals.currentUser = req.user;
         res.locals.path = req.path;
-        if (req.user && auth.isInRole([roles.admin])){
-            res.locals.admin = true;
-        }else{
-            app.locals.admin = undefined;
-        }
+        app.locals.admin = req.user && req.user.roles.indexOf(roles.admin) > -1 ? true : false;
         next();
     })
 };

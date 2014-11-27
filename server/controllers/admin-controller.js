@@ -13,6 +13,16 @@ module.exports = {
                 res.render(CONTROLLER_NAME + '/contestants/contestant', contestant);
             });
     },
+    toggleApprovalById: function (req, res, next) {
+        data.contestants.getById(req.params.id
+            , function (err) {
+                res.redirect('/not-found');
+            }, function (contestant) {
+                contestant.approved = !contestant.approved;
+                contestant.save();
+                res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
+            });
+    },
     getAllContestants: function (req, res, next) {
         var queryObject = req.query;
 
