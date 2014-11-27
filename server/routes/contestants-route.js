@@ -6,11 +6,8 @@ module.exports = function (app) {
         .get(auth.isAuthenticated, controllers.contestants.getRegister)
         .post(auth.isAuthenticated, controllers.contestants.postRegister);
 
-    app.route('/contestants/all')
+    app.route('/contestants')
         .get(controllers.contestants.getAllApproved);
-
-    app.route('/contestants/:id/vote')
-        .get(auth.isAuthenticated, controllers.contestants.vote);
 
     app.route('/contestants/:id')
         .get(controllers.contestants.getById);

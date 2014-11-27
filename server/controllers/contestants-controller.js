@@ -8,20 +8,6 @@ module.exports = {
     getRegister: function (req, res, next) {
         res.render(CONTROLLER_NAME + '/register');
     },
-    vote: function (req, res, next) {
-        data.contestants.getById(req.params.id
-            , function (err) {
-                res.redirect('/not-found');
-            }, function (contestant) {
-                if (contestant.votes.indexOf(req.user._id) > -1) {
-                    req.session.errorMessage = 'Вече сте гласували за този участник!';
-                } else {
-                    contestant.votes.push(req.user);
-                    contestant.save();
-                }
-                res.redirect('/contestants/' + contestant.id);
-            });
-    },
     getById: function (req, res, next) {
         data.contestants.getById(req.params.id
             , function (err) {

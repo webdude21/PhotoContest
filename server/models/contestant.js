@@ -5,13 +5,6 @@ var contestantSchema = mongoose.Schema({
     age: {type: Number, require: '{PATH} is required', min: 0},
     registerDate: {type: Date, default: Date.now},
     approved: {type: Boolean, default: false},
-    votes: [
-        {
-            type: mongoose.Schema.ObjectId,
-            ref: 'User',
-            unique: true
-        }
-    ],
     registrant: {
         type: mongoose.Schema.ObjectId,
         ref: 'User'
