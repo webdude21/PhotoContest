@@ -16,6 +16,15 @@ module.exports = {
             }
         })
     },
+    deleteAll: function(error, success){
+        Contestant.remove({}, function(err){
+            if (err){
+                error(err);
+            }else{
+                success();
+            }
+        });
+    },
     getAll: function (error, success) {
         Contestant.find()
             .populate('pictures')

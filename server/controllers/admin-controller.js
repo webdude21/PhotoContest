@@ -23,17 +23,26 @@ module.exports = {
                 res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
             });
     },
-    getResetContest: function(req, res, next){
+    getResetContest: function (req, res, next) {
         res.render(CONTROLLER_NAME + '/reset-contest');
     },
-    getResetApplication: function(req, res, next){
+    getResetApplication: function (req, res, next) {
         res.render(CONTROLLER_NAME + '/reset-application');
     },
-    postResetApplication: function(req, res, next){
+    postResetApplication: function (req, res, next) {
+        //TODO Implement functionality
         res.redirect('/');
     },
-    postResetContest: function(req, res, next){
-        res.redirect('/');
+    postResetContest: function (req, res, next) {
+        data.contestants.deleteAll(
+            function (err) {
+                req.session.errorMessage = "Could not reset the contest!" + err;
+                res.redirect('/error');
+            }, function () {
+                cloudinary.api.delete_all_resources(function(){
+                    res.redirect('/');
+                });
+            });
     },
     getAllContestants: function (req, res, next) {
         var queryObject = req.query;
