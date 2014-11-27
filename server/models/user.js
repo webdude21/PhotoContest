@@ -7,7 +7,7 @@ var userSchema = mongoose.Schema({
     firstName: String,
     lastName: String,
     email: { type: String, require: '{PATH} is required', unique: true },
-    facebookId: {type: String, unique: true},
+    facebookId: {type: String},
     registerDate: { type: Date, default: Date.now },
     salt: String,
     hashPass: String,
