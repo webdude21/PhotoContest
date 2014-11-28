@@ -7,6 +7,10 @@ module.exports = function(app){
         res.redirect('contestants')
     }));
 
+    app.post('/*', function(req, res) {
+        response.redirect('/');
+    });
+
     app.get('*', function (req, res) {
             res.render('not-found', {currentUser: req.user});
     });
