@@ -1,5 +1,4 @@
 var User = require('mongoose').model('User');
-var roles = require('../config/roles');
 
 module.exports = {
     findOrCreate: function (userData, resolve) {

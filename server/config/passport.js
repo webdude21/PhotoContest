@@ -16,12 +16,14 @@ module.exports = function () {
                 facebookId: profile.id,
                 firstName: profile._json.first_name,
                 lastName: profile._json.last_name,
-                username: profile.username,
-                email: profile.emails[0].value
+                username: profile.username
             };
 
             fbUser.salt = encryption.generateSalt();
             fbUser.hashPass = encryption.generateHashedText(fbUser.salt, encryption.generateSalt());
+
+            // very dumb solution here, but FB users don't always come with emails
+            fbUser.email = profile.emails ? profile.emails[0].value : "no-email-for-this-user" + fbUser.hashPass;
 
             data.users.findOrCreate(fbUser,
                 function (err, user) {
