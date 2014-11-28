@@ -8,7 +8,7 @@ module.exports = function(app){
     }));
 
     app.post('/*', function(req, res) {
-        response.redirect('/');
+        res.redirect('/');
     });
 
     app.get('*', function (req, res) {
