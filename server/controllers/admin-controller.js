@@ -30,8 +30,20 @@ module.exports = {
         res.render(CONTROLLER_NAME + '/reset-application');
     },
     postResetApplication: function (req, res, next) {
-        //TODO Implement functionality
-        res.redirect('/');
+        data.contestants.deleteAll(
+            function (err) {
+                req.session.errorMessage = "Could not reset the application!" + err;
+                res.redirect('/error');
+            }, function () {
+                data.users.deleteAllNonAdmins(function (err) {
+                    req.session.errorMessage = "Could not reset the application!" + err;
+                    res.redirect('/error');
+                }, function(){
+                    cloudinary.api.delete_all_resources(function(){
+                        res.redirect('/');
+                    });
+                });
+            });
     },
     postResetContest: function (req, res, next) {
         data.contestants.deleteAll(

@@ -1,4 +1,5 @@
 var User = require('mongoose').model('User');
+var roles = require('../config/roles');
 
 module.exports = {
     findOrCreate: function (userData, resolve) {
@@ -17,6 +18,15 @@ module.exports = {
                     });
                 }
             });
+    },
+    deleteAllNonAdmins: function (error, success) {
+        User.remove({roles: []}, function (err) {
+            if (err) {
+                error(err);
+            } else {
+                success();
+            }
+        });
     },
     getCount: function (error, success) {
         User.find()
