@@ -2,6 +2,8 @@ var cloudinary = require('cloudinary');
 var data = require('../data');
 var CONTROLLER_NAME = 'contestants';
 var PAGE_SIZE = 10;
+var INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
+    'изображение от следните формати (gif, jpg, jpeg, tiff, png)!';
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
@@ -69,6 +71,9 @@ module.exports = {
 
                 file.on('data', stream.write)
                     .on('end', stream.end);
+            }else{
+                req.session.errorMessage = INVALID_IMAGE_ERROR;
+                res.redirect("/contestants/register");
             }
         });
 
