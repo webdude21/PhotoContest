@@ -2,7 +2,7 @@ var User = require('mongoose').model('User');
 
 module.exports = {
     findOrCreate: function (userData, resolve) {
-        User.findOne({username: userData.username, email: userData.email})
+        User.findOne({username: userData.username})
             .exec(function (err, user) {
                 if (err) {
                     resolve(err, false);
