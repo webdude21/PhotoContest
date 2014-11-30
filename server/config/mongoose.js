@@ -8,10 +8,7 @@ module.exports = function (config) {
     db.once('open', function (err) {
         if (err) {
             console.log('Cannot connect to the database ...: ' + err);
-            return;
         }
-
-        console.log('Database up and running...')
     });
 
     db.on('error', function (err) {

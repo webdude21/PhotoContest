@@ -1,23 +1,37 @@
-var env = process.env.NODE_ENV || 'development';
-var config = require('../../server/config/config')[env];
-var mongoose = require('../../server/config/mongoose')(config);
+var config = require('../../server/config/config')['development'];
+require('../../server/config/mongoose')(config);
 var data = require('../../server/data');
 var expect = require('chai').expect;
 
 describe('Contestants', function () {
+    it('adding a contestant in db should add the contestant and should return it', function () {
+        var contestant = {
+            fullName: "Кирил Иванов",
+            аге: 10,
+            approved: true
+        };
+
+        var dbContestant = data.contestants.addContestant(contestant);
+
+        expect(dbContestant.fullName).to.equal(contestant.fullName);
+        expect(dbContestant.age).to.equal(contestant.age);
+        expect(dbContestant.approved).to.be.true;
+        expect(dbContestant.registerDate).to.exist;
+    });
+
     it('get all approved contestants in db should return all approved contestants', function () {
         var onlyApproved = true;
 
-        data.contestants.getAllApproved(function(err){
-        }, function(data){
-            data.forEach(function(contestant){
-                if (!contestant.approved){
+        data.contestants.getAllApproved(function (err) {
+        }, function (data) {
+            data.forEach(function (contestant) {
+                if (!contestant.approved) {
                     onlyApproved = false;
                 }
             });
         });
 
-        var result = expect(onlyApproved).to.be.true;
+        expect(onlyApproved).to.be.true;
     });
 
     it('get all when no contestants in db should return all contestants', function () {
