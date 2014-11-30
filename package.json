@@ -26,5 +26,9 @@
     "passport": "^0.2.1",
     "passport-facebook": "^1.0.3",
     "passport-local": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^1.10.0",
+    "mocha": "^2.0.1"
   }
 }

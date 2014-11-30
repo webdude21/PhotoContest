@@ -16,11 +16,11 @@ module.exports = {
             }
         })
     },
-    deleteAll: function(error, success){
-        Contestant.remove({}, function(err){
-            if (err){
+    deleteAll: function (error, success) {
+        Contestant.remove({}, function (err) {
+            if (err) {
                 error(err);
-            }else{
+            } else {
                 success();
             }
         });
