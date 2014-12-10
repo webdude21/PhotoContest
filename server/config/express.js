@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var compression = require('compression');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
@@ -21,6 +22,7 @@ module.exports = function (app, config) {
     app.use(passport.session());
     app.use(express.static(config.rootPath + STATIC_DIRECTORY));
     app.use(morgan('combined'));
+    app.use(compression());
     app.use(function (req, res, next) {
         if (req.session.errorMessage) {
             var msg = req.session.errorMessage;
