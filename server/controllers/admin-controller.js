@@ -38,8 +38,8 @@ module.exports = {
                 data.users.deleteAllNonAdmins(function (err) {
                     req.session.errorMessage = "Could not reset the application!" + err;
                     res.redirect('/error');
-                }, function(){
-                    cloudinary.api.delete_all_resources(function(){
+                }, function () {
+                    cloudinary.api.delete_all_resources(function () {
                         res.redirect('/');
                     });
                 });
@@ -51,7 +51,7 @@ module.exports = {
                 req.session.errorMessage = "Could not reset the contest!" + err;
                 res.redirect('/error');
             }, function () {
-                cloudinary.api.delete_all_resources(function(){
+                cloudinary.api.delete_all_resources(function () {
                     res.redirect('/');
                 });
             });
