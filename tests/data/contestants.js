@@ -3,7 +3,7 @@ require('../../server/config/mongoose')(config);
 var data = require('../../server/data');
 var expect = require('chai').expect;
 
-describe('#Contestants', function () {
+describe('#Contestants Data', function () {
     it('adding a contestant in db should add the contestant and should return it', function () {
         var contestant = {
             fullName: "Кирил Иванов",
