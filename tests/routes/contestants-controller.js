@@ -5,7 +5,7 @@ var contestantController = require('../../server/controllers/contestants-control
 
 describe("#Contestants Controller", function() {
     describe("Get Approved Contestants", function() {
-        it("should respond", function() {
+        it("should render some the result", function() {
             var req,res,spy;
 
             req = res = {};
@@ -14,7 +14,7 @@ describe("#Contestants Controller", function() {
 
             contestantController.getAllApproved(req, res);
             setTimeout(function(){
-                expect(spy.calledOnce).to.equal(true);
+                spy.render.should.toHaveBeenCalled();
             }, 500);
         });
     });
