@@ -43,8 +43,4 @@ describe('#Contestants Data', function () {
 
         expect(onlyApproved).to.be.true();
     });
-
-    it('get all when no contestants in db should return all contestants', function () {
-
-    });
 });
