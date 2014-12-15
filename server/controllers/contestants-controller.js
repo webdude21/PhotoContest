@@ -71,7 +71,8 @@ module.exports = {
 
                 file.on('data', stream.write)
                     .on('end', stream.end);
-            }else{
+
+            } else {
                 req.session.errorMessage = INVALID_IMAGE_ERROR;
                 res.redirect("/contestants/register");
             }

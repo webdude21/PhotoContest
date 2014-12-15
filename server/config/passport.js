@@ -32,11 +32,7 @@ module.exports = function () {
                         return;
                     }
 
-                    if (user) {
-                        return done(err, user);
-                    } else {
-                        return done(null, false);
-                    }
+                    return user ? done(err, user) : done(null, false);
                 });
         }
     ));
@@ -67,12 +63,7 @@ module.exports = function () {
                 return;
             }
 
-            if (user) {
-                return done(null, user);
-            }
-            else {
-                return done(null, false);
-            }
+            return user ? done(null, user) : done(null, false);
         })
     })
 };
