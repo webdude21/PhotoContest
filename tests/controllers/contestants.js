@@ -1,6 +1,9 @@
+var config = require('../../server/config/config')['development'];
+require('../../server/config/mongoose')(config);
+var data = require('../../server/data');
 var sinon = require('sinon');
 var expect = require('chai').expect;
-var contestantController = require('../../server/controllers/contestants-controller');
+var controllers = require('../../server/controllers');
 
 function getExpressMock() {
     var req, res, spy;
@@ -18,7 +21,7 @@ describe("#Contestants Controller", function () {
     describe("Get Approved Contestants", function () {
         it("should render some the result", function () {
             var mock = getExpressMock();
-            contestantController.getAllApproved(mock.req, mock.res);
+            controllers.contestants.getAllApproved(mock.req, mock.res);
             setTimeout(function () {
                 mock.spy.render.should.toHaveBeenCalled();
             }, 100);
@@ -28,10 +31,10 @@ describe("#Contestants Controller", function () {
     describe("Get Register Contestant", function () {
         it("should return register form", function () {
             var mock = getExpressMock();
-            contestantController.getRegister(mock.req, mock.res);
+            controllers.contestants.getRegister(mock.req, mock.res);
             setTimeout(function () {
                 mock.spy.render.should.toHaveBeenCalled();
             }, 100);
         });
-    })
+    });
 });
