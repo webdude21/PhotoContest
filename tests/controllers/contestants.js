@@ -21,20 +21,20 @@ describe("#Contestants Controller", function () {
     describe("Get Approved Contestants", function () {
         it("should render some the result", function () {
             var mock = getExpressMock();
-            controllers.contestants.getAllApproved(mock.req, mock.res);
-            setTimeout(function () {
-                mock.spy.render.should.toHaveBeenCalled();
-            }, 100);
+            controllers.contestants.getAllApproved(mock.req, mock.res)
+                .then(function () {
+                    mock.spy.render.should.toHaveBeenCalled();
+                });
         });
     });
 
     describe("Get Register Contestant", function () {
         it("should return register form", function () {
             var mock = getExpressMock();
-            controllers.contestants.getRegister(mock.req, mock.res);
-            setTimeout(function () {
-                mock.spy.render.should.toHaveBeenCalled();
-            }, 100);
+            controllers.contestants.getRegister(mock.req, mock.res)
+                .then(function () {
+                    mock.spy.render.should.toHaveBeenCalled();
+                });
         });
     });
 });

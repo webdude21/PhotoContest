@@ -1,4 +1,5 @@
 var cloudinary = require('cloudinary');
+var Promise = require('q');
 var data = require('../data');
 var CONTROLLER_NAME = 'contestants';
 var PAGE_SIZE = 10;
@@ -8,7 +9,10 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
     getRegister: function (req, res, next) {
+        var deferred = Promise.defer();
         res.render(CONTROLLER_NAME + '/register');
+        deferred.resolve();
+        return deferred.promise;
     },
     getById: function (req, res, next) {
         data.contestants.getById(req.params.id
@@ -19,6 +23,8 @@ module.exports = {
             });
     },
     getAllApproved: function (req, res, next) {
+        var deferred = Promise.defer();
+
         var queryObject = req.query;
 
         queryObject.columns = [
@@ -41,6 +47,7 @@ module.exports = {
         data.contestants.getQuery(function (err) {
             req.session.errorMessage = err;
             res.redirect('/not-found');
+            res.reject();
         }, function (contestants) {
             for (var i = 0; i < contestants.data.length; i++) {
                 contestants.data[i].pictures.forEach(function (picture) {
@@ -49,7 +56,10 @@ module.exports = {
             }
 
             res.render(CONTROLLER_NAME + '/all', contestants);
+            deferred.resolve();
         }, queryObject, PAGE_SIZE);
+
+        return deferred.promise;
     },
     postRegister: function (req, res, next) {
         var newContestant = {};
