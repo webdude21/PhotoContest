@@ -2,7 +2,6 @@ var config = require('../../server/config/config')['development'];
 require('../../server/config/mongoose')(config);
 var data = require('../../server/data');
 var sinon = require('sinon');
-var expect = require('chai').expect;
 var controllers = require('../../server/controllers');
 
 function getExpressMock() {

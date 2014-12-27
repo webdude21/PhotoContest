@@ -47,7 +47,7 @@ module.exports = {
         data.contestants.getQuery(function (err) {
             req.session.errorMessage = err;
             res.redirect('/not-found');
-            res.reject();
+            deferred.reject();
         }, function (contestants) {
             for (var i = 0; i < contestants.data.length; i++) {
                 contestants.data[i].pictures.forEach(function (picture) {
