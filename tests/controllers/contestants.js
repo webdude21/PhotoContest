@@ -19,20 +19,20 @@ function getExpressMock() {
 describe("#Contestants Controller", function () {
     describe("Get Approved Contestants", function () {
         it("should render some the result", function () {
-            var mock = getExpressMock();
-            controllers.contestants.getAllApproved(mock.req, mock.res)
+            var express = getExpressMock();
+            controllers.contestants.getAllApproved(express.req, express.res)
                 .then(function () {
-                    mock.spy.render.should.toHaveBeenCalled();
+                    express.spy.render.should.toHaveBeenCalled();
                 });
         });
     });
 
     describe("Get Register Contestant", function () {
         it("should return register form", function () {
-            var mock = getExpressMock();
-            controllers.contestants.getRegister(mock.req, mock.res)
+            var express = getExpressMock();
+            controllers.contestants.getRegister(express.req, express.res)
                 .then(function () {
-                    mock.spy.render.should.toHaveBeenCalled();
+                    express.spy.render.should.toHaveBeenCalled();
                 });
         });
     });
