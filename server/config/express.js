@@ -6,7 +6,7 @@ var session = require('express-session');
 var passport = require('passport');
 var busboy = require('connect-busboy');
 var morgan = require('morgan');
-var STATIC_DIRECTORY = '/public/build';
+var STATIC_DIRECTORY = '/public/compiled';
 var secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF';
 var roles = require('../config/roles');
 

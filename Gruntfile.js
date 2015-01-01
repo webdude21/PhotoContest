@@ -2,7 +2,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         project: {
             app: 'public/src',
-            build: 'public/build'
+            build: 'public/compiled'
         },
         concat: {
             js: {
