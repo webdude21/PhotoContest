@@ -1,4 +1,4 @@
-var config = require('../../server/config/config')['development'];
+var config = require('../../server/config/config')['build'];
 require('../../server/config/mongoose')(config);
 var data = require('../../server/data');
 var sinon = require('sinon');
