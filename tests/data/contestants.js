@@ -1,4 +1,4 @@
-var config = require('../../server/config/config')['build'];
+var config = require('../../server/config/config')['development'];
 require('../../server/config/mongoose')(config);
 var data = require('../../server/data');
 var expect = require('chai').expect;
