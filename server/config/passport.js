@@ -49,7 +49,7 @@ module.exports = function () {
             else {
                 return done(null, false);
             }
-        })
+        });
     }));
     passport.serializeUser(function (user, done) {
         if (user) {
@@ -64,6 +64,6 @@ module.exports = function () {
             }
 
             return user ? done(null, user) : done(null, false);
-        })
-    })
+        });
+    });
 };

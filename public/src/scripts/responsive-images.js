@@ -6,7 +6,7 @@ var alignGallery = function () {
 
     $galleryContainer.find('img').load(function () {
         $galleryContainer.masonry();
-    })
+    });
 };
 
 alignGallery();

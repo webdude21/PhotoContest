@@ -12,9 +12,9 @@ module.exports = {
             if (err) {
                 error(err);
             } else {
-                success(contestantsCount)
+                success(contestantsCount);
             }
-        })
+        });
     },
     deleteAll: function (error, success) {
         Contestant.remove({}, function (err) {
@@ -32,7 +32,7 @@ module.exports = {
                 if (err) {
                     error(err);
                 } else {
-                    success(contestants)
+                    success(contestants);
                 }
             });
     },
@@ -44,7 +44,7 @@ module.exports = {
                 if (err) {
                     error(err);
                 } else {
-                    success(contestants)
+                    success(contestants);
                 }
             });
     },
@@ -55,11 +55,11 @@ module.exports = {
                 if (err) {
                     error(err);
                 } else {
-                    success(contestant)
+                    success(contestant);
                 }
             });
     },
     getQuery: function (err, success, queryObject, pageSize) {
-        paging.populateResponse(err, success, queryObject, Contestant, 'pictures', pageSize)
+        paging.populateResponse(err, success, queryObject, Contestant, 'pictures', pageSize);
     }
 };

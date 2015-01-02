@@ -6,18 +6,20 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
     getById: function (req, res, next) {
-        data.contestants.getById(req.params.id
-            , function (err) {
+        data.contestants.getById(req.params.id,
+            function (err) {
                 res.redirect('/not-found');
-            }, function (contestant) {
+            },
+            function (contestant) {
                 res.render(CONTROLLER_NAME + '/contestants/contestant', contestant);
             });
     },
     toggleApprovalById: function (req, res, next) {
-        data.contestants.getById(req.params.id
-            , function (err) {
+        data.contestants.getById(req.params.id,
+            function (err) {
                 res.redirect('/not-found');
-            }, function (contestant) {
+            },
+            function (contestant) {
                 contestant.approved = !contestant.approved;
                 contestant.save();
                 res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
@@ -34,15 +36,17 @@ module.exports = {
             function (err) {
                 req.session.errorMessage = "Could not reset the application!" + err;
                 res.redirect('/error');
-            }, function () {
+            },
+            function () {
                 data.users.deleteAllNonAdmins(function (err) {
-                    req.session.errorMessage = "Could not reset the application!" + err;
-                    res.redirect('/error');
-                }, function () {
-                    cloudinary.api.delete_all_resources(function () {
-                        res.redirect('/');
+                        req.session.errorMessage = "Could not reset the application!" + err;
+                        res.redirect('/error');
+                    },
+                    function () {
+                        cloudinary.api.delete_all_resources(function () {
+                            res.redirect('/');
+                        });
                     });
-                });
             });
     },
     postResetContest: function (req, res, next) {
@@ -69,17 +73,20 @@ module.exports = {
             queryObject.sort = {
                 columnName: "registerDate",
                 order: "desc"
-            }
+            };
         }
 
         data.contestants.getQuery(function (err) {
             req.session.errorMessage = err;
             res.redirect('/not-found');
         }, function (contestants) {
+
+            var getClaudinaUrl = function (picture) {
+                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
+            };
+
             for (var i = 0; i < contestants.data.length; i++) {
-                contestants.data[i].pictures.forEach(function (picture) {
-                    picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
-                });
+                contestants.data[i].pictures.forEach(getClaudinaUrl);
             }
 
             res.render(CONTROLLER_NAME + '/contestants/all', contestants);

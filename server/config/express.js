@@ -38,5 +38,5 @@ module.exports = function (app, config) {
         res.locals.path = req.path;
         app.locals.admin = req.user && req.user.roles.indexOf(roles.admin) > -1 ? true : false;
         next();
-    })
+    });
 };

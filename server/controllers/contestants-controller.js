@@ -1,5 +1,5 @@
 var cloudinary = require('cloudinary');
-var Promise = require('q');
+var q = require('q');
 var data = require('../data');
 var CONTROLLER_NAME = 'contestants';
 var PAGE_SIZE = 10;
@@ -9,21 +9,22 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
     getRegister: function (req, res, next) {
-        var deferred = Promise.defer();
+        var deferred = q.defer();
         res.render(CONTROLLER_NAME + '/register');
         deferred.resolve();
         return deferred.promise;
     },
     getById: function (req, res, next) {
-        data.contestants.getById(req.params.id
-            , function (err) {
+        data.contestants.getById(req.params.id,
+            function (err) {
                 res.redirect('/not-found');
-            }, function (contestant) {
+            },
+            function (contestant) {
                 res.render(CONTROLLER_NAME + '/contestant', contestant);
             });
     },
     getAllApproved: function (req, res, next) {
-        var deferred = Promise.defer();
+        var deferred = q.defer();
 
         var queryObject = req.query;
 
@@ -41,7 +42,7 @@ module.exports = {
             queryObject.sort = {
                 columnName: "registerDate",
                 order: "desc"
-            }
+            };
         }
 
         data.contestants.getQuery(function (err) {
@@ -49,10 +50,13 @@ module.exports = {
             res.redirect('/not-found');
             deferred.reject();
         }, function (contestants) {
+
+            var getClaudinaUrl = function (picture) {
+                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
+            };
+
             for (var i = 0; i < contestants.data.length; i++) {
-                contestants.data[i].pictures.forEach(function (picture) {
-                    picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
-                });
+                contestants.data[i].pictures.forEach(getClaudinaUrl);
             }
 
             res.render(CONTROLLER_NAME + '/all', contestants);
@@ -96,6 +100,6 @@ module.exports = {
             newContestant.registrant = req.user;
             savedContestant = data.contestants.addContestant(newContestant);
             res.redirect(savedContestant._id);
-        })
+        });
     }
 };

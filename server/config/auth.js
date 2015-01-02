@@ -12,7 +12,7 @@ module.exports = {
             req.logIn(user, function (err) {
                 if (err) return next(err);
                 next();
-            })
+            });
         });
 
         auth(req, res, next);
@@ -45,6 +45,6 @@ module.exports = {
             } else {
                 res.redirect('/login');
             }
-        }
+        };
     }
 };

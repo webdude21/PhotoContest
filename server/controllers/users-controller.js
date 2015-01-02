@@ -15,16 +15,17 @@ module.exports = {
     postProfile: function (req, res, next) {
         var newUserData = req.body;
 
-        data.users.getUser(req.user.username
-            , function (err) {
+        data.users.getUser(req.user.username,
+            function (err) {
                 req.session.errorMessage = err;
                 res.redirect('/error');
-            }, function (user) {
+            },
+            function (user) {
                 if (newUserData.password && newUserData.confirmPassword) {
                     if (newUserData.password != newUserData.confirmPassword) {
                         req.session.errorMessage = 'Passwords do not match!';
                         res.redirect('/profile');
-                        return
+                        return;
                     } else {
                         user.salt = encryption.generateSalt();
                         user.hashPass = encryption.generateHashedText(user.salt, newUserData.password);

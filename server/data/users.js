@@ -33,9 +33,9 @@ module.exports = {
                 if (err) {
                     error(err);
                 } else {
-                    success(userCount)
+                    success(userCount);
                 }
-            })
+            });
     },
     getUser: function (username, error, success) {
         User.findOne({username: username})
@@ -52,8 +52,8 @@ module.exports = {
             if (err) {
                 error(err);
             } else {
-                success(user)
+                success(user);
             }
-        })
+        });
     }
 };

@@ -4,7 +4,7 @@ module.exports = function(app){
     });
 
     app.get(app.get('/', function(req,res){
-        res.redirect('contestants')
+        res.redirect('contestants');
     }));
 
     app.post('/*', function(req, res) {

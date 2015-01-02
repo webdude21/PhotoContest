@@ -40,7 +40,7 @@ module.exports = {
 
                     gridRequest.data = entries;
                     success(gridRequest);
-                })
+                });
         });
     }
 };
@@ -54,7 +54,7 @@ function calculateTotalPages(totalUsersCount, pageSize) {
 function addFilters(columns, query) {
     if (columns) {
         columns.forEach(function (column) {
-            if (column.filter != null && column.filter != undefined && column.filter != "") {
+            if (column.filter !== null && column.filter !== undefined && column.filter !== "") {
                 var filterObject = {};
                 var expression;
                 switch (column.method) {

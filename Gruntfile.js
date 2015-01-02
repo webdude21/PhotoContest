@@ -2,12 +2,17 @@ module.exports = function (grunt) {
     grunt.initConfig({
         project: {
             app: 'public/src',
-            build: 'public/compiled'
+            build: 'public/compiled',
+            serverApp: 'server'
+        },
+        jshint: {
+            app: ['Gruntfile.js', '<%= project.app %>/scripts/**/*.js', '<%= project.serverApp %>/**/*.js']
         },
         concat: {
             js: {
                 files: {
-                    '.tmp/concat/scripts/build.js': ['<%= project.app %>/scripts/**/*.js']
+                    '.tmp/concat/scripts/build.js': ['<%= project.app %>/scripts/**/*.js', '<%= project.app %>/vendor/**/*.js' ]
+
                 }
             },
             css: {
@@ -36,7 +41,7 @@ module.exports = function (grunt) {
                     {expand: true, cwd: '<%= project.app %>', src: ['img/**'], dest: '<%= project.build %>'}
                 ]
             },
-            favicon:{
+            favicon: {
                 files: {
                     '<%= project.build %>/favicon.ico': '<%= project.app %>/favicon.ico'
                 }
@@ -61,7 +66,7 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     strictMath: true,
-                    compress: true
+                    compress: false
                 },
                 files: [{
                     expand: true,
@@ -79,6 +84,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
 
-    grunt.registerTask('build', ['clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
+    grunt.registerTask('build', ['jshint', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
 };
