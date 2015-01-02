@@ -61,7 +61,7 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     strictMath: true,
-                    compress: false
+                    compress: true
                 },
                 files: [{
                     expand: true,
