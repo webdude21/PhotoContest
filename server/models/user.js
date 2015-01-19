@@ -3,12 +3,12 @@ var encryption = require('../utilities/encryption');
 var roles = require('../config/roles');
 
 var userSchema = mongoose.Schema({
-    username: { type: String, require: '{PATH} is required', unique: true },
+    username: {type: String, require: '{PATH} is required', unique: true},
     firstName: String,
     lastName: String,
-    email: { type: String, require: '{PATH} is required', unique: true },
+    email: {type: String, require: '{PATH} is required', unique: true},
     facebookId: {type: String},
-    registerDate: { type: Date, default: Date.now },
+    registerDate: {type: Date, default: Date.now},
     salt: String,
     hashPass: String,
     roles: [String]
@@ -38,8 +38,10 @@ module.exports.seedInitialUsers = function () {
 
             salt = encryption.generateSalt();
             hashedPwd = encryption.generateHashedText(salt, 'secret');
-            User.create({username: 'webdude', firstName: 'Димо', email: 'webdude@webdude.eu',
-                lastName: 'Петров', salt: salt, hashPass: hashedPwd, roles: [roles.admin]});
+            User.create({
+                username: 'webdude', firstName: 'Димо', email: 'webdude@webdude.eu',
+                lastName: 'Петров', salt: salt, hashPass: hashedPwd, roles: [roles.admin]
+            });
             console.log('Users added to database...');
         }
     });
