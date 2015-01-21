@@ -1,6 +1,7 @@
 var cloudinary = require('cloudinary');
 var q = require('q');
 var data = require('../data');
+var CLOUDINARY_UPLOAD_FOLDER_NAME = 'contestants';
 var CONTROLLER_NAME = 'contestants';
 var PAGE_SIZE = 10;
 var INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
@@ -81,7 +82,7 @@ module.exports = {
                         url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
                     });
                     savedContestant.save();
-                });
+                }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME});
 
                 file.on('data', stream.write)
                     .on('end', stream.end);
