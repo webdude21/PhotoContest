@@ -1,5 +1,6 @@
 var cloudinary = require('cloudinary');
 var data = require('../data');
+var CLOUDINARY_UPLOAD_FOLDER_NAME = 'contestants/';
 var CONTROLLER_NAME = 'admin';
 var PAGE_SIZE = 10;
 cloudinary.config(process.env.CLOUDINARY_URL);
@@ -55,7 +56,7 @@ module.exports = {
                 req.session.errorMessage = "Could not reset the contest!" + err;
                 res.redirect('/error');
             }, function () {
-                cloudinary.api.delete_all_resources(function () {
+                cloudinary.api.delete_resources_by_prefix(CLOUDINARY_UPLOAD_FOLDER_NAME, function () {
                     res.redirect('/');
                 });
             });
