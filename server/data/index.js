@@ -1,4 +1,5 @@
 module.exports = {
     users: require('./users'),
-    contestants: require('./contestants')
+    contestants: require('./contestants'),
+    passedContests: require('./passed-contests')
 };

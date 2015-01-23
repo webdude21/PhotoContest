@@ -9,9 +9,9 @@ var INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избра�
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
-    addPassedContest: function (req, res, next) {
+    getPassedContests: function (req, res, next) {
         var deferred = q.defer();
-        res.render(CONTROLLER_NAME + '/add');
+        res.render(CONTROLLER_NAME + '/all');
         deferred.resolve();
         return deferred.promise;
     }

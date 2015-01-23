@@ -5,13 +5,14 @@ var contestSchema = mongoose.Schema({
     startDate: {type: Date, default: Date.now},
     endDate: {type: Date, default: Date.now},
     deleted: {type: Boolean, default: false},
-    pictures: [
-        {
+    winners: [{
+        fullName: {type: String, require: '{PATH} is required'},
+        picture: {
             serviceId: String,
             url: String,
             fileName: String
         }
-    ]
+    }]
 });
 
 var Contest = mongoose.model('Contest', contestSchema);
