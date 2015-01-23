@@ -11,7 +11,7 @@ module.exports = function (grunt) {
         concat: {
             js: {
                 files: {
-                    '.tmp/concat/scripts/build.js': ['<%= project.app %>/scripts/**/*.js', '<%= project.app %>/vendor/**/*.js' ]
+                    '.tmp/concat/scripts/build.js': ['<%= project.app %>/scripts/**/*.js', '<%= project.app %>/vendor/**/*.js']
 
                 }
             },
