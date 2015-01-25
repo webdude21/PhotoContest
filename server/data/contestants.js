@@ -7,6 +7,9 @@ module.exports = {
         newContestant.save();
         return newContestant;
     },
+    addContestantWithoutSaving: function(contestant){
+        return new Contestant(contestant);
+    },
     getCount: function (error, success) {
         Contestant.find().count(function (err, contestantsCount) {
             if (err) {
@@ -25,14 +28,8 @@ module.exports = {
             }
         });
     },
-    deleteContestantById: function (id, error, success) {
-        Contestant.remove({_id: id}, function (err) {
-            if (err) {
-                error(err);
-            } else {
-                success();
-            }
-        });
+    deleteContestantById: function (id) {
+        Contestant.findByIdAndRemove(id).exec();
     },
     getAll: function (error, success) {
         Contestant.find()

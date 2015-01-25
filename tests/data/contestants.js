@@ -19,8 +19,7 @@ describe('#Contestants Data', function () {
                 ]
             };
 
-            var dbContestant = data.contestants.addContestant(contestant);
-
+            var dbContestant = data.contestants.addContestantWithoutSaving(contestant);
             expect(dbContestant.fullName).to.equal(contestant.fullName);
             expect(dbContestant.age).to.equal(contestant.age);
             expect(dbContestant.pictures[0].serviceId).to.equal("af12431241");
@@ -28,8 +27,6 @@ describe('#Contestants Data', function () {
             expect(dbContestant.pictures[0].fileName).to.equal("someImg.jpg");
             expect(dbContestant.approved).to.be.true();
             expect(dbContestant.registerDate).to.exist();
-
-            data.contestants.deleteContestantById(dbContestant._id.id , function (){}, function(){});
         });
     });
     describe("Get all approved contestants in db", function () {
