@@ -1,0 +1,10 @@
+extends ../includes/layout
+block main-content
+    .container-fluid
+        H2.text-center.break-word #{name}
+        div.participant-images.panel-body.image-container.text-center
+            for contestant in winners
+                img.img-rounded.img-thumbnail(src=contestant.picture.url)
+            else
+                h5 Няма снимки!
+            hr

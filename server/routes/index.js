@@ -1,7 +1,7 @@
 module.exports = {
     usersRoute: require('./users-route'),
     contestantsRoute: require('./contestants-route'),
-    defaultRoute: require('./default-route'),
+    passedContests: require('./passed-contests'),
     adminRoute: require('./admin-route'),
-    passedContests: require('./passed-contests')
+    defaultRoute: require('./default-route')
 };

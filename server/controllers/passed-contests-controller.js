@@ -14,5 +14,11 @@ module.exports = {
         res.render(CONTROLLER_NAME + '/all');
         deferred.resolve();
         return deferred.promise;
+    },
+    getRegister: function (req, res, next){
+        var deferred = q.defer();
+        res.render(CONTROLLER_NAME + '/register');
+        deferred.resolve();
+        return deferred.promise;
     }
 };
