@@ -1,4 +1,4 @@
-var alignGallery = function () {
+(function () {
     var $galleryContainer = $('#participants');
     $galleryContainer.masonry({
         itemSelector: '.item'
@@ -7,6 +7,4 @@ var alignGallery = function () {
     $galleryContainer.find('img').load(function () {
         $galleryContainer.masonry();
     });
-};
-
-alignGallery();
+}());

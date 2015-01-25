@@ -28,6 +28,8 @@ describe('#Contestants Data', function () {
             expect(dbContestant.pictures[0].fileName).to.equal("someImg.jpg");
             expect(dbContestant.approved).to.be.true();
             expect(dbContestant.registerDate).to.exist();
+
+            data.contestants.deleteContestantById(dbContestant._id.id , function (){}, function(){});
         });
     });
     describe("Get all approved contestants in db", function () {

@@ -25,6 +25,15 @@ module.exports = {
             }
         });
     },
+    deleteContestantById: function (id, error, success) {
+        Contestant.remove({_id: id}, function (err) {
+            if (err) {
+                error(err);
+            } else {
+                success();
+            }
+        });
+    },
     getAll: function (error, success) {
         Contestant.find()
             .populate('pictures')
