@@ -4,6 +4,7 @@ var contestSchema = mongoose.Schema({
     name: {type: String, require: '{PATH} is required'},
     startDate: {type: Date, default: Date.now},
     endDate: {type: Date, default: Date.now},
+    comment: {type: String},
     isDeleted: {type: Boolean, default: false},
     winners: [{
         fullName: {type: String, require: '{PATH} is required'},
