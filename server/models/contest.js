@@ -8,6 +8,8 @@ var contestSchema = mongoose.Schema({
     isDeleted: {type: Boolean, default: false},
     winners: [{
         fullName: {type: String, require: '{PATH} is required'},
+        award: {type: String, require: '{PATH} is required'},
+        prize: {type: String, require: '{PATH} is required'},
         picture: {
             serviceId: String,
             url: String,

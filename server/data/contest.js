@@ -1,5 +1,4 @@
 var Contest = require('mongoose').model('Contest');
-var q = require("q");
 
 module.exports = {
     getAll: function (error, success) {
@@ -19,6 +18,21 @@ module.exports = {
                     error(err);
                 } else {
                     success(contest);
+                }
+            });
+    },
+    addContest: function (contestInfo) {
+        var newContestant = new Contest(contestInfo);
+        newContestant.save();
+        return newContestant;
+    },
+    getById: function (id, error, success) {
+        Contest.findById(id)
+            .exec(function (err, contestant) {
+                if (err) {
+                    error(err);
+                } else {
+                    success(contestant);
                 }
             });
     }
