@@ -7,8 +7,19 @@ var cloudinary = require('cloudinary'),
 module.exports = {
     getPassedContests: function (req, res) {
         var deferred = q.defer();
-        res.render(CONTROLLER_NAME + '/all');
-        deferred.resolve();
+        data.contest.getAll(function (err) {
+            res.redirect('/not-found');
+            deferred.reject();
+        },
+        function (contests) {
+            if (contests == null) {
+                res.redirect('/not-found');
+                deferred.reject();
+            } else {
+                res.render(CONTROLLER_NAME + '/all', {data: contests});
+                deferred.resolve();
+            }
+        });
         return deferred.promise;
     },
     getRegister: function (req, res) {

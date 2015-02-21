@@ -1,20 +1,11 @@
 extends ../includes/layout
 block main-content
-    H4 Участници:
+    H4 Минали конкурси:
     hr
-    .row#participants
-        for contestant in data
-            .col-sm-6.col-md-4.item
-                .panel.panel-default
-                    .panel-heading.text-center
-                        span Име: #{contestant.fullName}
-                    div(class="panel-body image-container text-center")
-                        a(href=path + "/" + contestant._id)
-                            if contestant.pictures
-                                img(class="img-rounded img-thumbnail" src=contestant.pictures[0].url)
-                            else
-                                h5 Няма снимки!
-                    p.text-center Възраст: #{contestant.age} години
+    .row#contest
+    ul.nav.nav-pills.nav-stacked
+        each contest in data
+            li
+                a(href=path + "/" + contest._id) #{contest.name}
         else
-            h5.text-center Няма участници!
-    include ../includes/pager
+            h5.text-center Няма изминали конкурси!
