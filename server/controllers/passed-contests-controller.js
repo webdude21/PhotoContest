@@ -8,18 +8,53 @@ module.exports = {
     getPassedContests: function (req, res) {
         var deferred = q.defer();
         data.contest.getAll(function (err) {
-            res.redirect('/not-found');
-            deferred.reject();
-        },
-        function (contests) {
-            if (contests == null) {
                 res.redirect('/not-found');
                 deferred.reject();
-            } else {
-                res.render(CONTROLLER_NAME + '/all', {data: contests});
-                deferred.resolve();
-            }
-        });
+            },
+            function (contests) {
+                if (contests == null) {
+                    res.redirect('/not-found');
+                    deferred.reject();
+                } else {
+                    res.render(CONTROLLER_NAME + '/all', {data: contests});
+                    deferred.resolve();
+                }
+            });
+        return deferred.promise;
+    },
+    getEditPassedContests: function (req, res) {
+        var deferred = q.defer();
+        data.contest.getAllWithDeleted(function (err) {
+                res.redirect('/not-found');
+                deferred.reject();
+            },
+            function (contests) {
+                if (contests == null) {
+                    res.redirect('/not-found');
+                    deferred.reject();
+                } else {
+                    res.render(CONTROLLER_NAME + '/edit', {data: contests});
+                    deferred.resolve();
+                }
+            });
+        return deferred.promise;
+    },
+    getEditPassedContestsById: function (req, res) {
+        var deferred = q.defer();
+        data.contest.getById(req.params.id,
+            function (err) {
+                res.redirect('/not-found');
+                deferred.reject();
+            },
+            function (contestant) {
+                if (contestant == null) {
+                    res.redirect('/not-found');
+                    deferred.reject();
+                } else {
+                    res.render(CONTROLLER_NAME + '/details', contestant);
+                    deferred.resolve();
+                }
+            });
         return deferred.promise;
     },
     getRegister: function (req, res) {
