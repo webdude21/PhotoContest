@@ -1,14 +1,14 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var compression = require('compression');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var passport = require('passport');
-var busboy = require('connect-busboy');
-var morgan = require('morgan');
-var STATIC_DIRECTORY = '/public/compiled';
-var secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF';
-var roles = require('../config/roles');
+var express = require('express'),
+    bodyParser = require('body-parser'),
+    compression = require('compression'),
+    cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    passport = require('passport'),
+    busboy = require('connect-busboy'),
+    morgan = require('morgan'),
+    STATIC_DIRECTORY = '/public/compiled',
+    secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF',
+    roles = require('../config/roles');
 
 module.exports = function (app, config) {
     app.use(compression());
@@ -39,4 +39,5 @@ module.exports = function (app, config) {
         app.locals.admin = req.user && req.user.roles.indexOf(roles.admin) > -1 ? true : false;
         next();
     });
+    app.locals.moment = require('moment');
 };

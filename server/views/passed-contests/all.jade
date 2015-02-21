@@ -3,9 +3,19 @@ block main-content
     H4 Минали конкурси:
     hr
     .row#contest
-    ul.nav.nav-pills.nav-stacked
-        each contest in data
-            li
-                a(href=path + "/" + contest._id) #{contest.name}
-        else
-            h5.text-center Няма изминали конкурси!
+    if (data && data.length)
+    table.table.table-striped.table-hover
+        thead
+            tr
+                th #
+                th.text-center Име на конкурса
+                th.text-center Начална дата
+                th.text-center Крайна дата
+        tbody
+        each contest, index in data
+            tr
+                td #{index + 1}
+                td.text-center
+                    a(href=path + "/" + contest._id) #{contest.name}
+                td.text-center #{moment(contest.startDate).format("DD/MM/YYYY")}
+                td.text-center #{moment(contest.endDate).format('DD/MM/YYYY')}

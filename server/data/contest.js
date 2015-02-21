@@ -3,6 +3,7 @@ var Contest = require('mongoose').model('Contest');
 module.exports = {
     getAll: function (error, success) {
         Contest.find({isDeleted: false})
+            .lean()
             .exec(function (err, contest) {
             if (err) {
                 error(err);
