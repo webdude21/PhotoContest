@@ -15,3 +15,6 @@ body .fb-like {
 body #toast-container {
   top: 10%;
 }
+body a.edit-action {
+  display: block;
+}

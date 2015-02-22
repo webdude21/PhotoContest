@@ -7,17 +7,17 @@ block main-content
         table.table.table-striped.table-hover
             thead
                 tr
-                    th #
+                    th.text-center #
                     th.text-center Име на конкурса
                     th.text-center Начална дата
                     th.text-center Крайна дата
             tbody
             each contest, index in data
-                tr
+                tr.text-center
                     td #{index + 1}
-                    td.text-center
+                    td
                         a(href=path + "/" + contest._id) #{contest.name}
-                    td.text-center #{moment(contest.startDate).format("DD/MM/YYYY")}
-                    td.text-center #{moment(contest.endDate).format('DD/MM/YYYY')}
+                    td #{moment(contest.startDate).format("DD/MM/YYYY")}
+                    td #{moment(contest.endDate).format('DD/MM/YYYY')}
     else
         h4 Няма изминали конкурси

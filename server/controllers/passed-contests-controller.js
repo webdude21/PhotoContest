@@ -12,7 +12,7 @@ module.exports = {
                 deferred.reject();
             },
             function (contests) {
-                if (contests == null) {
+                if (contests === null) {
                     res.redirect('/not-found');
                     deferred.reject();
                 } else {
@@ -29,7 +29,7 @@ module.exports = {
                 deferred.reject();
             },
             function (contests) {
-                if (contests == null) {
+                if (contests === null) {
                     res.redirect('/not-found');
                     deferred.reject();
                 } else {
@@ -47,7 +47,7 @@ module.exports = {
                 deferred.reject();
             },
             function (contestant) {
-                if (contestant == null) {
+                if (contestant === null) {
                     res.redirect('/not-found');
                     deferred.reject();
                 } else {
@@ -78,7 +78,7 @@ module.exports = {
                 deferred.reject();
             },
             function (contestant) {
-                if (contestant == null) {
+                if (contestant === null) {
                     res.redirect('/not-found');
                     deferred.reject();
                 } else {
