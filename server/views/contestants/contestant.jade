@@ -3,7 +3,7 @@ block main-content
     .container-fluid
         H2.text-center.break-word #{fullName}
         div.participant-images.panel-body.image-container.text-center
-            for picture in pictures
+            each picture in pictures
                 img.img-rounded.img-thumbnail(src=picture.url)
             else
                 h5 Няма снимки!
@@ -12,4 +12,5 @@ block main-content
             if comment
                 p.break-word Коментар: #{comment}
             hr
-            .fb-like(data-href=path data-layout="button_count" data-action="like" data-show-faces="true" data-share="true")
+            .fb-like(data-href=path, data-layout="button_count", data-action="like",
+            data-show-faces="true", data-share="true")

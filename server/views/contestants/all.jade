@@ -8,10 +8,10 @@ block main-content
                 .panel.panel-default
                     .panel-heading.text-center
                         span Име: #{contestant.fullName}
-                    div(class="panel-body image-container text-center")
+                    div.panel-body.image-container.text-center
                         a(href=path + "/" + contestant._id)
                             if contestant.pictures
-                                img(class="img-rounded img-thumbnail" src=contestant.pictures[0].url)
+                                img.img-rounded.img-thumbnail(src=contestant.pictures[0].url)
                             else
                                 h5 Няма снимки!
                     p.text-center Възраст: #{contestant.age} години

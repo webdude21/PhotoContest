@@ -3,28 +3,32 @@ block page-styles
     link(rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css")
 block main-content
     .well
-        form.form-horizontal(name="signUpForm" method="post" id="sign-up-form")
+        form.form-horizontal(name="signUpForm", method="post", id="sign-up-form")
             fieldset
                 legend Регистриране на завършил конкурс
                 .form-group
                     label.col-md-2.control-label(for="contest-Name") Име на конкурса
                     .col-md-10
-                        input.form-control(type="text" id="contest-Name", placeholder="Иван Георгиев Димитров", name="name", required)
+                        input.form-control(type="text" id="contest-Name",
+                        placeholder="Иван Георгиев Димитров", name="name", required)
                 .form-group
                     label.col-md-2.control-label(for="contest-start-date") Начало на конкурса
                     .col-md-10
-                        input.form-control.datePicker(type="text", id="contest-start-date" placeholder="Начало на конкурса", name="startDate", required)
+                        input.form-control.datePicker(type="text", id="contest-start-date",
+                        placeholder="Начало на конкурса", name="startDate", required)
                 .form-group
                     label.col-md-2.control-label(for="contest-end-date") Край на конкурса
                     .col-md-10
-                        input.form-control.datePicker(type="text", id="contest-end-date" placeholder="Край на конкурса", name="endDate", required)
+                        input.form-control.datePicker(type="text", id="contest-end-date",
+                        placeholder="Край на конкурса", name="endDate", required)
                 .form-group
                     label.col-md-2.control-label(for="comment") Коментар
                     .col-md-10
-                        input.form-control(type="text", placeholder="Коментар (не задължителен)", name="comment")
+                        input.form-control(type="text", id="comment",
+                        placeholder="Коментар (не задължителен)", name="comment")
                 .button-panel
                     .pull-right
-                        input.btn.btn-primary(type="submit" value="Регистрация")
+                        input.btn.btn-primary(type="submit", value="Регистрация")
                         a.btn.btn-primary(href="/") Отказ
 block page-scripts
     script $(".datePicker").datepicker({ showButtonPanel: true});

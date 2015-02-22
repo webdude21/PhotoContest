@@ -1,0 +1,37 @@
+extends ../includes/layout
+block main-content
+    .well
+        form.form-horizontal(name="signUpForm", method="post", enctype="multipart/form-data", id="sign-up-form")
+            fieldset
+                legend Добавяне на победител
+                .form-group
+                    label.col-md-2.control-label(for="full-name") Имена
+                    .col-md-10
+                        input.form-control(type="text", id="full-name", placeholder="Иван Георгиев Димитров",
+                        name="fullName", required)
+                .form-group
+                    label.col-md-2.control-label(for="prize") Класиране
+                    .col-md-10
+                        input.form-control(type="text", id="prize" placeholder="Първо място", name="prize", required)
+                .form-group
+                    label.col-md-2.control-label(for="award") Награда
+                    .col-md-10
+                        input.form-control(type="text", id="award", placeholder="Комплект пеперуда",
+                        name="award", required)
+                .form-group
+                    label.col-md-2.control-label(for="town") Населено място
+                    .col-md-10
+                        input.form-control(type="text", id="town", placeholder="Ямбол", name="town")
+                .form-group
+                    label.col-md-2.control-label(for="age") Възраст
+                    .col-md-10
+                        input.form-control(type="number", id="age", placeholder="7", name="age")
+                .form-group
+                    label.col-md-2.control-label(for="file-0") Снимка
+                    .col-md-10
+                        input.form-control.upload-picture(id="file-0", type="file", name="file_0",
+                        required, pattern='/\.(gif|jpg|jpeg|png)$/i')
+                #button-panel
+                    .pull-right
+                        input.btn.btn-primary(type="submit", value="Добавяне")
+                        a.btn.btn-primary(href="/") Отказ

@@ -5,6 +5,12 @@ var cloudinary = require('cloudinary'),
     CONTROLLER_NAME = 'passed-contests';
 
 module.exports = {
+    getAddWinner: function (req, res) {
+        var deferred = q.defer();
+        res.render(CONTROLLER_NAME + '/addWinner');
+        deferred.resolve();
+        return deferred.promise
+    },
     getPassedContests: function (req, res) {
         var deferred = q.defer();
         data.contest.getAll(function (err) {

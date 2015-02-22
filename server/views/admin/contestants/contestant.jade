@@ -1,8 +1,8 @@
 block main-content
     .text-center
         if approved
-            a(class="btn btn-danger" href=path + "/editApproval") Отхвърляне
+            a.btn.btn-danger(href=path + "/editApproval") Отхвърляне
         else
-            a(class="btn btn-success" href=path + "/editApproval") Oдобряване
+            a.btn.btn-success(href=path + "/editApproval") Oдобряване
     hr
     include ../../contestants/contestant

@@ -7,19 +7,22 @@ block main-content
                 .form-group
                     label.col-md-2.control-label(for="first-name") Име
                     .col-md-10
-                        input.form-control(type="text", placeholder="Име", name="firstName", required value="#{firstName}")
+                        input.form-control(type="text", id="first-name", placeholder="Име",
+                        name="firstName", required, value="#{firstName}")
                 .form-group
                     label.col-md-2.control-label(for="last-name") Фамилия
                     .col-md-10
-                        input.form-control(type="text", placeholder="Фамилия", name="lastName", required value="#{lastName}")
+                        input.form-control(type="text", id="last-name", placeholder="Фамилия",
+                        name="lastName", required value="#{lastName}")
                 .form-group
                     label.col-md-2.control-label(for="password") Парола
                     .col-md-10
-                        input.form-control(type="password", placeholder="Парола", name="password")
+                        input.form-control(type="password", id="password", placeholder="Парола", name="password")
                 .form-group
-                    label.col-md-2.control-label(for="password") Потвърждаване на паролата
+                    label.col-md-2.control-label(for="confirmPassword") Потвърждаване на паролата
                     .col-md-10
-                        input.form-control(type="password", placeholder="Парола", name="confirmPassword")
+                        input.form-control(type="password", id="confirmPassword",
+                        placeholder="Парола", name="confirmPassword")
                 .pull-right
-                    input.btn.btn-primary(type="submit" value="Обновяване")
+                    input.btn.btn-primary(type="submit", value="Обновяване")
                     a.btn.btn-primary(href="/") Отказ
