@@ -11,7 +11,8 @@ module.exports = function (grunt) {
         concat: {
             js: {
                 files: {
-                    '.tmp/concat/scripts/build.js': ['<%= project.app %>/scripts/**/*.js', '<%= project.app %>/vendor/**/*.js']
+                    '.tmp/concat/scripts/build.js': ['<%= project.app %>/scripts/**/*.js',
+                        '<%= project.app %>/vendor/**/*.js']
 
                 }
             },
@@ -85,6 +86,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-
     grunt.registerTask('build', ['jshint', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
 };

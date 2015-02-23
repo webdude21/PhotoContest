@@ -1,15 +1,94 @@
 var cloudinary = require('cloudinary'),
     q = require('q'),
     data = require('../data'),
-    CLOUDINARY_UPLOAD_FOLDER_NAME = 'contestants',
-    CONTROLLER_NAME = 'passed-contests';
+    CLOUDINARY_UPLOAD_FOLDER_NAME = 'winners',
+    CONTROLLER_NAME = 'passed-contests',
+    NO_SUCH_CONTEST = "Не съществува такъв конкурс",
+    INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
+        'изображение от следните формати (gif, jpg, jpeg, tiff, png)!';
+cloudinary.config(process.env.CLOUDINARY_URL);
 
+function _showError(req, res, deferred, errorMessage) {
+    req.session.errorMessage = errorMessage;
+    res.redirect("/");
+    deferred.reject();
+}
+
+function _retrieveContest(req, res, deferred, contest) {
+    var deferredContest = q.defer();
+
+    data.contest.getById(req.params.id,
+        function (err) {
+            _showError(req, res, deferred, NO_SUCH_CONTEST);
+            deferredContest.reject("Failed to get the contest data");
+        },
+        function (result) {
+            if (result == null) {
+                _showError(req, res, deferred, NO_SUCH_CONTEST);
+                deferredContest.reject("No such contest");
+            } else {
+                contest = result;
+                deferredContest.resolve();
+            }
+        });
+
+    return deferredContest.promise;
+}
+
+function _addWinner(req, permittedFormats, res, deferred, newWinner, contest) {
+    var savedWinner = {};
+    savedWinner.pictures = [];
+    req.pipe(req.busboy);
+
+    req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+        if (filename && filename.indexOf('.') && permittedFormats.indexOf(filename.split('.')[1]) > -1) {
+            var stream = cloudinary.uploader.upload_stream(function (result) {
+                savedWinner.pictures.push({
+                    serviceId: result.public_id,
+                    fileName: filename,
+                    url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
+                });
+                contest.save();
+            }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME});
+
+            file.on('data', stream.write)
+                .on('end', stream.end);
+
+        } else {
+            _showError(req, res, deferred, INVALID_IMAGE_ERROR);
+        }
+    });
+
+    req.busboy.on('field', function (fieldname, val) {
+        newWinner[fieldname] = val;
+    });
+
+    req.busboy.on('finish', function () {
+        newWinner.registrant = req.user;
+        contest.winners.push(newWinner);
+        res.redirect(contest._id);
+        deferred.resolve();
+    });
+}
 module.exports = {
     getAddWinner: function (req, res) {
         var deferred = q.defer();
         res.render(CONTROLLER_NAME + '/addWinner');
         deferred.resolve();
-        return deferred.promise
+        return deferred.promise;
+    },
+    postAddWinner: function (req, res, next) {
+        var newWinner = {},
+            deferred = q.defer(),
+            permittedFormats = ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
+            contest;
+
+        _retrieveContest(req, res, deferred, contest)
+            .then(function () {
+                _addWinner(req, permittedFormats, res, deferred, newWinner, contest);
+            });
+
+        return deferred.promise;
     },
     getPassedContests: function (req, res) {
         var deferred = q.defer();
