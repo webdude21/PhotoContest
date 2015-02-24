@@ -72,7 +72,6 @@ module.exports = {
         var savedContestant;
 
         req.pipe(req.busboy);
-
         req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
             if (filename && filename.indexOf('.') && permittedFormats.indexOf(filename.split('.')[1]) > -1) {
                 var stream = cloudinary.uploader.upload_stream(function (result) {
@@ -84,8 +83,7 @@ module.exports = {
                     savedContestant.save();
                 }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME});
 
-                file.on('data', stream.write)
-                    .on('end', stream.end);
+                file.pipe(stream);
 
             } else {
                 req.session.errorMessage = INVALID_IMAGE_ERROR;

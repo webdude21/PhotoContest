@@ -51,8 +51,7 @@ function _addWinner(req, permittedFormats, res, deferred, newWinner, contest) {
                 contest.save();
             }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME});
 
-            file.on('data', stream.write)
-                .on('end', stream.end);
+            file.pipe(stream);
 
         } else {
             _showError(req, res, deferred, INVALID_IMAGE_ERROR);
