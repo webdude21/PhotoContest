@@ -14,7 +14,7 @@ function _showError(req, res, deferred, errorMessage) {
     deferred.reject();
 }
 
-function _retrieveContest(req, res, deferred, contest) {
+function _retrieveContest(req, res, deferred) {
     var deferredContest = q.defer();
 
     data.contest.getById(req.params.id,
@@ -27,23 +27,22 @@ function _retrieveContest(req, res, deferred, contest) {
                 _showError(req, res, deferred, NO_SUCH_CONTEST);
                 deferredContest.reject("No such contest");
             } else {
-                contest = result;
-                deferredContest.resolve();
+                deferredContest.resolve(result);
             }
         });
 
     return deferredContest.promise;
 }
 
-function _addWinner(req, permittedFormats, res, deferred, newWinner, contest) {
-    var savedWinner = {};
-    savedWinner.pictures = [];
+function _addWinner(req, permittedFormats, res, deferred, contest) {
+    var newWinner = {};
+    newWinner.pictures = [];
     req.pipe(req.busboy);
 
-    req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+    req.busboy.on('file', function (fieldname, file, filename) {
         if (filename && filename.indexOf('.') && permittedFormats.indexOf(filename.split('.')[1]) > -1) {
             var stream = cloudinary.uploader.upload_stream(function (result) {
-                savedWinner.pictures.push({
+                newWinner.pictures.push({
                     serviceId: result.public_id,
                     fileName: filename,
                     url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
@@ -63,8 +62,11 @@ function _addWinner(req, permittedFormats, res, deferred, newWinner, contest) {
     });
 
     req.busboy.on('finish', function () {
-        newWinner.registrant = req.user;
+        if (!contest.winners) {
+            contest.winners = [];
+        }
         contest.winners.push(newWinner);
+        // TODO fix this redirect to a more meaningfull location
         res.redirect(contest._id);
         deferred.resolve();
     });
@@ -77,14 +79,12 @@ module.exports = {
         return deferred.promise;
     },
     postAddWinner: function (req, res, next) {
-        var newWinner = {},
-            deferred = q.defer(),
-            permittedFormats = ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
-            contest;
+        var deferred = q.defer(),
+            permittedFormats = ['gif', 'jpg', 'jpeg', 'tiff', 'png'];
 
-        _retrieveContest(req, res, deferred, contest)
-            .then(function () {
-                _addWinner(req, permittedFormats, res, deferred, newWinner, contest);
+        _retrieveContest(req, res, deferred)
+            .then(function (contest) {
+                _addWinner(req, permittedFormats, res, deferred, contest);
             });
 
         return deferred.promise;

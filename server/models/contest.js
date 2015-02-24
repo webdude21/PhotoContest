@@ -12,11 +12,11 @@ var contestSchema = mongoose.Schema({
         prize: {type: String, require: '{PATH} is required'},
         age: {type: Number},
         town: {type: String},
-        picture: {
+        pictures: [{
             serviceId: String,
             url: String,
             fileName: String
-        }
+        }]
     }]
 });
 
