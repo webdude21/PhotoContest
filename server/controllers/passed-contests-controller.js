@@ -66,8 +66,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
             contest.winners = [];
         }
         contest.winners.push(newWinner);
-        // TODO fix this redirect to a more meaningfull location
-        res.redirect(contest._id);
+        res.redirect("/");
         deferred.resolve();
     });
 }
