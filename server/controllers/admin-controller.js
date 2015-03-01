@@ -27,10 +27,24 @@ module.exports = {
             });
     },
     getResetContest: function (req, res, next) {
-        res.render(CONTROLLER_NAME + '/reset-contest');
+        res.render("confirm", {
+            message: {
+                title: "Рестартиране на приложението",
+                body: "Това ще изтрие цялата информация в приложението " +
+                "(потребители, участници, снимки и гласове) с изключение на администраторските акаунти",
+                buttonText: "Рестарт"
+            }
+        });
     },
     getResetApplication: function (req, res, next) {
-        res.render(CONTROLLER_NAME + '/reset-application');
+        res.render("confirm", {
+            message: {
+                title: "Рестартиране на конкурса",
+                body: "Това ще изтрие цялата информация в приложението " +
+                "(потребители, участници, снимки и гласове) с изключение на администраторските акаунти",
+                buttonText: "Рестарт"
+            }
+        });
     },
     postResetApplication: function (req, res, next) {
         data.contestants.deleteAll(

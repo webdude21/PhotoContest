@@ -5,10 +5,19 @@ module.exports = {
         Contest.find({isDeleted: false})
             .lean()
             .exec(function (err, contest) {
+                if (err) {
+                    error(err);
+                } else {
+                    success(contest);
+                }
+            });
+    },
+    deleteById: function (id, error, success) {
+        Contest.findByIdAndRemove(id, {}, function (err, contest) {
             if (err) {
-                error(err);
+                error(error)
             } else {
-                success(contest);
+                success(contest)
             }
         });
     },

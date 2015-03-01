@@ -66,7 +66,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
             contest.winners = [];
         }
         contest.winners.push(newWinner);
-        res.redirect("/");
+        res.redirect("/" + CONTROLLER_NAME + "/edit/" + req.params.id);
         deferred.resolve();
     });
 }
@@ -81,12 +81,14 @@ module.exports = {
         var deferred = q.defer(),
             permittedFormats = ['gif', 'jpg', 'jpeg', 'tiff', 'png'];
 
-        _retrieveContest(req, res, deferred)
-            .then(function (contest) {
-                _addWinner(req, permittedFormats, res, deferred, contest);
-            });
+        _retrieveContest(req, res, deferred).then(function (contest) {
+            _addWinner(req, permittedFormats, res, deferred, contest);
+        });
 
         return deferred.promise;
+    },
+    deleteContest: function (req, res) {
+
     },
     getPassedContests: function (req, res) {
         var deferred = q.defer();

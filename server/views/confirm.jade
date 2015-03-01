@@ -1,0 +1,7 @@
+extends includes/layout
+block main-content
+    form(name="confirm", method="post")
+        .jumbotron
+            h1 #{message.title}
+            p #{message.body}
+                input.row.btn.btn-danger.btn-lg.pull-right(type="submit", value=message.buttonText)
