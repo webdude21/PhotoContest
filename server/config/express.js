@@ -8,7 +8,8 @@ var express = require('express'),
     morgan = require('morgan'),
     STATIC_DIRECTORY = '/public/compiled',
     secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF',
-    roles = require('../config/roles');
+    messageHandler = require('../utilities/message-handler');
+roles = require('../config/roles');
 
 module.exports = function (app, config) {
     app.use(compression());
@@ -24,14 +25,7 @@ module.exports = function (app, config) {
     app.use(express.static(config.rootPath + STATIC_DIRECTORY));
     app.use(morgan('combined'));
     app.use(function (req, res, next) {
-        if (req.session.errorMessage) {
-            var msg = req.session.errorMessage;
-            req.session.errorMessage = undefined;
-            app.locals.errorMessage = msg;
-        } else {
-            app.locals.errorMessage = undefined;
-        }
-        next();
+        messageHandler(req, res, next, app)
     });
     app.use(function (req, res, next) {
         app.locals.currentUser = req.user;

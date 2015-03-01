@@ -21,6 +21,9 @@ html
             if errorMessage
                 .alert.alert-dismissible.alert-danger #{errorMessage}
                     button.close(data-dismiss="alert") ×
+            if successMessage
+                .alert.alert-dismissible.alert-success #{successMessage}
+                    button.close(data-dismiss="alert") ×
             block main-content
         footer
             hr

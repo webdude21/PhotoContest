@@ -102,6 +102,7 @@ module.exports = {
             function (err) {
                 _showError(req, res, deferred, err);
             }, function (result) {
+                req.session.successMessage = "Конкурса беше изтрит успешно";
                 res.redirect("/");
                 deferred.resolve();
             });
@@ -169,6 +170,7 @@ module.exports = {
     postRegister: function (req, res) {
         var deferred = q.defer();
         var savedContest = data.contest.addContest(req.body);
+        req.session.successMessage = "Конкурса е успешно записан!";
         res.redirect(savedContest._id);
         deferred.resolve();
         return deferred.promise;

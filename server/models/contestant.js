@@ -10,7 +10,7 @@ var contestantSchema = mongoose.Schema({
         ref: 'User'
     },
     comment: String,
-    pictures: [
+        pictures: [
         {
             serviceId: String,
             url: String,
