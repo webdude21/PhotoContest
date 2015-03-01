@@ -14,12 +14,13 @@ module.exports = function (app) {
     app.route(ROUTE_ROOT + "/edit/:id/addWinner")
         .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.getAddWinner)
         .post(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.postAddWinner);
-    
+
     app.route(ROUTE_ROOT + "/edit/:id")
         .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.getEditPassedContestsById);
 
     app.route(ROUTE_ROOT + "/edit/:id/delete")
-        .delete(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.deleteContest);
+        .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.getDeleteContestConfirm)
+        .post(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.deleteContest);
 
     app.route(ROUTE_ROOT + "/")
         .get(controllers.passedContests.getPassedContests);

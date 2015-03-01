@@ -1,8 +1,8 @@
 var Contest = require('mongoose').model('Contest');
 
 module.exports = {
-    getAll: function (error, success) {
-        Contest.find({isDeleted: false})
+    getAllVisible: function (error, success) {
+        Contest.find({visible: true})
             .lean()
             .exec(function (err, contest) {
                 if (err) {
@@ -21,7 +21,7 @@ module.exports = {
             }
         });
     },
-    getAllWithDeleted: function (error, success) {
+    getAll: function (error, success) {
         Contest.find()
             .exec(function (err, contest) {
                 if (err) {

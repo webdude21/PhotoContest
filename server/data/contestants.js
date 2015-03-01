@@ -31,7 +31,7 @@ module.exports = {
     deleteContestantById: function (id) {
         Contestant.findByIdAndRemove(id).exec();
     },
-    getAll: function (error, success) {
+    getAllVisible: function (error, success) {
         Contestant.find()
             .populate('pictures')
             .exec(function (err, contestants) {

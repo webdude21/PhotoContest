@@ -8,8 +8,8 @@ var cloudinary = require('cloudinary'),
         'изображение от следните формати (gif, jpg, jpeg, tiff, png)!';
 cloudinary.config(process.env.CLOUDINARY_URL);
 
-function _showError(req, res, deferred, errorMessage) {
-    req.session.errorMessage = errorMessage;
+function _showError(req, res, deferred, message) {
+    req.session.errorMessage = message;
     res.redirect("/");
     deferred.reject();
 }
@@ -87,12 +87,30 @@ module.exports = {
 
         return deferred.promise;
     },
+    getDeleteContestConfirm: function (req, res, next) {
+        res.render("confirm", {
+            message: {
+                title: "Изтриване на конкурс",
+                body: "Сигурне ли сте, че искате да изтриете този конкурс (действието е необратимо)",
+                buttonText: "Изтрий"
+            }
+        });
+    },
     deleteContest: function (req, res) {
+        var deferred = q.defer();
+        data.contest.deleteById(req.params.id,
+            function (err) {
+                _showError(req, res, deferred, err);
+            }, function (result) {
+                res.redirect("/");
+                deferred.resolve();
+            });
 
+        return deferred.promise;
     },
     getPassedContests: function (req, res) {
         var deferred = q.defer();
-        data.contest.getAll(function (err) {
+        data.contest.getAllVisible(function (err) {
                 res.redirect('/not-found');
                 deferred.reject();
             },
@@ -109,7 +127,7 @@ module.exports = {
     },
     getEditPassedContests: function (req, res) {
         var deferred = q.defer();
-        data.contest.getAllWithDeleted(function (err) {
+        data.contest.getAll(function (err) {
                 res.redirect('/not-found');
                 deferred.reject();
             },
