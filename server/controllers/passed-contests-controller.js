@@ -1,16 +1,18 @@
 var cloudinary = require('cloudinary'),
     q = require('q'),
     data = require('../data'),
+    ROUTE_ROOT = "/",
     CLOUDINARY_UPLOAD_FOLDER_NAME = 'winners',
     CONTROLLER_NAME = 'passed-contests',
     NO_SUCH_CONTEST = "Не съществува такъв конкурс",
     INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
-        'изображение от следните формати (gif, jpg, jpeg, tiff, png)!';
+        'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
+    EDIT_CONTEST_ROUTE = "/" + CONTROLLER_NAME + "/edit/";
 cloudinary.config(process.env.CLOUDINARY_URL);
 
-function _showError(req, res, deferred, message) {
+function _showError(req, res, deferred, message, redirectRoute) {
     req.session.errorMessage = message;
-    res.redirect("/");
+    res.redirect(redirectRoute || ROUTE_ROOT);
     deferred.reject();
 }
 
@@ -53,7 +55,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
             file.pipe(stream);
 
         } else {
-            _showError(req, res, deferred, INVALID_IMAGE_ERROR);
+            _showError(req, res, deferred, INVALID_IMAGE_ERROR, EDIT_CONTEST_ROUTE + req.params.id + "/addWinner");
         }
     });
 
@@ -66,7 +68,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
             contest.winners = [];
         }
         contest.winners.push(newWinner);
-        res.redirect("/" + CONTROLLER_NAME + "/edit/" + req.params.id);
+        res.redirect(EDIT_CONTEST_ROUTE + req.params.id);
         deferred.resolve();
     });
 }
@@ -80,7 +82,6 @@ module.exports = {
     postAddWinner: function (req, res, next) {
         var deferred = q.defer(),
             permittedFormats = ['gif', 'jpg', 'jpeg', 'tiff', 'png'];
-
         _retrieveContest(req, res, deferred).then(function (contest) {
             _addWinner(req, permittedFormats, res, deferred, contest);
         });
