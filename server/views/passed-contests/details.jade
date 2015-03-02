@@ -1,5 +1,13 @@
 extends ../includes/layout
 block main-content
     .container-fluid
-        H2.text-center.break-word #{name}
-        div.participant-images.panel-body.image-container.text-center
+        h3.text-center.break-word Конкурс: #{name}
+        if (comment)
+            h6.text-center.break-word #{comment}
+        each winner in winners
+            span #{winner.fullName}
+            div.participant-images.panel-body.image-container.text-center
+                each picture in winner.pictures
+                    img.img-rounded.img-thumbnail(src=picture.url)
+                else
+                    h5 Няма снимки!

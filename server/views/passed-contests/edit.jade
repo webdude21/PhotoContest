@@ -21,7 +21,7 @@ block main-content
                     td #{moment(contest.startDate).format("DD/MM/YYYY")}
                     td #{moment(contest.endDate).format('DD/MM/YYYY')}
                     td.col-lg-2
-                        a.edit-action.label.label-info(href=path + "/" + contest._id + "/addWinner") Добавяне на победител
+                        a.edit-action.label.label-info(href=path + "/" + contest._id + "/addWinner") Добавяне на участник
                         a.edit-action.label.label-success(href=path + "/" + contest._id) Редактиране на конкурса
                         a.edit-action.label.label-danger(href=path + "/" + contest._id + "/delete") Изтриване на конкурса
     else

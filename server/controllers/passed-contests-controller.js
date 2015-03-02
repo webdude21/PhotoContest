@@ -36,6 +36,13 @@ function _retrieveContest(req, res, deferred) {
     return deferredContest.promise;
 }
 
+function _saveWinner(contest, newWinner) {
+    if (!contest.winners) {
+        contest.winners = [];
+    }
+    contest.winners.push(newWinner);
+    contest.save();
+}
 function _addWinner(req, permittedFormats, res, deferred, contest) {
     var newWinner = {};
     newWinner.pictures = [];
@@ -49,11 +56,9 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
                     fileName: filename,
                     url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
                 });
-                contest.save();
+                _saveWinner(contest, newWinner);
             }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME});
-
             file.pipe(stream);
-
         } else {
             _showError(req, res, deferred, INVALID_IMAGE_ERROR, EDIT_CONTEST_ROUTE + req.params.id + "/addWinner");
         }
@@ -64,10 +69,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
     });
 
     req.busboy.on('finish', function () {
-        if (!contest.winners) {
-            contest.winners = [];
-        }
-        contest.winners.push(newWinner);
+         req.session.successMessage = "Участника беше успешно добавен!";
         res.redirect(EDIT_CONTEST_ROUTE + req.params.id);
         deferred.resolve();
     });
@@ -99,14 +101,13 @@ module.exports = {
     },
     deleteContest: function (req, res) {
         var deferred = q.defer();
-        data.contest.deleteById(req.params.id,
-            function (err) {
-                _showError(req, res, deferred, err);
-            }, function (result) {
-                req.session.successMessage = "Конкурса беше изтрит успешно";
-                res.redirect("/");
-                deferred.resolve();
-            });
+        data.contest.deleteById(req.params.id, function (err) {
+            _showError(req, res, deferred, err);
+        }, function (result) {
+            req.session.successMessage = "Конкурса беше изтрит успешно";
+            res.redirect(EDIT_CONTEST_ROUTE);
+            deferred.resolve();
+        });
 
         return deferred.promise;
     },
