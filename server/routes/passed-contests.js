@@ -11,6 +11,9 @@ module.exports = function (app) {
     app.route(ROUTE_ROOT + "/edit")
         .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.getEditPassedContests);
 
+    app.route(ROUTE_ROOT + "/edit/:id/toggleVisible")
+        .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.toggleVisibleById);
+
     app.route(ROUTE_ROOT + "/edit/:id/addWinner")
         .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.getAddWinner)
         .post(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.passedContests.postAddWinner);

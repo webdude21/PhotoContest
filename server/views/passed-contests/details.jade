@@ -1,13 +1,16 @@
 extends ../includes/layout
 block main-content
     .container-fluid
-        h3.text-center.break-word Конкурс: #{name}
+        h3.text-center.break-word "#{name}" - от #{moment(startDate).format('DD.MM.YYYYг.')} до #{moment(endDate).format('DD.MM.YYYYг.')}
         if (comment)
             h6.text-center.break-word #{comment}
-        each winner in winners
-            span #{winner.fullName}
-            div.participant-images.panel-body.image-container.text-center
-                each picture in winner.pictures
-                    img.img-rounded.img-thumbnail(src=picture.url)
-                else
-                    h5 Няма снимки!
+        hr
+        each winner,index in winners
+            div.panel.panel-primary
+                div.panel-heading
+                    h6.panel-title #{winner.text}
+                div.participant-images.panel-body.image-container.text-center
+                    each picture in winner.pictures
+                        img.img-rounded.img-thumbnail(src=picture.url)
+                    else
+                        h5 Няма снимки!

@@ -16,6 +16,23 @@ function _showError(req, res, deferred, message, redirectRoute) {
     deferred.reject();
 }
 
+function _formatWinner(winner) {
+    var formattedWinner = winner;
+    formattedWinner.text = winner.fullName;
+
+    if (winner.town) {
+        formattedWinner.text += ' от ' + winner.town;
+    }
+
+    if (winner.age) {
+        formattedWinner.text += ' на ' + winner.age + ' години';
+    }
+
+    formattedWinner.text += ' спечели ' + winner.prize.toLocaleLowerCase() + ' ' + winner.award.toLocaleLowerCase() + '.';
+
+    return formattedWinner;
+}
+
 function _retrieveContest(req, res, deferred) {
     var deferredContest = q.defer();
 
@@ -69,7 +86,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
     });
 
     req.busboy.on('finish', function () {
-         req.session.successMessage = "Участника беше успешно добавен!";
+        req.session.successMessage = "Участника беше успешно добавен!";
         res.redirect(EDIT_CONTEST_ROUTE + req.params.id);
         deferred.resolve();
     });
@@ -152,16 +169,28 @@ module.exports = {
                 res.redirect('/not-found');
                 deferred.reject();
             },
-            function (contestant) {
-                if (contestant === null) {
+            function (contest) {
+                if (contest === null) {
                     res.redirect('/not-found');
                     deferred.reject();
                 } else {
-                    res.render(CONTROLLER_NAME + '/details', contestant);
+                    contest.winners.forEach(_formatWinner);
+                    res.render("admin/contest/detail", contest);
                     deferred.resolve();
                 }
             });
         return deferred.promise;
+    },
+    toggleVisibleById: function (req, res, next) {
+        data.contest.getById(req.params.id,
+            function (err) {
+                res.redirect('/not-found');
+            },
+            function (contest) {
+                contest.visible = !contest.visible;
+                contest.save();
+                res.redirect(EDIT_CONTEST_ROUTE + contest.id);
+            });
     },
     getRegister: function (req, res) {
         var deferred = q.defer();
@@ -181,15 +210,17 @@ module.exports = {
         var deferred = q.defer();
         data.contest.getById(req.params.id,
             function (err) {
+                req.session.errorMessage = err;
                 res.redirect('/not-found');
                 deferred.reject();
             },
-            function (contestant) {
-                if (contestant === null) {
+            function (contest) {
+                if (contest === null) {
                     res.redirect('/not-found');
                     deferred.reject();
                 } else {
-                    res.render(CONTROLLER_NAME + '/details', contestant);
+                    contest.winners.forEach(_formatWinner);
+                    res.render(CONTROLLER_NAME + '/details', contest);
                     deferred.resolve();
                 }
             });

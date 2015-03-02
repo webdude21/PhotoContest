@@ -3,7 +3,6 @@ var Contest = require('mongoose').model('Contest');
 module.exports = {
     getAllVisible: function (error, success) {
         Contest.find({visible: true})
-            .lean()
             .exec(function (err, contest) {
                 if (err) {
                     error(err);

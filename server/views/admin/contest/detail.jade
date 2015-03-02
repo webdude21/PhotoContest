@@ -1,0 +1,8 @@
+block main-content
+    .text-center
+        if visible
+            a.btn.btn-danger(href=path + "/toggleVisible") Скриване на конкурса
+        else
+            a.btn.btn-success(href=path + "/toggleVisible") Показване на конкурса
+    hr
+    include ../../passed-contests/details

@@ -68,7 +68,7 @@ module.exports = {
                     }, function (user) {
                         req.logIn(user, function (err) {
                             if (err) {
-                                req.session.errorMessage = "A terrible error has occurred! " + err.toString();
+                                req.session.errorMessage = "A terrible error has occurred! " + err.text();
                                 res.redirect('/error');
                             }
                             res.redirect('/');
