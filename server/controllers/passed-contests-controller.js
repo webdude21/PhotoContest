@@ -74,7 +74,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
                     url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
                 });
                 _saveWinner(contest, newWinner);
-            }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME});
+            }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME + '/' + contest.id});
             file.pipe(stream);
         } else {
             _showError(req, res, deferred, INVALID_IMAGE_ERROR, EDIT_CONTEST_ROUTE + req.params.id + "/addWinner");
@@ -117,13 +117,17 @@ module.exports = {
         });
     },
     deleteContest: function (req, res) {
-        var deferred = q.defer();
-        data.contest.deleteById(req.params.id, function (err) {
+        var deferred = q.defer(),
+            contestId = req.params.id;
+        data.contest.deleteById(contestId, function (err) {
             _showError(req, res, deferred, err);
         }, function (result) {
-            req.session.successMessage = "Конкурса беше изтрит успешно";
-            res.redirect(EDIT_CONTEST_ROUTE);
-            deferred.resolve();
+            cloudinary.api.delete_resources_by_prefix(CLOUDINARY_UPLOAD_FOLDER_NAME + '/' + contestId,
+                function () {
+                    req.session.successMessage = "Конкурса беше изтрит успешно";
+                    res.redirect(EDIT_CONTEST_ROUTE);
+                    deferred.resolve();
+                });
         });
 
         return deferred.promise;
