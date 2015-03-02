@@ -42,7 +42,7 @@ function _retrieveContest(req, res, deferred) {
             deferredContest.reject("Failed to get the contest data");
         },
         function (result) {
-            if (result == null) {
+            if (result === null) {
                 _showError(req, res, deferred, NO_SUCH_CONTEST);
                 deferredContest.reject("No such contest");
             } else {

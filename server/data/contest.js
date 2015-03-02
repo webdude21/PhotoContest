@@ -14,9 +14,9 @@ module.exports = {
     deleteById: function (id, error, success) {
         Contest.findByIdAndRemove(id, {}, function (err, contest) {
             if (err) {
-                error(error)
+                error(error);
             } else {
-                success(contest)
+                success(contest);
             }
         });
     },
