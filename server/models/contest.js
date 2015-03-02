@@ -10,7 +10,7 @@ var contestSchema = mongoose.Schema({
         fullName: {type: String, require: '{PATH} is required'},
         award: {type: String, require: '{PATH} is required'},
         prize: {type: String, require: '{PATH} is required'},
-        age: {type: Number},
+        age: {type: String},
         town: {type: String},
         pictures: [{
             serviceId: String,

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var contestantSchema = mongoose.Schema({
     fullName: {type: String, require: '{PATH} is required'},
-    age: {type: Number, require: '{PATH} is required', min: 0},
+    age: {type: String, require: '{PATH} is required'},
     registerDate: {type: Date, default: Date.now},
     approved: {type: Boolean, default: false},
     registrant: {

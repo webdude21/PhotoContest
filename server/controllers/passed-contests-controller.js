@@ -23,7 +23,7 @@ function _formatWinner(winner) {
     formattedWinner.text += winner.fullName;
 
     if (winner.age) {
-        formattedWinner.text += ' на ' + winner.age + ' години';
+        formattedWinner.text += ' на ' + winner.age;
     }
 
     if (winner.town) {
