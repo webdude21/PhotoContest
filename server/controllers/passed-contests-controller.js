@@ -18,17 +18,16 @@ function _showError(req, res, deferred, message, redirectRoute) {
 
 function _formatWinner(winner) {
     var formattedWinner = winner;
-    formattedWinner.text = winner.fullName;
-
-    if (winner.town) {
-        formattedWinner.text += ' от ' + winner.town;
-    }
+    formattedWinner.text = winner.prize + " " + winner.award.toLocaleLowerCase() + ' спечели ';
+    formattedWinner.text += winner.fullName;
 
     if (winner.age) {
         formattedWinner.text += ' на ' + winner.age + ' години';
     }
 
-    formattedWinner.text += ' спечели ' + winner.prize.toLocaleLowerCase() + ' ' + winner.award.toLocaleLowerCase() + '.';
+    if (winner.town) {
+        formattedWinner.text += ' от ' + winner.town;
+    }
 
     return formattedWinner;
 }
