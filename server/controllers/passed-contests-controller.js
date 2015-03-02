@@ -18,7 +18,7 @@ function _showError(req, res, deferred, message, redirectRoute) {
 
 function _formatWinner(winner) {
     var formattedWinner = winner;
-    formattedWinner.text = winner.prize + " " + winner.award.toLocaleLowerCase() + ' спечели ';
+    formattedWinner.text = winner.prize + ", " + winner.award.toLocaleLowerCase() + ' спечели ';
     formattedWinner.text += winner.fullName;
 
     if (winner.age) {
@@ -29,7 +29,7 @@ function _formatWinner(winner) {
         formattedWinner.text += ' от ' + winner.town;
     }
 
-    return formattedWinner;
+    return formattedWinner.text[0] = text[0].toLocaleUpperCase();
 }
 
 function _retrieveContest(req, res, deferred) {
