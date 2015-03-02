@@ -7,13 +7,22 @@ var cloudinary = require('cloudinary'),
     NO_SUCH_CONTEST = "Не съществува такъв конкурс",
     INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
         'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
+    PERMITTED_FORMATS = ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
     EDIT_CONTEST_ROUTE = "/" + CONTROLLER_NAME + "/edit/";
+
+
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 function _showError(req, res, deferred, message, redirectRoute) {
     req.session.errorMessage = message;
     res.redirect(redirectRoute || ROUTE_ROOT);
     deferred.reject();
+}
+
+function _fileHasValidExtension(filename, permittedFormats, inputDelimiter) {
+    var delimiter = inputDelimiter || '.';
+    var indexOfDelimiter = filename.lastIndexOf(delimiter);
+    return filename && indexOfDelimiter > 0 && permittedFormats.indexOf(filename.slice(indexOfDelimiter) > -1);
 }
 
 function _formatWinner(winner) {
@@ -66,7 +75,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
     req.pipe(req.busboy);
 
     req.busboy.on('file', function (fieldname, file, filename) {
-        if (filename && filename.indexOf('.') && permittedFormats.indexOf(filename.split('.')[1]) > -1) {
+        if (_fileHasValidExtension(filename,permittedFormats)) {
             var stream = cloudinary.uploader.upload_stream(function (result) {
                 newWinner.pictures.push({
                     serviceId: result.public_id,
@@ -99,10 +108,9 @@ module.exports = {
         return deferred.promise;
     },
     postAddWinner: function (req, res, next) {
-        var deferred = q.defer(),
-            permittedFormats = ['gif', 'jpg', 'jpeg', 'tiff', 'png'];
+        var deferred = q.defer();
         _retrieveContest(req, res, deferred).then(function (contest) {
-            _addWinner(req, permittedFormats, res, deferred, contest);
+            _addWinner(req, PERMITTED_FORMATS, res, deferred, contest);
         });
 
         return deferred.promise;
