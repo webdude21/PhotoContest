@@ -1,6 +1,7 @@
 var cloudinary = require('cloudinary'),
     q = require('q'),
     data = require('../data'),
+    helpers = require('../utilities/helpers'),
     ROUTE_ROOT = "/",
     CLOUDINARY_UPLOAD_FOLDER_NAME = 'winners',
     CONTROLLER_NAME = 'passed-contests',
@@ -17,29 +18,6 @@ function _showError(req, res, deferred, message, redirectRoute) {
     req.session.errorMessage = message;
     res.redirect(redirectRoute || ROUTE_ROOT);
     deferred.reject();
-}
-
-function _fileHasValidExtension(filename, permittedFormats, inputDelimiter) {
-    var delimiter = inputDelimiter || '.';
-    var indexOfDelimiter = filename.lastIndexOf(delimiter);
-    return filename && indexOfDelimiter > 0 && permittedFormats.indexOf(filename.slice(indexOfDelimiter) > -1);
-}
-
-function _formatWinner(winner) {
-    var formattedWinner = winner;
-    formattedWinner.text = winner.prize.slice(0, 1).toLocaleUpperCase() + winner.prize.slice(1) +
-    ", " + winner.award.toLocaleLowerCase() + ' спечели ';
-    formattedWinner.text += winner.fullName;
-
-    if (winner.age) {
-        formattedWinner.text += ' на ' + winner.age;
-    }
-
-    if (winner.town) {
-        formattedWinner.text += ' от ' + winner.town;
-    }
-
-    return formattedWinner;
 }
 
 function _retrieveContest(req, res, deferred) {
@@ -75,7 +53,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
     req.pipe(req.busboy);
 
     req.busboy.on('file', function (fieldname, file, filename) {
-        if (_fileHasValidExtension(filename,permittedFormats)) {
+        if (helpers.fileHasValidExtension(filename, permittedFormats)) {
             var stream = cloudinary.uploader.upload_stream(function (result) {
                 newWinner.pictures.push({
                     serviceId: result.public_id,
@@ -186,7 +164,7 @@ module.exports = {
                     res.redirect('/not-found');
                     deferred.reject();
                 } else {
-                    contest.winners.forEach(_formatWinner);
+                    contest.winners.forEach(helpers.formatWinner);
                     res.render("admin/contest/detail", contest);
                     deferred.resolve();
                 }
@@ -231,7 +209,7 @@ module.exports = {
                     res.redirect('/not-found');
                     deferred.reject();
                 } else {
-                    contest.winners.forEach(_formatWinner);
+                    contest.winners.forEach(helpers.formatWinner);
                     res.render(CONTROLLER_NAME + '/details', contest);
                     deferred.resolve();
                 }

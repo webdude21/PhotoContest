@@ -1,11 +1,13 @@
 var cloudinary = require('cloudinary'),
     q = require('q'),
     data = require('../data'),
+    helpers = require('../utilities/helpers'),
     CLOUDINARY_UPLOAD_FOLDER_NAME = 'contestants',
     CONTROLLER_NAME = 'contestants',
     PAGE_SIZE = 10,
     INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
-        'изображение от следните формати (gif, jpg, jpeg, tiff, png)!';
+        'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
+    PERMITTED_FORMATS = ['gif', 'jpg', 'jpeg', 'tiff', 'png'];
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
@@ -68,12 +70,11 @@ module.exports = {
     },
     postRegister: function (req, res, next) {
         var newContestant = {};
-        var permittedFormats = ['gif', 'jpg', 'jpeg', 'tiff', 'png'];
         var savedContestant;
 
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-            if (filename && filename.indexOf('.') && permittedFormats.indexOf(filename.split('.')[1]) > -1) {
+            if (helpers.fileHasValidExtension(filename, PERMITTED_FORMATS)) {
                 var stream = cloudinary.uploader.upload_stream(function (result) {
                     savedContestant.pictures.push({
                         serviceId: result.public_id,
