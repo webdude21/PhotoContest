@@ -3,6 +3,7 @@ html
     head
         title Фото Конкурс
         link(rel="stylesheet" href="/styles/build.min.css")
+        meta(name="viewport" content="initial-scale=1")
         block page-styles
     body
         div#fb-root
@@ -10,11 +11,11 @@ html
             .container
                 .navbar-header
                     a.navbar-brand(href="/") Фото Конкурс
-                button(type="button" class="navbar-toggle", data-toggle="collapse", data-target=".navbar-collapse")
-                    span.sr-only Toggle navigation
-                    span.icon-bar
-                    span.icon-bar
-                    span.icon-bar
+                    button(type="button" class="navbar-toggle", data-toggle="collapse", data-target=".navbar-collapse")
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
                 include menu
         .container
             br
