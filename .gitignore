@@ -2,7 +2,7 @@
 ## Project Specific
 #################
 
-public/compiled/*.*
+public/compiled
 
 #################
 ## Eclipse
