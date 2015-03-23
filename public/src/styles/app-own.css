@@ -1,0 +1,20 @@
+body {
+  margin-top: 80px;
+  padding: 0;
+}
+body img {
+  max-width: 100%;
+}
+body .break-word {
+  word-wrap: break-word;
+}
+body .fb-like {
+  height: 21px;
+  overflow: hidden;
+}
+body #toast-container {
+  top: 10%;
+}
+body a.edit-action {
+  display: block;
+}
