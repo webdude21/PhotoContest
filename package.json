@@ -4,8 +4,7 @@
   "description": "Photo Contest Application",
   "main": "server.js",
   "scripts": {
-    "test": "mocha tests/**/",
-    "postinstall": "bower install && grunt build"
+    "test": "mocha tests/**/"
   },
   "author": "webdude",
   "license": "MIT",
