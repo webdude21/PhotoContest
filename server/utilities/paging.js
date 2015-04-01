@@ -42,6 +42,24 @@ module.exports = {
                     success(gridRequest);
                 });
         });
+    },
+    buildQueryObject: function (baseQueryObject) {
+        var queryObject = baseQueryObject;
+        queryObject.columns = [
+            {name: "approved", label: 'Text', filter: true, filterable: true, sortable: true, method: "equals"}
+        ];
+        if (!queryObject.pager) {
+            queryObject.pager = {
+                currentPage: +queryObject.page || 1
+            };
+        }
+        if (!queryObject.sort) {
+            queryObject.sort = {
+                columnName: "registerDate",
+                order: "desc"
+            };
+        }
+        return queryObject;
     }
 };
 

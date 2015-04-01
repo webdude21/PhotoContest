@@ -65,7 +65,7 @@ module.exports = {
                 }
             });
     },
-    getQuery: function (err, success, queryObject, pageSize) {
-        paging.populateResponse(err, success, queryObject, Contestant, 'pictures', pageSize);
+    getQuery: function (err, success, baseQueryObject, pageSize) {
+        paging.populateResponse(err, success, paging.buildQueryObject(baseQueryObject), Contestant, 'pictures', pageSize);
     }
 };

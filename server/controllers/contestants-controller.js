@@ -11,13 +11,13 @@ var cloudinary = require('cloudinary'),
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
-    getRegister: function (req, res, next) {
+    getRegister: function (req, res) {
         var deferred = q.defer();
         res.render(CONTROLLER_NAME + '/register');
         deferred.resolve();
         return deferred.promise;
     },
-    getById: function (req, res, next) {
+    getById: function (req, res) {
         data.contestants.getById(req.params.id,
             function (err) {
                 res.redirect('/not-found');
@@ -26,27 +26,9 @@ module.exports = {
                 res.render(CONTROLLER_NAME + '/contestant', contestant);
             });
     },
-    getAllApproved: function (req, res, next) {
-        var deferred = q.defer();
-
-        var queryObject = req.query;
-
-        queryObject.columns = [
-            {name: "approved", label: 'Text', filter: true, filterable: true, sortable: true, method: "equals"}
-        ];
-
-        if (!queryObject.pager) {
-            queryObject.pager = {
-                currentPage: +queryObject.page || 1
-            };
-        }
-
-        if (!queryObject.sort) {
-            queryObject.sort = {
-                columnName: "registerDate",
-                order: "desc"
-            };
-        }
+    getAllApproved: function (req, res) {
+        var deferred = q.defer(),
+            queryObject = req.query;
 
         data.contestants.getQuery(function (err) {
             req.session.errorMessage = err;
@@ -58,34 +40,35 @@ module.exports = {
                 picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
             };
 
-            for (var i = 0; i < contestants.data.length; i++) {
-                contestants.data[i].pictures.forEach(getClaudinaUrl);
-            }
+            contestants.data.forEach(function (contestant) {
+                contestant.pictures.forEach(getClaudinaUrl);
+            });
 
             res.render(CONTROLLER_NAME + '/all', contestants);
-            deferred.resolve();
+            deferred.resolve(contestants);
         }, queryObject, PAGE_SIZE);
 
         return deferred.promise;
     },
-    postRegister: function (req, res, next) {
-        var newContestant = {};
-        var savedContestant;
+    postRegister: function (req, res) {
+        var newContestant = {},
+            cloudinaryFolderSettings = {folder: CLOUDINARY_UPLOAD_FOLDER_NAME},
+            savedContestant;
+
+        function handleTheStreamResult(result) {
+            savedContestant.pictures.push({
+                serviceId: result.public_id,
+                fileName: filename,
+                url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
+            });
+            savedContestant.save();
+        }
 
         req.pipe(req.busboy);
-        req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+        req.busboy.on('file', function (fieldname, file, filename) {
             if (helpers.fileHasValidExtension(filename, PERMITTED_FORMATS)) {
-                var stream = cloudinary.uploader.upload_stream(function (result) {
-                    savedContestant.pictures.push({
-                        serviceId: result.public_id,
-                        fileName: filename,
-                        url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
-                    });
-                    savedContestant.save();
-                }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME});
-
+                var stream = cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings);
                 file.pipe(stream);
-
             } else {
                 req.session.errorMessage = INVALID_IMAGE_ERROR;
                 res.redirect("/contestants/register");
