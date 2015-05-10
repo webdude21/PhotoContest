@@ -8,7 +8,7 @@ describe('#Contestants Data', function () {
         it('should add the contestant and should return it', function () {
             var contestant = {
                 fullName: "Кирил Иванов",
-                аге: 10,
+                age: "",
                 approved: true,
                 pictures: [
                     {
