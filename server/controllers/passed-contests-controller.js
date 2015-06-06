@@ -11,7 +11,6 @@ var cloudinary = require('cloudinary'),
     PERMITTED_FORMATS = ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
     EDIT_CONTEST_ROUTE = "/" + CONTROLLER_NAME + "/edit/";
 
-
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 function _showError(req, res, deferred, message, redirectRoute) {

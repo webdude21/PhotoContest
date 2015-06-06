@@ -43,12 +43,7 @@ module.exports = function () {
                 return;
             }
 
-            if (user && user.authenticate(password)) {
-                return done(null, user);
-            }
-            else {
-                return done(null, false);
-            }
+            return user && user.authenticate(password) ? done(null, user) : done(null, false);
         });
     }));
     passport.serializeUser(function (user, done) {

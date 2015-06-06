@@ -76,6 +76,19 @@ module.exports = function (grunt) {
                     extDot: 'first'
                 }]
             }
+        },
+        babel: {
+            build:{
+                options: {
+                    sourceMap: true
+                },
+                files: [{
+                    expand: true,
+                    src: ['<%= project.app %>/scripts/**/*.ec6'],
+                    ext: '.js',
+                    extDot: 'first'
+                }]
+            }
         }
     });
 
@@ -86,5 +99,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.registerTask('build', ['jshint', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
+    grunt.loadNpmTasks('grunt-babel');
+    grunt.registerTask('build', ['jshint', 'babel', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
 };

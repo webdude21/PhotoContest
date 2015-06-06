@@ -1,8 +1,8 @@
-var cloudinary = require('cloudinary');
-var data = require('../data');
-var CLOUDINARY_UPLOAD_FOLDER_NAME = 'contestants/';
-var CONTROLLER_NAME = 'admin';
-var PAGE_SIZE = 10;
+var cloudinary = require('cloudinary'),
+    data = require('../data'),
+    CLOUDINARY_UPLOAD_FOLDER_NAME = 'contestants/',
+    CONTROLLER_NAME = 'admin',
+    PAGE_SIZE = 10;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
