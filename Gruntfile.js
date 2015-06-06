@@ -80,11 +80,11 @@ module.exports = function (grunt) {
         babel: {
             build:{
                 options: {
-                    sourceMap: true
+                    sourceMap: false
                 },
                 files: [{
                     expand: true,
-                    src: ['<%= project.app %>/scripts/**/*.ec6'],
+                    src: ['<%= project.serverApp %>/**/*.ec6'],
                     ext: '.js',
                     extDot: 'first'
                 }]
