@@ -26,12 +26,8 @@ module.exports = {
     },
     getById: function (req, res) {
         data.contestants.getById(req.params.id,
-            function (err) {
-                res.redirect('/not-found');
-            },
-            function (contestant) {
-                res.render(CONTROLLER_NAME + '/contestant', contestant);
-            });
+                err => res.redirect('/not-found'),
+                contestant => res.render(CONTROLLER_NAME + '/contestant', contestant));
     },
     getAllApproved: function (req, res) {
         var deferred = q.defer(),
@@ -52,16 +48,15 @@ module.exports = {
     postRegister: function (req, res) {
         var newContestant = {},
             cloudinaryFolderSettings = {folder: CLOUDINARY_UPLOAD_FOLDER_NAME},
-            savedContestant;
-
-        var handleTheStreamResult = function (result) {
-            savedContestant.pictures.push({
-                serviceId: result.public_id,
-                fileName: filename,
-                url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
-            });
-            savedContestant.save();
-        };
+            savedContestant,
+            handleTheStreamResult = function (result) {
+                savedContestant.pictures.push({
+                    serviceId: result.public_id,
+                    fileName: filename,
+                    url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
+                });
+                savedContestant.save();
+            };
 
         req.pipe(req.busboy);
         req.busboy.on('file', (fieldname, file, filename) => {
@@ -74,9 +69,7 @@ module.exports = {
             }
         });
 
-        req.busboy.on('field', (fieldname, val) => {
-            newContestant[fieldname] = val;
-        });
+        req.busboy.on('field', (fieldname, val) => newContestant[fieldname] = val);
 
         req.busboy.on('finish', () => {
             newContestant.registrant = req.user;

@@ -27,10 +27,10 @@ module.exports = {
         return deferred.promise;
     },
     getById: function getById(req, res) {
-        data.contestants.getById(req.params.id, function (err) {
-            res.redirect('/not-found');
+        data.contestants.getById(req.params.id, function () {
+            return res.redirect('/not-found');
         }, function (contestant) {
-            res.render(CONTROLLER_NAME + '/contestant', contestant);
+            return res.render(CONTROLLER_NAME + '/contestant', contestant);
         });
     },
     getAllApproved: function getAllApproved(req, res) {
@@ -52,9 +52,8 @@ module.exports = {
     postRegister: function postRegister(req, res) {
         var newContestant = {},
             cloudinaryFolderSettings = { folder: CLOUDINARY_UPLOAD_FOLDER_NAME },
-            savedContestant;
-
-        var handleTheStreamResult = function handleTheStreamResult(result) {
+            savedContestant,
+            handleTheStreamResult = function handleTheStreamResult(result) {
             savedContestant.pictures.push({
                 serviceId: result.public_id,
                 fileName: filename,
@@ -75,7 +74,7 @@ module.exports = {
         });
 
         req.busboy.on('field', function (fieldname, val) {
-            newContestant[fieldname] = val;
+            return newContestant[fieldname] = val;
         });
 
         req.busboy.on('finish', function () {
