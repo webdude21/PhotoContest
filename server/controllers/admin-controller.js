@@ -83,13 +83,12 @@ module.exports = {
             };
         }
 
-        data.contestants.getQuery(function (err) {
+        data.contestants.getAdminQuery(function (err) {
             req.session.errorMessage = err;
             res.redirect('/not-found');
         }, function (contestants) {
-
             var addClaudinaUrl = function addClaudinaUrl(picture) {
-                picture.url = cloudinary.url(picture.serviceId, { transformation: 'thumbnail', secure: true });
+                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
             };
 
             for (var i = 0; i < contestants.data.length; i++) {

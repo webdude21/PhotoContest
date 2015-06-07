@@ -79,7 +79,6 @@ module.exports = {
             req.session.errorMessage = err;
             res.redirect('/not-found');
         }, function (contestants) {
-
             var addClaudinaUrl = function (picture) {
                 picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
             };

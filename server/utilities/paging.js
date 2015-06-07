@@ -60,6 +60,22 @@ module.exports = {
             };
         }
         return queryObject;
+    },
+    buildAdminQueryObject: function (baseQueryObject) {
+        var queryObject = baseQueryObject;
+
+        if (!queryObject.pager) {
+            queryObject.pager = {
+                currentPage: +queryObject.page || 1
+            };
+        }
+        if (!queryObject.sort) {
+            queryObject.sort = {
+                columnName: "registerDate",
+                order: "desc"
+            };
+        }
+        return queryObject;
     }
 };
 

@@ -7,12 +7,12 @@
     function _fileHasValidExtension(filename, permittedFormats, inputDelimiter) {
         var delimiter = inputDelimiter || '.';
         var indexOfDelimiter = filename.lastIndexOf(delimiter);
-        return filename && indexOfDelimiter > 0 && permittedFormats.indexOf(filename.slice(indexOfDelimiter) > -1);
+        return filename && indexOfDelimiter && (permittedFormats.indexOf(filename.slice(indexOfDelimiter + 1)) > -1);
     }
 
     function verifyImage() {
         var fileName = $uploadInput.val();
-        if (_fileHasValidExtension(fileName, PERMITTED_FORMATS)) {
+        if (!_fileHasValidExtension(fileName, PERMITTED_FORMATS)) {
             alert(INVALID_IMAGE_ERROR);
             $uploadInput.val('');
             return false;
@@ -25,5 +25,3 @@
         $uploadInput.on('change', verifyImage);
     });
 }());
-
-

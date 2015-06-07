@@ -67,5 +67,8 @@ module.exports = {
     },
     getQuery: function (err, success, baseQueryObject, pageSize) {
         paging.populateResponse(err, success, paging.buildQueryObject(baseQueryObject), Contestant, 'pictures', pageSize);
+    },
+    getAdminQuery: function (err, success, baseQueryObject, pageSize) {
+        paging.populateResponse(err, success, paging.buildAdminQueryObject(baseQueryObject), Contestant, 'pictures', pageSize);
     }
 };

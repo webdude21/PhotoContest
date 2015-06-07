@@ -48,7 +48,6 @@ module.exports = {
             cloudinaryFolderSettings = {folder: globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME},
             savedContestant;
 
-
         req.pipe(req.busboy);
 
         req.busboy.on('file', (fieldname, file, filename) => {
