@@ -1,8 +1,8 @@
 var cloudinary = require('cloudinary'),
     data = require('../data'),
-    CLOUDINARY_UPLOAD_FOLDER_NAME = 'contestants/',
-    CONTROLLER_NAME = 'admin',
-    PAGE_SIZE = 10;
+    globalConstants = require('./../config/global-constants.js'),
+    CONTROLLER_NAME = 'admin';
+
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
@@ -70,7 +70,7 @@ module.exports = {
                 req.session.errorMessage = "Could not reset the contest!" + err;
                 res.redirect('/error');
             }, function () {
-                cloudinary.api.delete_resources_by_prefix(CLOUDINARY_UPLOAD_FOLDER_NAME, function () {
+                cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME, function () {
                     res.redirect('/');
                 });
             });
@@ -105,6 +105,6 @@ module.exports = {
             }
 
             res.render(CONTROLLER_NAME + '/contestants/all', contestants);
-        }, queryObject, PAGE_SIZE);
+        }, queryObject, globalConstants.PAGE_SIZE);
     }
 };
