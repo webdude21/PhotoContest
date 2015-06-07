@@ -6,6 +6,9 @@ module.exports = function (grunt) {
             serverApp: 'server'
         },
         jshint: {
+            options: {
+                node: true
+            },
             app: ['Gruntfile.js', '<%= project.app %>/scripts/**/*.js', '<%= project.serverApp %>/**/*.js']
         },
         concat: {
@@ -78,7 +81,7 @@ module.exports = function (grunt) {
             }
         },
         babel: {
-            build:{
+            build: {
                 options: {
                     sourceMap: false
                 },
@@ -100,5 +103,5 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-babel');
-    grunt.registerTask('build', ['jshint', 'babel', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
+    grunt.registerTask('build', ['babel', 'jshint', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
 };

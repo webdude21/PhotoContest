@@ -2,13 +2,10 @@ var cloudinary = require('cloudinary'),
     q = require('q'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
+    globalConstants = require('./../config/global-constants.js'),
     ROUTE_ROOT = "/",
-    CLOUDINARY_UPLOAD_FOLDER_NAME = 'winners',
     CONTROLLER_NAME = 'passed-contests',
     NO_SUCH_CONTEST = "Не съществува такъв конкурс",
-    INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
-        'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
-    PERMITTED_FORMATS = ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
     EDIT_CONTEST_ROUTE = "/" + CONTROLLER_NAME + "/edit/";
 
 cloudinary.config(process.env.CLOUDINARY_URL);
@@ -60,10 +57,11 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
                     url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
                 });
                 _saveWinner(contest, newWinner);
-            }, {folder: CLOUDINARY_UPLOAD_FOLDER_NAME + '/' + contest.id});
+            }, {folder: globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contest.id});
             file.pipe(stream);
         } else {
-            _showError(req, res, deferred, INVALID_IMAGE_ERROR, EDIT_CONTEST_ROUTE + req.params.id + "/addWinner");
+            _showError(req, res, deferred, globalConstants.INVALID_IMAGE_ERROR,
+                EDIT_CONTEST_ROUTE + req.params.id + "/addWinner");
         }
     });
 
@@ -87,7 +85,7 @@ module.exports = {
     postAddWinner: function (req, res, next) {
         var deferred = q.defer();
         _retrieveContest(req, res, deferred).then(function (contest) {
-            _addWinner(req, PERMITTED_FORMATS, res, deferred, contest);
+            _addWinner(req, globalConstants.PERMITTED_FORMATS, res, deferred, contest);
         });
 
         return deferred.promise;
@@ -107,7 +105,7 @@ module.exports = {
         data.contest.deleteById(contestId, function (err) {
             _showError(req, res, deferred, err);
         }, function (result) {
-            cloudinary.api.delete_resources_by_prefix(CLOUDINARY_UPLOAD_FOLDER_NAME + '/' + contestId,
+            cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
                 function () {
                     req.session.successMessage = "Конкурса беше изтрит успешно";
                     res.redirect(EDIT_CONTEST_ROUTE);
