@@ -18,26 +18,22 @@ module.exports = {
                 res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
             });
     },
-    getResetContest: function (req, res, next) {
-        res.render("confirm", {
-            message: {
-                title: "Рестартиране на приложението",
-                body: "Това ще изтрие цялата информация в приложението " +
-                "(потребители, участници, снимки и гласове) с изключение на администраторските акаунти",
-                buttonText: "Рестарт"
-            }
-        });
-    },
-    getResetApplication: function (req, res, next) {
-        res.render("confirm", {
-            message: {
-                title: "Рестартиране на конкурса",
-                body: "Това ще изтрие цялата информация в приложението " +
-                "(потребители, участници, снимки и гласове) с изключение на администраторските акаунти",
-                buttonText: "Рестарт"
-            }
-        });
-    },
+    getResetContest: (req, res, next) => res.render("confirm", {
+        message: {
+            title: "Рестартиране на приложението",
+            body: "Това ще изтрие цялата информация в приложението " +
+            "(потребители, участници, снимки и гласове) с изключение на администраторските акаунти",
+            buttonText: "Рестарт"
+        }
+    }),
+    getResetApplication: (req, res, next) => res.render("confirm", {
+        message: {
+            title: "Рестартиране на конкурса",
+            body: "Това ще изтрие цялата информация в приложението " +
+            "(потребители, участници, снимки и гласове) с изключение на администраторските акаунти",
+            buttonText: "Рестарт"
+        }
+    }),
     postResetApplication: function (req, res, next) {
         data.contestants.deleteAll(
             function (err) {
@@ -75,17 +71,14 @@ module.exports = {
             };
         }
 
-        data.contestants.getQuery(function (err) {
+        data.contestants.getAdminQuery(function (err) {
             req.session.errorMessage = err;
             res.redirect('/not-found');
         }, function (contestants) {
-            var addClaudinaUrl = function (picture) {
-                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
-            };
 
-            for (var i = 0; i < contestants.data.length; i++) {
-                contestants.data[i].pictures.forEach(addClaudinaUrl);
-            }
+            contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
+                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
+            }));
 
             res.render(CONTROLLER_NAME + '/contestants/all', contestants);
         }, queryObject, globalConstants.PAGE_SIZE);

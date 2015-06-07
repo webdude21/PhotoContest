@@ -25,7 +25,7 @@ module.exports = {
         });
     },
     getResetContest: function getResetContest(req, res, next) {
-        res.render('confirm', {
+        return res.render('confirm', {
             message: {
                 title: 'Рестартиране на приложението',
                 body: 'Това ще изтрие цялата информация в приложението ' + '(потребители, участници, снимки и гласове) с изключение на администраторските акаунти',
@@ -34,7 +34,7 @@ module.exports = {
         });
     },
     getResetApplication: function getResetApplication(req, res, next) {
-        res.render('confirm', {
+        return res.render('confirm', {
             message: {
                 title: 'Рестартиране на конкурса',
                 body: 'Това ще изтрие цялата информация в приложението ' + '(потребители, участници, снимки и гласове) с изключение на администраторските акаунти',
@@ -87,13 +87,12 @@ module.exports = {
             req.session.errorMessage = err;
             res.redirect('/not-found');
         }, function (contestants) {
-            var addClaudinaUrl = function addClaudinaUrl(picture) {
-                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
-            };
 
-            for (var i = 0; i < contestants.data.length; i++) {
-                contestants.data[i].pictures.forEach(addClaudinaUrl);
-            }
+            contestants.data.forEach(function (contestant) {
+                return contestant.pictures.forEach(function (picture) {
+                    picture.url = cloudinary.url(picture.serviceId, { transformation: 'thumbnail', secure: true });
+                });
+            });
 
             res.render(CONTROLLER_NAME + '/contestants/all', contestants);
         }, queryObject, globalConstants.PAGE_SIZE);
