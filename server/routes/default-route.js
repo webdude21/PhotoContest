@@ -1,17 +1,19 @@
+'use strict';
+
 module.exports = function (app) {
     app.get('/error', function (req, res) {
-        res.render('error', {currentUser: req.user});
+        return res.render('error', { currentUser: req.user });
     });
 
     app.get(app.get('/', function (req, res) {
-        res.redirect('contestants');
+        return res.redirect('contestants');
     }));
 
     app.post('/*', function (req, res) {
-        res.redirect('/');
+        return res.redirect('/');
     });
 
     app.get('*', function (req, res) {
-        res.render('not-found', {currentUser: req.user});
+        return res.render('not-found', { currentUser: req.user });
     });
 };
