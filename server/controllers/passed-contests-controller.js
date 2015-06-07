@@ -164,7 +164,7 @@ module.exports = {
     },
     toggleVisibleById: function toggleVisibleById(req, res, next) {
         data.contest.getById(req.params.id, function (err) {
-            res.redirect('/not-found');
+            return res.redirect('/not-found');
         }, function (contest) {
             contest.visible = !contest.visible;
             contest.save();

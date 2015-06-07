@@ -169,10 +169,7 @@ module.exports = {
         return deferred.promise;
     },
     toggleVisibleById: function (req, res, next) {
-        data.contest.getById(req.params.id,
-            function (err) {
-                res.redirect('/not-found');
-            },
+        data.contest.getById(req.params.id, err => res.redirect('/not-found'),
             function (contest) {
                 contest.visible = !contest.visible;
                 contest.save();
