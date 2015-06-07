@@ -1,12 +1,14 @@
+'use strict';
+
 var cloudinary = require('cloudinary'),
     q = require('q'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
     globalConstants = require('./../config/global-constants.js'),
-    ROUTE_ROOT = "/",
+    ROUTE_ROOT = '/',
     CONTROLLER_NAME = 'passed-contests',
-    NO_SUCH_CONTEST = "Не съществува такъв конкурс",
-    EDIT_CONTEST_ROUTE = "/" + CONTROLLER_NAME + "/edit/";
+    NO_SUCH_CONTEST = 'Не съществува такъв конкурс',
+    EDIT_CONTEST_ROUTE = '/' + CONTROLLER_NAME + '/edit/';
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
@@ -19,19 +21,17 @@ function _showError(req, res, deferred, message, redirectRoute) {
 function _retrieveContest(req, res, deferred) {
     var deferredContest = q.defer();
 
-    data.contest.getById(req.params.id,
-        function (err) {
+    data.contest.getById(req.params.id, function (err) {
+        _showError(req, res, deferred, NO_SUCH_CONTEST);
+        deferredContest.reject('Failed to get the contest data');
+    }, function (result) {
+        if (result === null) {
             _showError(req, res, deferred, NO_SUCH_CONTEST);
-            deferredContest.reject("Failed to get the contest data");
-        },
-        function (result) {
-            if (result === null) {
-                _showError(req, res, deferred, NO_SUCH_CONTEST);
-                deferredContest.reject("No such contest");
-            } else {
-                deferredContest.resolve(result);
-            }
-        });
+            deferredContest.reject('No such contest');
+        } else {
+            deferredContest.resolve(result);
+        }
+    });
 
     return deferredContest.promise;
 }
@@ -54,14 +54,13 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
                 newWinner.pictures.push({
                     serviceId: result.public_id,
                     fileName: filename,
-                    url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
+                    url: cloudinary.url(result.public_id, { transformation: 'detail', secure: true })
                 });
                 _saveWinner(contest, newWinner);
-            }, {folder: globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contest.id});
+            }, { folder: globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contest.id });
             file.pipe(stream);
         } else {
-            _showError(req, res, deferred, globalConstants.INVALID_IMAGE_ERROR,
-                EDIT_CONTEST_ROUTE + req.params.id + "/addWinner");
+            _showError(req, res, deferred, globalConstants.INVALID_IMAGE_ERROR, EDIT_CONTEST_ROUTE + req.params.id + '/addWinner');
         }
     });
 
@@ -70,19 +69,19 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
     });
 
     req.busboy.on('finish', function () {
-        req.session.successMessage = "Участника беше успешно добавен!";
+        req.session.successMessage = 'Участника беше успешно добавен!';
         res.redirect(EDIT_CONTEST_ROUTE + req.params.id);
         deferred.resolve();
     });
 }
 module.exports = {
-    getAddWinner: function (req, res) {
+    getAddWinner: function getAddWinner(req, res) {
         var deferred = q.defer();
         res.render(CONTROLLER_NAME + '/addWinner');
         deferred.resolve();
         return deferred.promise;
     },
-    postAddWinner: function (req, res, next) {
+    postAddWinner: function postAddWinner(req, res, next) {
         var deferred = q.defer();
         _retrieveContest(req, res, deferred).then(function (contest) {
             _addWinner(req, globalConstants.PERMITTED_FORMATS, res, deferred, contest);
@@ -90,127 +89,118 @@ module.exports = {
 
         return deferred.promise;
     },
-    getDeleteContestConfirm: function (req, res, next) {
-        res.render("confirm", {
+    getDeleteContestConfirm: function getDeleteContestConfirm(req, res, next) {
+        res.render('confirm', {
             message: {
-                title: "Изтриване на конкурс",
-                body: "Сигурне ли сте, че искате да изтриете този конкурс (действието е необратимо)",
-                buttonText: "Изтрий"
+                title: 'Изтриване на конкурс',
+                body: 'Сигурне ли сте, че искате да изтриете този конкурс (действието е необратимо)',
+                buttonText: 'Изтрий'
             }
         });
     },
-    deleteContest: function (req, res) {
+    deleteContest: function deleteContest(req, res) {
         var deferred = q.defer(),
             contestId = req.params.id;
         data.contest.deleteById(contestId, function (err) {
             _showError(req, res, deferred, err);
         }, function (result) {
-            cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
-                function () {
-                    req.session.successMessage = "Конкурса беше изтрит успешно";
-                    res.redirect(EDIT_CONTEST_ROUTE);
-                    deferred.resolve();
-                });
+            cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId, function () {
+                req.session.successMessage = 'Конкурса беше изтрит успешно';
+                res.redirect(EDIT_CONTEST_ROUTE);
+                deferred.resolve();
+            });
         });
 
         return deferred.promise;
     },
-    getPassedContests: function (req, res) {
+    getPassedContests: function getPassedContests(req, res) {
         var deferred = q.defer();
         data.contest.getAllVisible(function (err) {
+            res.redirect('/not-found');
+            deferred.reject();
+        }, function (contests) {
+            if (contests === null) {
                 res.redirect('/not-found');
                 deferred.reject();
-            },
-            function (contests) {
-                if (contests === null) {
-                    res.redirect('/not-found');
-                    deferred.reject();
-                } else {
-                    res.render(CONTROLLER_NAME + '/all', {data: contests});
-                    deferred.resolve();
-                }
-            });
+            } else {
+                res.render(CONTROLLER_NAME + '/all', { data: contests });
+                deferred.resolve();
+            }
+        });
         return deferred.promise;
     },
-    getEditPassedContests: function (req, res) {
+    getEditPassedContests: function getEditPassedContests(req, res) {
         var deferred = q.defer();
         data.contest.getAll(function (err) {
+            res.redirect('/not-found');
+            deferred.reject();
+        }, function (contests) {
+            if (contests === null) {
                 res.redirect('/not-found');
                 deferred.reject();
-            },
-            function (contests) {
-                if (contests === null) {
-                    res.redirect('/not-found');
-                    deferred.reject();
-                } else {
-                    res.render(CONTROLLER_NAME + '/edit', {data: contests});
-                    deferred.resolve();
-                }
-            });
+            } else {
+                res.render(CONTROLLER_NAME + '/edit', { data: contests });
+                deferred.resolve();
+            }
+        });
         return deferred.promise;
     },
-    getEditPassedContestsById: function (req, res) {
+    getEditPassedContestsById: function getEditPassedContestsById(req, res) {
         var deferred = q.defer();
-        data.contest.getById(req.params.id,
-            function (err) {
+        data.contest.getById(req.params.id, function (err) {
+            res.redirect('/not-found');
+            deferred.reject();
+        }, function (contest) {
+            if (contest === null) {
                 res.redirect('/not-found');
                 deferred.reject();
-            },
-            function (contest) {
-                if (contest === null) {
-                    res.redirect('/not-found');
-                    deferred.reject();
-                } else {
-                    contest.winners.forEach(helpers.formatWinner);
-                    res.render("admin/contest/detail", contest);
-                    deferred.resolve();
-                }
-            });
+            } else {
+                contest.winners.forEach(helpers.formatWinner);
+                res.render('admin/contest/detail', contest);
+                deferred.resolve();
+            }
+        });
         return deferred.promise;
     },
-    toggleVisibleById: function (req, res, next) {
-        data.contest.getById(req.params.id,
-            function (err) {
-                res.redirect('/not-found');
-            },
-            function (contest) {
-                contest.visible = !contest.visible;
-                contest.save();
-                res.redirect(EDIT_CONTEST_ROUTE + contest.id);
-            });
+    toggleVisibleById: function toggleVisibleById(req, res, next) {
+        data.contest.getById(req.params.id, function (err) {
+            res.redirect('/not-found');
+        }, function (contest) {
+            contest.visible = !contest.visible;
+            contest.save();
+            res.redirect(EDIT_CONTEST_ROUTE + contest.id);
+        });
     },
-    getRegister: function (req, res) {
+    getRegister: function getRegister(req, res) {
         var deferred = q.defer();
         res.render(CONTROLLER_NAME + '/register');
         deferred.resolve();
         return deferred.promise;
     },
-    postRegister: function (req, res) {
+    postRegister: function postRegister(req, res) {
         var deferred = q.defer();
         var savedContest = data.contest.addContest(req.body);
-        req.session.successMessage = "Конкурса е успешно записан!";
+        req.session.successMessage = 'Конкурса е успешно записан!';
         res.redirect(savedContest._id);
         deferred.resolve();
         return deferred.promise;
     },
-    getPassedContestById: function (req, res) {
+    getPassedContestById: function getPassedContestById(req, res) {
         var deferred = q.defer();
-        data.contest.getById(req.params.id,
-            function (err) {
-                req.session.errorMessage = err;
+        data.contest.getById(req.params.id, function (err) {
+            req.session.errorMessage = err;
+            res.redirect('/not-found');
+            deferred.reject();
+        }, function (contest) {
+            if (contest === null) {
                 res.redirect('/not-found');
                 deferred.reject();
-            },
-            function (contest) {
-                if (contest === null) {
-                    res.redirect('/not-found');
-                    deferred.reject();
-                } else {
-                    contest.winners.forEach(helpers.formatWinner);
-                    res.render(CONTROLLER_NAME + '/details', contest);
-                    deferred.resolve();
-                }
-            });
+            } else {
+                contest.winners.forEach(helpers.formatWinner);
+                res.render(CONTROLLER_NAME + '/details', contest);
+                deferred.resolve();
+            }
+        });
         return deferred.promise;
     }
 };
