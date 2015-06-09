@@ -87,7 +87,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    src: ['<%= project.serverApp %>/**/*.ec6'],
+                    src: ['<%= project.serverApp %>/**/*.es6'],
                     ext: '.js',
                     extDot: 'first'
                 }]
