@@ -78,18 +78,18 @@ module.exports = {
     }
 };
 
-function calculateTotalPages(totalUsersCount, pageSize) {
-    var totalPages = (totalUsersCount + pageSize - 1) / pageSize;
-    totalPages = Math.floor((totalPages));
-    return totalPages;
+function calculateTotalPages(totalCount, pageSize) {
+    return Math.floor((totalCount + pageSize - 1) / pageSize);
 }
 
 function addFilters(columns, query) {
+    var filterObject = {},
+        expression;
+
     if (columns) {
         columns.forEach(function (column) {
             if (column.filter) {
-                var filterObject = {};
-                var expression;
+
                 switch (column.method) {
                     case 'contains':
                         expression = new RegExp(column.filter, 'i');

@@ -1,5 +1,7 @@
+'use strict';
+
 module.exports = {
-    populateResponse: function (error, success, gridRequest, model, populateString, pageSize) {
+    populateResponse: function populateResponse(errorHandler, successHandler, gridRequest, model, populateString, pageSize) {
         var query = model.find({});
 
         if (populateString) {
@@ -17,8 +19,7 @@ module.exports = {
             }
 
             gridRequest.pager.totalPages = calculateTotalPages(totalEntryCount, pageSize);
-            gridRequest.pager.currentPage = gridRequest.pager.currentPage > gridRequest.pager.totalPages ?
-                gridRequest.pager.totalPages : gridRequest.pager.currentPage;
+            gridRequest.pager.currentPage = gridRequest.pager.currentPage > gridRequest.pager.totalPages ? gridRequest.pager.totalPages : gridRequest.pager.currentPage;
 
             var currentPage = gridRequest.pager.currentPage;
             if (currentPage < 1) {
@@ -27,27 +28,20 @@ module.exports = {
 
             var sortObject = {};
             sortObject[gridRequest.sort.columnName] = gridRequest.sort.order;
-            query
-                .sort(sortObject)
-                .skip((currentPage - 1) * pageSize)
-                .limit(pageSize)
-                .lean()
-                .exec(function (err, entries) {
-                    if (err) {
-                        console.log('Database error: ' + err);
-                        error();
-                    }
+            query.sort(sortObject).skip((currentPage - 1) * pageSize).limit(pageSize).lean().exec(function (err, entries) {
+                if (err) {
+                    console.log('Database error: ' + err);
+                    errorHandler();
+                }
 
-                    gridRequest.data = entries;
-                    success(gridRequest);
-                });
+                gridRequest.data = entries;
+                successHandler(gridRequest);
+            });
         });
     },
-    buildQueryObject: function (baseQueryObject) {
+    buildQueryObject: function buildQueryObject(baseQueryObject) {
         var queryObject = baseQueryObject;
-        queryObject.columns = [
-            {name: "approved", label: 'Text', filter: true, filterable: true, sortable: true, method: "equals"}
-        ];
+        queryObject.columns = [{ name: 'approved', label: 'Text', filter: true, filterable: true, sortable: true, method: 'equals' }];
         if (!queryObject.pager) {
             queryObject.pager = {
                 currentPage: +queryObject.page || 1
@@ -55,13 +49,13 @@ module.exports = {
         }
         if (!queryObject.sort) {
             queryObject.sort = {
-                columnName: "registerDate",
-                order: "desc"
+                columnName: 'registerDate',
+                order: 'desc'
             };
         }
         return queryObject;
     },
-    buildAdminQueryObject: function (baseQueryObject) {
+    buildAdminQueryObject: function buildAdminQueryObject(baseQueryObject) {
         var queryObject = baseQueryObject;
 
         if (!queryObject.pager) {
@@ -71,26 +65,26 @@ module.exports = {
         }
         if (!queryObject.sort) {
             queryObject.sort = {
-                columnName: "registerDate",
-                order: "desc"
+                columnName: 'registerDate',
+                order: 'desc'
             };
         }
         return queryObject;
     }
 };
 
-function calculateTotalPages(totalUsersCount, pageSize) {
-    var totalPages = (totalUsersCount + pageSize - 1) / pageSize;
-    totalPages = Math.floor((totalPages));
-    return totalPages;
+function calculateTotalPages(totalCount, pageSize) {
+    return Math.floor((totalCount + pageSize - 1) / pageSize);
 }
 
 function addFilters(columns, query) {
+    var filterObject = {},
+        expression;
+
     if (columns) {
         columns.forEach(function (column) {
-            if (column.filter !== null && column.filter !== undefined && column.filter !== "") {
-                var filterObject = {};
-                var expression;
+            if (column.filter) {
+
                 switch (column.method) {
                     case 'contains':
                         expression = new RegExp(column.filter, 'i');
@@ -98,7 +92,7 @@ function addFilters(columns, query) {
                     case 'equals':
                         expression = new RegExp('^' + column.filter + '$', 'i');
                         break;
-                    default :
+                    default:
                         expression = new RegExp('^' + column.filter, 'i');
                         break;
                 }
