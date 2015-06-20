@@ -1,4 +1,4 @@
-var Contest = require('mongoose').model('Contest');
+var Contest = require('mongoose').model('Model');
 
 module.exports = {
     getAllVisible: function (error, success) {

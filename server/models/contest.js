@@ -20,4 +20,4 @@ var contestSchema = mongoose.Schema({
     }]
 });
 
-var Contest = mongoose.model('Contest', contestSchema);
+var Contest = mongoose.model('Model', contestSchema);
