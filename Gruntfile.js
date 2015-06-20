@@ -100,5 +100,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-babel');
-    grunt.registerTask('build', ['babel', 'eslint', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
+    grunt.registerTask('build', ['babel', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
+    grunt.registerTask('lint', 'babel', 'eslint');
 };

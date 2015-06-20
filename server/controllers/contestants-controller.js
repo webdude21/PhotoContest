@@ -25,7 +25,7 @@ module.exports = {
         return deferred.promise;
     },
     getById: function getById(req, res) {
-        data.contestants.getById(req.params.id, function (err) {
+        data.contestantsService.getById(req.params.id, function (err) {
             return res.redirect('/not-found');
         }, function (contestant) {
             return res.render(CONTROLLER_NAME + '/contestant', contestant);
@@ -35,7 +35,7 @@ module.exports = {
         var deferred = q.defer(),
             queryObject = req.query;
 
-        data.contestants.getQuery(function (err) {
+        data.contestantsService.getQuery(function (err) {
             req.session.errorMessage = err;
             res.redirect('/not-found');
             deferred.reject();
@@ -78,7 +78,7 @@ module.exports = {
 
         req.busboy.on('finish', function () {
             newContestant.registrant = req.user;
-            savedContestant = data.contestants.addContestant(newContestant);
+            savedContestant = data.contestantsService.addContestant(newContestant);
             res.redirect(savedContestant._id);
         });
     }
