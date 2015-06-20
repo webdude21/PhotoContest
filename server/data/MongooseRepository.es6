@@ -20,12 +20,28 @@ class MongooseRepository {
         return promise;
     }
 
-    getById(id) {
-        return wrapQueryInPromise(this.model.findById(id));
+    getBy(id) {
+        return MongooseRepository.wrapQueryInPromise(this.model.findById(id));
     }
 
     getAll() {
-        return wrapQueryInPromise(this.model.find());
+        return MongooseRepository.wrapQueryInPromise(this.model.find());
+    }
+
+    deleteBy(id) {
+        return MongooseRepository.wrapQueryInPromise(this.model.findByIdAndRemove(id));
+    }
+
+    getCount() {
+        return MongooseRepository.wrapQueryInPromise(this.model.count());
+    }
+
+    addContestant(entity) {
+        return new this.model(entity).save();
+    }
+
+    deleteAll() {
+        return MongooseRepository.wrapQueryInPromise(this.model.remove({}))
     }
 }
 

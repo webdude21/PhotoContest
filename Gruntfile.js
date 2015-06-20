@@ -5,10 +5,7 @@ module.exports = function (grunt) {
             build: 'public/compiled',
             serverApp: 'server'
         },
-        jshint: {
-            options: {
-                node: true
-            },
+        eslint: {
             app: ['Gruntfile.js', '<%= project.app %>/scripts/**/*.js', '<%= project.serverApp %>/**/*.js']
         },
         concat: {
@@ -101,7 +98,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-babel');
-    grunt.registerTask('build', ['babel', 'jshint', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
+    grunt.registerTask('build', ['babel', 'eslint', 'clean', 'less', 'concat', 'uglify', 'cssmin', 'copy']);
 };

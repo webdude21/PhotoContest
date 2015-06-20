@@ -4,33 +4,60 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var q = require('q');
+var q = require('q'),
+    mongoose = require('mongoose');
 
 var MongooseRepository = (function () {
     function MongooseRepository(mongooseModel) {
         _classCallCheck(this, MongooseRepository);
 
-        this.model = mongooseModel;
+        this.model = mongoose.model(mongooseModel);
     }
 
     _createClass(MongooseRepository, [{
-        key: 'getById',
-        value: function getById(id) {
-            var promise = MongooseRepository.getPromise();
-            this.model.findById(id).exec(function (err, contestant) {
+        key: 'getBy',
+        value: function getBy(id) {
+            return MongooseRepository.wrapQueryInPromise(this.model.findById(id));
+        }
+    }, {
+        key: 'getAll',
+        value: function getAll() {
+            return MongooseRepository.wrapQueryInPromise(this.model.find());
+        }
+    }, {
+        key: 'deleteBy',
+        value: function deleteBy(id) {
+            return MongooseRepository.wrapQueryInPromise(this.model.findByIdAndRemove(id));
+        }
+    }, {
+        key: 'getCount',
+        value: function getCount() {
+            return MongooseRepository.wrapQueryInPromise(this.model.count());
+        }
+    }, {
+        key: 'addContestant',
+        value: function addContestant(entity) {
+            return new this.model(entity).save();
+        }
+    }, {
+        key: 'deleteAll',
+        value: function deleteAll() {
+            return MongooseRepository.wrapQueryInPromise(this.model.remove({}));
+        }
+    }], [{
+        key: 'wrapQueryInPromise',
+        value: function wrapQueryInPromise(query) {
+            var promise = q.defer();
+
+            query.exec(function (err, entity) {
                 if (err) {
                     promise.reject(err);
                 } else {
-                    promise.resolve(contestant);
+                    promise.resolve(entity);
                 }
             });
 
             return promise;
-        }
-    }], [{
-        key: 'getPromise',
-        value: function getPromise() {
-            return q.defer();
         }
     }]);
 
