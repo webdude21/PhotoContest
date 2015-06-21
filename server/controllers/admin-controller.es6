@@ -7,16 +7,19 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
     getById: function (req, res, next) {
-        data.contestants.getById(req.params.id, err => res.redirect('/not-found'),
-                contestant => res.render(CONTROLLER_NAME + '/contestants/contestant', contestant));
+        data.contestantsService
+            .getBy(req.params.id)
+            .then(contestant => res.render(CONTROLLER_NAME + '/contestants/contestant', contestant),
+                err => res.redirect('/not-found'));
     },
     toggleApprovalById: function (req, res, next) {
-        data.contestants.getById(req.params.id, () => res.redirect('/not-found'),
-            function (contestant) {
+        data.contestantsService
+            .getBy(req.params.id)
+            .then((contestant) => {
                 contestant.approved = !contestant.approved;
                 contestant.save();
                 res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
-            });
+            }, () => res.redirect('/not-found'));
     },
     getResetContest: (req, res, next) => res.render("confirm", {
         message: {
@@ -35,25 +38,29 @@ module.exports = {
         }
     }),
     postResetApplication: function (req, res, next) {
-        data.contestants.deleteAll(
-            function (err) {
+        data.contestantsService
+            .deleteAll()
+            .then(() => {
+                data.users
+                    .deleteAllNonAdmins()
+                    .then((err) => {
+                        req.session.errorMessage = "Could not reset the application!" + err;
+                        res.redirect('/error');
+                    }, () => cloudinary.api.delete_all_resources(() => res.redirect('/')));
+            }, (err) => {
                 req.session.errorMessage = "Could not reset the application!" + err;
                 res.redirect('/error');
-            },
-            function () {
-                data.users.deleteAllNonAdmins(function (err) {
-                    req.session.errorMessage = "Could not reset the application!" + err;
-                    res.redirect('/error');
-                }, () => cloudinary.api.delete_all_resources(() => res.redirect('/')));
             });
     },
     postResetContest: function (req, res, next) {
-        data.contestants.deleteAll(
-            function (err) {
+        data.contestantsService
+            .deleteAll()
+            .then(() => cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
+                () => res.redirect('/')),
+            (err) => {
                 req.session.errorMessage = "Could not reset the contest!" + err;
                 res.redirect('/error');
-            }, () => cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
-                () => res.redirect('/')));
+            });
     },
     getAllContestants: function (req, res, next) {
         var queryObject = req.query;
@@ -71,7 +78,7 @@ module.exports = {
             };
         }
 
-        data.contestants.getAdminQuery(function (err) {
+        data.contestantsService.getAdminQuery(function (err) {
             req.session.errorMessage = err;
             res.redirect('/not-found');
         }, function (contestants) {

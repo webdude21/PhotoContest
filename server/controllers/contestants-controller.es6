@@ -23,9 +23,10 @@ module.exports = {
         return deferred.promise;
     },
     getById: function (req, res) {
-        data.contestantsService.getById(req.params.id,
-                err => res.redirect('/not-found'),
-                contestant => res.render(CONTROLLER_NAME + '/contestant', contestant));
+        return data.contestantsService
+            .getBy(req.params.id)
+            .then((contestant) => res.render(CONTROLLER_NAME + '/contestant', contestant),
+                err => res.redirect('/not-found'));
     },
     getAllApproved: function (req, res) {
         var deferred = q.defer(),
@@ -68,11 +69,13 @@ module.exports = {
             }
         });
 
-        req.busboy.on('field', (fieldname, val) => { newContestant[fieldname] = val });
+        req.busboy.on('field', (fieldname, val) => {
+            newContestant[fieldname] = val
+        });
 
         req.busboy.on('finish', () => {
             newContestant.registrant = req.user;
-            savedContestant = data.contestantsService.addContestant(newContestant);
+            savedContestant = data.contestantsService.add(newContestant);
             res.redirect(savedContestant._id);
         });
     }

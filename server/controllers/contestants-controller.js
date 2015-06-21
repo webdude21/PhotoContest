@@ -25,10 +25,10 @@ module.exports = {
         return deferred.promise;
     },
     getById: function getById(req, res) {
-        data.contestantsService.getById(req.params.id, function (err) {
-            return res.redirect('/not-found');
-        }, function (contestant) {
+        return data.contestantsService.getBy(req.params.id).then(function (contestant) {
             return res.render(CONTROLLER_NAME + '/contestant', contestant);
+        }, function (err) {
+            return res.redirect('/not-found');
         });
     },
     getAllApproved: function getAllApproved(req, res) {
@@ -78,7 +78,7 @@ module.exports = {
 
         req.busboy.on('finish', function () {
             newContestant.registrant = req.user;
-            savedContestant = data.contestantsService.addContestant(newContestant);
+            savedContestant = data.contestantsService.add(newContestant);
             res.redirect(savedContestant._id);
         });
     }

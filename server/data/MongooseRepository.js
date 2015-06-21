@@ -35,8 +35,8 @@ var MongooseRepository = (function () {
             return MongooseRepository.wrapQueryInPromise(this.model.count());
         }
     }, {
-        key: 'addContestant',
-        value: function addContestant(entity) {
+        key: 'add',
+        value: function add(entity) {
             return new this.model(entity).save();
         }
     }, {
@@ -47,17 +47,17 @@ var MongooseRepository = (function () {
     }], [{
         key: 'wrapQueryInPromise',
         value: function wrapQueryInPromise(query) {
-            var promise = q.defer();
+            var deferred = q.defer();
 
             query.exec(function (err, entity) {
                 if (err) {
-                    promise.reject(err);
+                    deferred.reject(err);
                 } else {
-                    promise.resolve(entity);
+                    deferred.resolve(entity);
                 }
             });
 
-            return promise;
+            return deferred.promise;
         }
     }]);
 

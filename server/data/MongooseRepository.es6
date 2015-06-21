@@ -7,17 +7,17 @@ class MongooseRepository {
     }
 
     static wrapQueryInPromise(query) {
-        var promise = q.defer();
+        var deferred = q.defer();
 
         query.exec((err, entity) => {
             if (err) {
-                promise.reject(err);
+                deferred.reject(err);
             } else {
-                promise.resolve(entity);
+                deferred.resolve(entity);
             }
         });
 
-        return promise;
+        return deferred.promise;
     }
 
     getBy(id) {
@@ -36,7 +36,7 @@ class MongooseRepository {
         return MongooseRepository.wrapQueryInPromise(this.model.count());
     }
 
-    addContestant(entity) {
+    add(entity) {
         return new this.model(entity).save();
     }
 
