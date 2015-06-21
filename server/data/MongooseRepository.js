@@ -37,7 +37,9 @@ var MongooseRepository = (function () {
     }, {
         key: 'add',
         value: function add(entity) {
-            return new this.model(entity).save();
+            var dbEntity = new this.model(entity);
+            dbEntity.save();
+            return dbEntity;
         }
     }, {
         key: 'deleteAll',

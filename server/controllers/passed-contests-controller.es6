@@ -20,7 +20,7 @@ function _retrieveContest(req, res, deferred) {
     var deferredContest = q.defer();
 
     data.contestService
-        .getById(req.params.id)
+        .getBy(req.params.id)
         .then((result) => {
             if (result === null) {
                 _showError(req, res, deferred, NO_SUCH_CONTEST);
@@ -157,7 +157,7 @@ module.exports = {
     getEditPassedContestsById: function (req, res) {
         var deferred = q.defer();
         data.contestService
-            .getById(req.params.id)
+            .getBy(req.params.id)
             .then((contest) => {
                 if (contest === null) {
                     res.redirect('/not-found');
@@ -175,7 +175,7 @@ module.exports = {
     },
     toggleVisibleById: function (req, res, next) {
         data.contestService
-            .getById(req.params.id)
+            .getBy(req.params.id)
             .then((contest) => {
                 contest.visible = !contest.visible;
                 contest.save();
@@ -199,7 +199,7 @@ module.exports = {
     getPassedContestById: function (req, res) {
         var deferred = q.defer();
         data.contestService
-            .getById(req.params.id)
+            .getBy(req.params.id)
             .then((contest) => {
                 if (contest === null) {
                     res.redirect('/not-found');

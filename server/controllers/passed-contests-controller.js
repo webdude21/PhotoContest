@@ -21,7 +21,7 @@ function _showError(req, res, deferred, message, redirectRoute) {
 function _retrieveContest(req, res, deferred) {
     var deferredContest = q.defer();
 
-    data.contestService.getById(req.params.id).then(function (result) {
+    data.contestService.getBy(req.params.id).then(function (result) {
         if (result === null) {
             _showError(req, res, deferred, NO_SUCH_CONTEST);
             deferredContest.reject('No such contest');
@@ -148,7 +148,7 @@ module.exports = {
     },
     getEditPassedContestsById: function getEditPassedContestsById(req, res) {
         var deferred = q.defer();
-        data.contestService.getById(req.params.id).then(function (contest) {
+        data.contestService.getBy(req.params.id).then(function (contest) {
             if (contest === null) {
                 res.redirect('/not-found');
                 deferred.reject();
@@ -164,7 +164,7 @@ module.exports = {
         return deferred.promise;
     },
     toggleVisibleById: function toggleVisibleById(req, res, next) {
-        data.contestService.getById(req.params.id).then(function (contest) {
+        data.contestService.getBy(req.params.id).then(function (contest) {
             contest.visible = !contest.visible;
             contest.save();
             res.redirect(EDIT_CONTEST_ROUTE + contest.id);
@@ -180,7 +180,7 @@ module.exports = {
     },
     postRegister: function postRegister(req, res) {
         var deferred = q.defer();
-        var savedContest = data.contestService.addContest(req.body);
+        var savedContest = data.contestService.add(req.body);
         req.session.successMessage = 'Конкурса е успешно записан!';
         res.redirect(savedContest._id);
         deferred.resolve();
@@ -188,7 +188,7 @@ module.exports = {
     },
     getPassedContestById: function getPassedContestById(req, res) {
         var deferred = q.defer();
-        data.contestService.getById(req.params.id).then(function (contest) {
+        data.contestService.getBy(req.params.id).then(function (contest) {
             if (contest === null) {
                 res.redirect('/not-found');
                 deferred.reject();
