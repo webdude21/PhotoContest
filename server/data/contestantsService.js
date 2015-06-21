@@ -23,12 +23,12 @@ var ContestantsService = (function (_MongooseRepository) {
     _createClass(ContestantsService, [{
         key: "getAllVisible",
         value: function getAllVisible() {
-            return _get(Object.getPrototypeOf(ContestantsService.prototype), "wrapQueryInPromise", this).call(this, this.model.find().populate("pictures"));
+            return MongooseRepository.wrapQueryInPromise(this.model.find().populate("pictures"));
         }
     }, {
         key: "getAllApproved",
         value: function getAllApproved() {
-            return _get(Object.getPrototypeOf(ContestantsService.prototype), "wrapQueryInPromise", this).call(this, this.model.find().where("approved", true).populate("pictures"));
+            return MongooseRepository.wrapQueryInPromise(this.model.find().where("approved", true).populate("pictures"));
         }
     }, {
         key: "getQuery",

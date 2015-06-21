@@ -190,7 +190,7 @@ module.exports = {
     },
     postRegister: function (req, res) {
         var deferred = q.defer();
-        var savedContest = data.contestService.addContest(req.body);
+        var savedContest = data.contestService.add(req.body);
         req.session.successMessage = "Конкурса е успешно записан!";
         res.redirect(savedContest._id);
         deferred.resolve();
