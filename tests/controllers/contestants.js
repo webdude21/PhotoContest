@@ -1,8 +1,7 @@
-var config = require('../../server/config/config')['development'];
-require('../../server/config/mongoose')(config);
-var data = require('../../server/data');
-var sinon = require('sinon');
-var controllers = require('../../server/controllers');
+require('../../server/config/mongoose')(require('../../server/config/config')['development']);
+var data = require('../../server/data'),
+    sinon = require('sinon'),
+    controllers = require('../../server/controllers');
 
 function getExpressMock() {
     var req, res, spy;
