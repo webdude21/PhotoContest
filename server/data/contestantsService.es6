@@ -7,11 +7,11 @@ class ContestantsService extends MongooseRepository {
     }
 
     getAllVisible() {
-        return super.wrapQueryInPromise(super.model.find().populate('pictures'));
+        return MongooseRepository.wrapQueryInPromise(this.model.find().populate('pictures'));
     }
 
     getAllApproved() {
-        return super.wrapQueryInPromise(super.model.find().where('approved', true).populate('pictures'));
+        return MongooseRepository.wrapQueryInPromise(this.model.find().where('approved', true).populate('pictures'));
     }
 
     getQuery(err, success, baseQueryObject, pageSize) {

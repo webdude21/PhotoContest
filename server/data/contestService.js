@@ -14,7 +14,7 @@ var ContestService = (function (_MongooseRepository) {
     function ContestService() {
         _classCallCheck(this, ContestService);
 
-        _get(Object.getPrototypeOf(ContestService.prototype), "constructor", this).call(this, "Contest");
+        _get(Object.getPrototypeOf(ContestService.prototype), "constructor", this).call(this, "ContestModel");
     }
 
     _inherits(ContestService, _MongooseRepository);
@@ -22,7 +22,7 @@ var ContestService = (function (_MongooseRepository) {
     _createClass(ContestService, [{
         key: "getAllVisible",
         value: function getAllVisible() {
-            return _get(Object.getPrototypeOf(ContestService.prototype), "wrapQueryInPromise", this).call(this, _get(Object.getPrototypeOf(ContestService.prototype), "model", this).find({ visible: true }));
+            return MongooseRepository.wrapQueryInPromise(this.model.find({ visible: true }));
         }
     }]);
 

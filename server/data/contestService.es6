@@ -2,11 +2,11 @@ var MongooseRepository = require("./MongooseRepository");
 
 class ContestService extends MongooseRepository {
     constructor() {
-        super("Contest");
+        super("ContestModel");
     }
 
     getAllVisible() {
-        return super.wrapQueryInPromise(super.model.find({visible: true}));
+        return MongooseRepository.wrapQueryInPromise(this.model.find({visible: true}));
     }
 }
 
