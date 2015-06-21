@@ -90,7 +90,7 @@ module.exports = {
 
             contestants.data.forEach(function (contestant) {
                 return contestant.pictures.forEach(function (picture) {
-                    picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
+                    picture.url = cloudinary.url(picture.serviceId, { transformation: 'thumbnail', secure: true });
                 });
             });
 

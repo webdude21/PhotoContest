@@ -19,18 +19,18 @@ function _showError(req, res, deferred, message, redirectRoute) {
 function _retrieveContest(req, res, deferred) {
     var deferredContest = q.defer();
 
-    data.contest.getById(req.params.id,
-        function (err) {
-            _showError(req, res, deferred, NO_SUCH_CONTEST);
-            deferredContest.reject("Failed to get the contest data");
-        },
-        function (result) {
+    data.contestantsService
+        .getById(req.params.id)
+        .then((result) => {
             if (result === null) {
                 _showError(req, res, deferred, NO_SUCH_CONTEST);
                 deferredContest.reject("No such contest");
             } else {
                 deferredContest.resolve(result);
             }
+        }, (err) => {
+            _showError(req, res, deferred, NO_SUCH_CONTEST);
+            deferredContest.reject("Failed to get the contest data");
         });
 
     return deferredContest.promise;
@@ -84,7 +84,8 @@ module.exports = {
     },
     postAddWinner: function (req, res, next) {
         var deferred = q.defer();
-        _retrieveContest(req, res, deferred).then(function (contest) {
+
+        _retrieveContest(req, res, deferred).then((contest) => {
             _addWinner(req, globalConstants.PERMITTED_FORMATS, res, deferred, contest);
         });
 
@@ -102,26 +103,26 @@ module.exports = {
     deleteContest: function (req, res) {
         var deferred = q.defer(),
             contestId = req.params.id;
-        data.contest.deleteById(contestId, function (err) {
-            _showError(req, res, deferred, err);
-        }, function (result) {
-            cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
-                function () {
-                    req.session.successMessage = "Конкурса беше изтрит успешно";
-                    res.redirect(EDIT_CONTEST_ROUTE);
-                    deferred.resolve();
-                });
-        });
+        data.contestantsService
+            .deleteBy(contestId)
+            .then(() => {
+                cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
+                    ()  => {
+                        req.session.successMessage = "Конкурса беше изтрит успешно";
+                        res.redirect(EDIT_CONTEST_ROUTE);
+                        deferred.resolve();
+                    });
+            }, (err) => {
+                _showError(req, res, deferred, err);
+            });
 
         return deferred.promise;
     },
     getPassedContests: function (req, res) {
         var deferred = q.defer();
-        data.contest.getAllVisible(function (err) {
-                res.redirect('/not-found');
-                deferred.reject();
-            },
-            function (contests) {
+        data.contestantsService
+            .getAllVisible()
+            .then((contests) => {
                 if (contests === null) {
                     res.redirect('/not-found');
                     deferred.reject();
@@ -129,16 +130,17 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/all', {data: contests});
                     deferred.resolve();
                 }
+            }, (err) => {
+                res.redirect('/not-found');
+                deferred.reject();
             });
         return deferred.promise;
     },
     getEditPassedContests: function (req, res) {
         var deferred = q.defer();
-        data.contest.getAll(function (err) {
-                res.redirect('/not-found');
-                deferred.reject();
-            },
-            function (contests) {
+        data.contestantsService
+            .getAll()
+            .then((contests) => {
                 if (contests === null) {
                     res.redirect('/not-found');
                     deferred.reject();
@@ -146,17 +148,17 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/edit', {data: contests});
                     deferred.resolve();
                 }
+            }, (err) => {
+                res.redirect('/not-found');
+                deferred.reject();
             });
         return deferred.promise;
     },
     getEditPassedContestsById: function (req, res) {
         var deferred = q.defer();
-        data.contest.getById(req.params.id,
-            function (err) {
-                res.redirect('/not-found');
-                deferred.reject();
-            },
-            function (contest) {
+        data.contestantsService
+            .getById(req.params.id)
+            .then((contest) => {
                 if (contest === null) {
                     res.redirect('/not-found');
                     deferred.reject();
@@ -165,16 +167,20 @@ module.exports = {
                     res.render("admin/contest/detail", contest);
                     deferred.resolve();
                 }
+            }, (err) => {
+                res.redirect('/not-found');
+                deferred.reject();
             });
         return deferred.promise;
     },
     toggleVisibleById: function (req, res, next) {
-        data.contest.getById(req.params.id, err => res.redirect('/not-found'),
-            function (contest) {
+        data.contestantsService
+            .getById(req.params.id)
+            .then((contest) => {
                 contest.visible = !contest.visible;
                 contest.save();
                 res.redirect(EDIT_CONTEST_ROUTE + contest.id);
-            });
+            }, err => res.redirect('/not-found'));
     },
     getRegister: function (req, res) {
         var deferred = q.defer();
@@ -184,7 +190,7 @@ module.exports = {
     },
     postRegister: function (req, res) {
         var deferred = q.defer();
-        var savedContest = data.contest.addContest(req.body);
+        var savedContest = data.contestantsService.addContest(req.body);
         req.session.successMessage = "Конкурса е успешно записан!";
         res.redirect(savedContest._id);
         deferred.resolve();
@@ -192,13 +198,9 @@ module.exports = {
     },
     getPassedContestById: function (req, res) {
         var deferred = q.defer();
-        data.contest.getById(req.params.id,
-            function (err) {
-                req.session.errorMessage = err;
-                res.redirect('/not-found');
-                deferred.reject();
-            },
-            function (contest) {
+        data.contestantsService
+            .getById(req.params.id)
+            .then((contest) => {
                 if (contest === null) {
                     res.redirect('/not-found');
                     deferred.reject();
@@ -207,6 +209,10 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/details', contest);
                     deferred.resolve();
                 }
+            }, (err) => {
+                req.session.errorMessage = err;
+                res.redirect('/not-found');
+                deferred.reject();
             });
         return deferred.promise;
     }
