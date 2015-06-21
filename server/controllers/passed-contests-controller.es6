@@ -19,7 +19,7 @@ function _showError(req, res, deferred, message, redirectRoute) {
 function _retrieveContest(req, res, deferred) {
     var deferredContest = q.defer();
 
-    data.contestantsService
+    data.contestService
         .getById(req.params.id)
         .then((result) => {
             if (result === null) {
@@ -103,7 +103,7 @@ module.exports = {
     deleteContest: function (req, res) {
         var deferred = q.defer(),
             contestId = req.params.id;
-        data.contestantsService
+        data.contestService
             .deleteBy(contestId)
             .then(() => {
                 cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
@@ -120,7 +120,7 @@ module.exports = {
     },
     getPassedContests: function (req, res) {
         var deferred = q.defer();
-        data.contestantsService
+        data.contestService
             .getAllVisible()
             .then((contests) => {
                 if (contests === null) {
@@ -138,7 +138,7 @@ module.exports = {
     },
     getEditPassedContests: function (req, res) {
         var deferred = q.defer();
-        data.contestantsService
+        data.contestService
             .getAll()
             .then((contests) => {
                 if (contests === null) {
@@ -156,7 +156,7 @@ module.exports = {
     },
     getEditPassedContestsById: function (req, res) {
         var deferred = q.defer();
-        data.contestantsService
+        data.contestService
             .getById(req.params.id)
             .then((contest) => {
                 if (contest === null) {
@@ -174,7 +174,7 @@ module.exports = {
         return deferred.promise;
     },
     toggleVisibleById: function (req, res, next) {
-        data.contestantsService
+        data.contestService
             .getById(req.params.id)
             .then((contest) => {
                 contest.visible = !contest.visible;
@@ -190,7 +190,7 @@ module.exports = {
     },
     postRegister: function (req, res) {
         var deferred = q.defer();
-        var savedContest = data.contestantsService.addContest(req.body);
+        var savedContest = data.contestService.addContest(req.body);
         req.session.successMessage = "Конкурса е успешно записан!";
         res.redirect(savedContest._id);
         deferred.resolve();
@@ -198,7 +198,7 @@ module.exports = {
     },
     getPassedContestById: function (req, res) {
         var deferred = q.defer();
-        data.contestantsService
+        data.contestService
             .getById(req.params.id)
             .then((contest) => {
                 if (contest === null) {
