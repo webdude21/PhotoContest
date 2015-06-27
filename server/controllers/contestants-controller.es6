@@ -61,7 +61,6 @@ module.exports = {
                     });
                     savedContestant.save();
                 };
-
                 file.pipe(cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
             } else {
                 req.session.errorMessage = globalConstants.INVALID_IMAGE_ERROR;

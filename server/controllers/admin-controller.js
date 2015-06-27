@@ -87,7 +87,6 @@ module.exports = {
             req.session.errorMessage = err;
             res.redirect('/not-found');
         }, function (contestants) {
-
             contestants.data.forEach(function (contestant) {
                 return contestant.pictures.forEach(function (picture) {
                     picture.url = cloudinary.url(picture.serviceId, { transformation: 'thumbnail', secure: true });

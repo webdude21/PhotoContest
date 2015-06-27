@@ -78,11 +78,10 @@ module.exports = {
             };
         }
 
-        data.contestantsService.getAdminQuery(function (err) {
+        data.contestantsService.getAdminQuery((err) => {
             req.session.errorMessage = err;
             res.redirect('/not-found');
-        }, function (contestants) {
-
+        }, (contestants) => {
             contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
                 picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
             }));
