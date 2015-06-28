@@ -1,5 +1,5 @@
 module.exports = {
-    users: require('./users'),
+    userService: require('./userService'),
     contestService: require('./contestService'),
     contestantsService: require("./contestantsService")
 };

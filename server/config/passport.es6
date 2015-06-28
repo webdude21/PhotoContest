@@ -1,17 +1,16 @@
-var passport = require('passport');
-var LocalPassport = require('passport-local');
-var FacebookStrategy = require('passport-facebook').Strategy;
-var User = require('mongoose').model('User');
-var data = require('../data');
-var encryption = require('../utilities/encryption');
+var passport = require('passport'),
+    LocalPassport = require('passport-local'),
+    FacebookStrategy = require('passport-facebook').Strategy,
+    User = require('mongoose').model('User'),
+    data = require('../data'),
+    encryption = require('../utilities/encryption');
 
 module.exports = function () {
     passport.use(new FacebookStrategy({
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
             callbackURL: process.env.BASE_URL + "/auth/facebook/callback"
-        },
-        function (accessToken, refreshToken, profile, done) {
+        }, function (accessToken, refreshToken, profile, done) {
             var fbUser = {
                 facebookId: profile.id,
                 firstName: profile._json.first_name,
@@ -26,8 +25,7 @@ module.exports = function () {
             fbUser.email = profile.emails ? profile.emails[0].value : "no-email-for-this-user" + fbUser.hashPass;
 
             data.userService
-                .findOrCreate(fbUser,
-                function (err, user) {
+                .findOrCreate(fbUser, (err, user) => {
                     if (err) {
                         console.log('Error loading user: ' + err);
                         return;

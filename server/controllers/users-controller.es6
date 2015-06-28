@@ -1,28 +1,23 @@
-var encryption = require('../utilities/encryption');
-var User = require('mongoose').model('User');
-var data = require('../data');
-
-var CONTROLLER_NAME = 'users';
+var encryption = require('../utilities/encryption'),
+    User = require('mongoose').model('User'),
+    data = require('../data'),
+    errorHandler = require('../utilities/error-handler'),
+    CONTROLLER_NAME = 'users';
 
 module.exports = {
     getProfile: (req, res, next) => res.render(CONTROLLER_NAME + '/profile', {
         firstName: req.user.firstName,
         lastName: req.user.lastName
     }),
-    postProfile: function (req, res, next) {
+    postProfile: function (req, res) {
         var newUserData = req.body;
 
-        data.users.getUser(req.user.username,
-            function (err) {
-                req.session.errorMessage = err;
-                res.redirect('/error');
-            },
-            function (user) {
+        data.userService
+            .getUser(req.user.username)
+            .then(user => {
                 if (newUserData.password && newUserData.confirmPassword) {
                     if (newUserData.password != newUserData.confirmPassword) {
-                        req.session.errorMessage = 'Passwords do not match!';
-                        res.redirect('/profile');
-                        return;
+                        return errorHandler.redirectToRoute(req, res, 'Passwords do not match!', '/profile');
                     } else {
                         user.salt = encryption.generateSalt();
                         user.hashPass = encryption.generateHashedText(user.salt, newUserData.password);
@@ -34,43 +29,36 @@ module.exports = {
 
                 user.save();
                 res.redirect('/');
-            });
+            }, err => errorHandler.redirectToError(req, res, err));
     },
     getRegister: (req, res, next) => res.render(CONTROLLER_NAME + '/register'),
-    postRegister: function (req, res, next) {
+    postRegister: function (req, res) {
         var newUserData = req.body;
-        data.users.getUser(newUserData, function (err) {
-                if (err) {
-                    req.session.errorMessage = err;
-                    res.redirect('/register');
-                }
-            },
-            function (user) {
+        data.userService
+            .getUser(newUserData)
+            .then(user => {
                 if (user) {
-                    req.session.errorMessage = "This username/email address is taken, please try another one!";
-                    res.redirect('/register');
+                    errorHandler.redirectToRoute(req, res,
+                        'This username/email address is taken, please try another one!', '/register');
                 } else if (newUserData.password != newUserData.confirmPassword) {
-                    req.session.errorMessage = 'Passwords do not match!';
-                    res.redirect('/register');
+                    errorHandler.redirectToRoute(req, res,
+                        'Passwords do not match!', '/register');
                 } else {
                     newUserData.salt = encryption.generateSalt();
                     newUserData.hashPass = encryption.generateHashedText(newUserData.salt, newUserData.password);
-                    data.users.addUser(newUserData, function (err) {
-                        if (err) {
-                            req.session.errorMessage = err.message;
-                            res.redirect('/register');
-                        }
-                    }, function (user) {
-                        req.logIn(user, function (err) {
-                            if (err) {
-                                req.session.errorMessage = "A terrible error has occurred! " + err.toString();
-                                res.redirect('/error');
-                            }
-                            res.redirect('/');
-                        });
-                    });
+                    data.userService
+                        .add(newUserData)
+                        .then(user => {
+                            req.logIn(user, err => {
+                                if (err) {
+                                    errorHandler.redirectToError(req, res,
+                                        'A terrible error has occurred! ' + err.toString());
+                                }
+                                res.redirect('/');
+                            });
+                        }, err => errorHandler.redirectToRoute(req, res, err.message, '/register'));
                 }
-            });
+            }, err => errorHandler.redirectToRoute(req, res, err, '/register'));
     },
     getLogin: (req, res) => res.render(CONTROLLER_NAME + '/login'),
     postLogin: (req, res, next) => req.user ? res.redirect('/') : res.redirect('/login'),

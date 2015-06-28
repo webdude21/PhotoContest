@@ -43,7 +43,7 @@ class MongooseRepository {
     }
 
     deleteAll() {
-        return MongooseRepository.wrapQueryInPromise(this.model.remove({}))
+        return MongooseRepository.wrapQueryInPromise(this.model.remove({}));
     }
 }
 

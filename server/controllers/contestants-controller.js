@@ -5,7 +5,8 @@ var cloudinary = require('cloudinary'),
     q = require('q'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
-    CONTROLLER_NAME = 'contestants';
+    CONTROLLER_NAME = 'contestants',
+    errorHandler = require('../utilities/error-handler');
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
@@ -27,18 +28,16 @@ module.exports = {
     getById: function getById(req, res) {
         return data.contestantsService.getBy(req.params.id).then(function (contestant) {
             return res.render(CONTROLLER_NAME + '/contestant', contestant);
-        }, function (err) {
-            return res.redirect('/not-found');
+        }, function () {
+            return errorHandler.redirectToNotFound(res);
         });
     },
     getAllApproved: function getAllApproved(req, res) {
         var deferred = q.defer(),
             queryObject = req.query;
 
-        data.contestantsService.getQuery(function (err) {
-            req.session.errorMessage = err;
-            res.redirect('/not-found');
-            deferred.reject();
+        data.contestantsService.getQuery(function () {
+            return errorHandler.redirectToNotFound(res, deferred);
         }, function (contestants) {
             processContestants(contestants);
             res.render(CONTROLLER_NAME + '/all', contestants);
@@ -66,8 +65,7 @@ module.exports = {
                 };
                 file.pipe(cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
             } else {
-                req.session.errorMessage = globalConstants.INVALID_IMAGE_ERROR;
-                res.redirect('/contestants/register');
+                errorHandler.redirectToRoute(req, res, globalConstants.INVALID_IMAGE_ERROR, null, '/contestants/register');
             }
         });
 

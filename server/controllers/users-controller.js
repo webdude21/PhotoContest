@@ -1,10 +1,10 @@
 'use strict';
 
-var encryption = require('../utilities/encryption');
-var User = require('mongoose').model('User');
-var data = require('../data');
-
-var CONTROLLER_NAME = 'users';
+var encryption = require('../utilities/encryption'),
+    User = require('mongoose').model('User'),
+    data = require('../data'),
+    errorHandler = require('../utilities/error-handler'),
+    CONTROLLER_NAME = 'users';
 
 module.exports = {
     getProfile: function getProfile(req, res, next) {
@@ -13,18 +13,13 @@ module.exports = {
             lastName: req.user.lastName
         });
     },
-    postProfile: function postProfile(req, res, next) {
+    postProfile: function postProfile(req, res) {
         var newUserData = req.body;
 
-        data.users.getUser(req.user.username, function (err) {
-            req.session.errorMessage = err;
-            res.redirect('/error');
-        }, function (user) {
+        data.userService.getUser(req.user.username).then(function (user) {
             if (newUserData.password && newUserData.confirmPassword) {
                 if (newUserData.password != newUserData.confirmPassword) {
-                    req.session.errorMessage = 'Passwords do not match!';
-                    res.redirect('/profile');
-                    return;
+                    return errorHandler.redirectToRoute(req, res, 'Passwords do not match!', '/profile');
                 } else {
                     user.salt = encryption.generateSalt();
                     user.hashPass = encryption.generateHashedText(user.salt, newUserData.password);
@@ -36,43 +31,36 @@ module.exports = {
 
             user.save();
             res.redirect('/');
+        }, function (err) {
+            return errorHandler.redirectToError(req, res, err);
         });
     },
     getRegister: function getRegister(req, res, next) {
         return res.render(CONTROLLER_NAME + '/register');
     },
-    postRegister: function postRegister(req, res, next) {
+    postRegister: function postRegister(req, res) {
         var newUserData = req.body;
-        data.users.getUser(newUserData, function (err) {
-            if (err) {
-                req.session.errorMessage = err;
-                res.redirect('/register');
-            }
-        }, function (user) {
+        data.userService.getUser(newUserData).then(function (user) {
             if (user) {
-                req.session.errorMessage = 'This username/email address is taken, please try another one!';
-                res.redirect('/register');
+                errorHandler.redirectToRoute(req, res, 'This username/email address is taken, please try another one!', '/register');
             } else if (newUserData.password != newUserData.confirmPassword) {
-                req.session.errorMessage = 'Passwords do not match!';
-                res.redirect('/register');
+                errorHandler.redirectToRoute(req, res, 'Passwords do not match!', '/register');
             } else {
                 newUserData.salt = encryption.generateSalt();
                 newUserData.hashPass = encryption.generateHashedText(newUserData.salt, newUserData.password);
-                data.users.addUser(newUserData, function (err) {
-                    if (err) {
-                        req.session.errorMessage = err.message;
-                        res.redirect('/register');
-                    }
-                }, function (user) {
+                data.userService.add(newUserData).then(function (user) {
                     req.logIn(user, function (err) {
                         if (err) {
-                            req.session.errorMessage = 'A terrible error has occurred! ' + err.toString();
-                            res.redirect('/error');
+                            errorHandler.redirectToError(req, res, 'A terrible error has occurred! ' + err.toString());
                         }
                         res.redirect('/');
                     });
+                }, function (err) {
+                    return errorHandler.redirectToRoute(req, res, err.message, '/register');
                 });
             }
+        }, function (err) {
+            return errorHandler.redirectToRoute(req, res, err, '/register');
         });
     },
     getLogin: function getLogin(req, res) {

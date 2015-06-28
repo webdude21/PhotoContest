@@ -3,7 +3,8 @@ var cloudinary = require('cloudinary'),
     q = require('q'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
-    CONTROLLER_NAME = 'contestants';
+    CONTROLLER_NAME = 'contestants',
+    errorHandler = require('../utilities/error-handler');
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
@@ -26,21 +27,19 @@ module.exports = {
         return data.contestantsService
             .getBy(req.params.id)
             .then(contestant => res.render(CONTROLLER_NAME + '/contestant', contestant),
-                err => res.redirect('/not-found'));
+            () => errorHandler.redirectToNotFound(res));
     },
     getAllApproved: function (req, res) {
         var deferred = q.defer(),
             queryObject = req.query;
 
-        data.contestantsService.getQuery(err => {
-            req.session.errorMessage = err;
-            res.redirect('/not-found');
-            deferred.reject();
-        }, contestants => {
-            processContestants(contestants);
-            res.render(CONTROLLER_NAME + '/all', contestants);
-            deferred.resolve(contestants);
-        }, queryObject, globalConstants.PAGE_SIZE);
+        data.contestantsService
+            .getQuery(() => errorHandler.redirectToNotFound(res, deferred),
+                contestants => {
+                processContestants(contestants);
+                res.render(CONTROLLER_NAME + '/all', contestants);
+                deferred.resolve(contestants);
+            }, queryObject, globalConstants.PAGE_SIZE);
 
         return deferred.promise;
     },
@@ -63,8 +62,7 @@ module.exports = {
                 };
                 file.pipe(cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
             } else {
-                req.session.errorMessage = globalConstants.INVALID_IMAGE_ERROR;
-                res.redirect("/contestants/register");
+                errorHandler.redirectToRoute(req, res, globalConstants.INVALID_IMAGE_ERROR, null, '/contestants/register');
             }
         });
 
