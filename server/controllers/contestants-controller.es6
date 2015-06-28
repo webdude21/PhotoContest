@@ -32,11 +32,11 @@ module.exports = {
         var deferred = q.defer(),
             queryObject = req.query;
 
-        data.contestantsService.getQuery(function (err) {
+        data.contestantsService.getQuery((err) => {
             req.session.errorMessage = err;
             res.redirect('/not-found');
             deferred.reject();
-        }, function (contestants) {
+        }, (contestants) => {
             processContestants(contestants);
             res.render(CONTROLLER_NAME + '/all', contestants);
             deferred.resolve(contestants);

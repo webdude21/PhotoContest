@@ -65,19 +65,6 @@ module.exports = {
     getAllContestants: function (req, res, next) {
         var queryObject = req.query;
 
-        if (!queryObject.pager) {
-            queryObject.pager = {
-                currentPage: +queryObject.page || 1
-            };
-        }
-
-        if (!queryObject.sort) {
-            queryObject.sort = {
-                columnName: "registerDate",
-                order: "desc"
-            };
-        }
-
         data.contestantsService.getAdminQuery((err) => {
             req.session.errorMessage = err;
             res.redirect('/not-found');
