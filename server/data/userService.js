@@ -8,7 +8,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var MongooseRepository = require("./MongooseRepository");
+var MongooseRepository = require("./MongooseRepository"),
+    q = require("q");
 
 var UserService = (function (_MongooseRepository) {
     function UserService() {
@@ -28,6 +29,29 @@ var UserService = (function (_MongooseRepository) {
         key: "getUser",
         value: function getUser(username) {
             return MongooseRepository.wrapQueryInPromise(this.model.findOne({ username: username }));
+        }
+    }, {
+        key: "deleteAllNonAdmins",
+        value: function deleteAllNonAdmins() {
+            return MongooseRepository.wrapQueryInPromise(this.model.remove({ roles: [] }));
+        }
+    }, {
+        key: "findOrCreate",
+        value: function findOrCreate(userData, resolve) {
+            User.findOne({ username: userData.username }).exec(function (err, user) {
+                if (err) {
+                    resolve(err, false);
+                }
+
+                if (user) {
+                    resolve(null, user);
+                } else {
+                    var newUser = new User(userData);
+                    newUser.save(function () {
+                        resolve(null, newUser);
+                    });
+                }
+            });
         }
     }]);
 

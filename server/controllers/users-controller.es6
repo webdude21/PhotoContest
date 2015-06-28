@@ -34,8 +34,9 @@ module.exports = {
     getRegister: (req, res, next) => res.render(CONTROLLER_NAME + '/register'),
     postRegister: function (req, res) {
         var newUserData = req.body;
+
         data.userService
-            .getUser(newUserData)
+            .getUser(newUserData.username)
             .then(user => {
                 if (user) {
                     errorHandler.redirectToRoute(req, res,
@@ -56,7 +57,7 @@ module.exports = {
                                 }
                                 res.redirect('/');
                             });
-                        }, err => errorHandler.redirectToRoute(req, res, err.message, '/register'));
+                        }, err => errorHandler.redirectToRoute(req, res, err, '/register'));
                 }
             }, err => errorHandler.redirectToRoute(req, res, err, '/register'));
     },

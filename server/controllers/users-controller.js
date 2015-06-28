@@ -40,7 +40,8 @@ module.exports = {
     },
     postRegister: function postRegister(req, res) {
         var newUserData = req.body;
-        data.userService.getUser(newUserData).then(function (user) {
+
+        data.userService.getUser(newUserData.username).then(function (user) {
             if (user) {
                 errorHandler.redirectToRoute(req, res, 'This username/email address is taken, please try another one!', '/register');
             } else if (newUserData.password != newUserData.confirmPassword) {
@@ -56,7 +57,7 @@ module.exports = {
                         res.redirect('/');
                     });
                 }, function (err) {
-                    return errorHandler.redirectToRoute(req, res, err.message, '/register');
+                    return errorHandler.redirectToRoute(req, res, err, '/register');
                 });
             }
         }, function (err) {

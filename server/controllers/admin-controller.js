@@ -45,12 +45,12 @@ module.exports = {
     },
     postResetApplication: function postResetApplication(req, res) {
         data.contestantsService.deleteAll().then(function () {
-            data.users.deleteAllNonAdmins().then(function (err) {
-                return errorHandler.redirectToError(req, res, 'Could not reset the application!' + err);
-            }, function () {
+            data.users.deleteAllNonAdmins().then(function () {
                 return cloudinary.api.delete_all_resources(function () {
                     return res.redirect('/');
                 });
+            }, function (err) {
+                return errorHandler.redirectToError(req, res, 'Could not reset the application!' + err);
             });
         }, function (err) {
             return errorHandler.redirectToError(req, res, 'Could not reset the application!' + err);

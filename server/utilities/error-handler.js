@@ -11,13 +11,21 @@ module.exports = {
         this.redirectToRoute(req, res, err, globalConstants.ERROR_ROUTE, deferred);
     },
     redirectToRoute: function redirectToRoute(req, res, err, route, deferred) {
+        var messageToDisplay = 'No message specified';
+
         if (!req || !res) {
             throw new Error('You should provide the request & response objects');
         }
 
         this.rejectPromise(deferred, err);
 
-        req.session.errorMessage = err;
+        if (typeof err === 'string') {
+            messageToDisplay = err;
+        } else if (err && typeof err.message === 'string') {
+            messageToDisplay = err.message;
+        }
+
+        req.session.errorMessage = messageToDisplay;
         res.redirect(route || globalConstants.ERROR_ROUTE);
     },
     rejectPromise: function rejectPromise(deferred, err) {
