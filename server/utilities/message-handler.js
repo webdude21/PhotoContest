@@ -7,7 +7,7 @@ module.exports = function (req, res, next, app) {
         app.locals.errorMessage = undefined;
     }
 
-    if (req.session.successMessage){
+    if (req.session.successMessage) {
         var successMessage = req.session.successMessage;
         req.session.successMessage = undefined;
         app.locals.successMessage = successMessage;

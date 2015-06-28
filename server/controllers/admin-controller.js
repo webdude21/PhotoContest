@@ -2,20 +2,20 @@
 
 var cloudinary = require('cloudinary'),
     data = require('../data'),
-    globalConstants = require('./../config/global-constants.js'),
+    globalConstants = require('../config/global-constants.js'),
     CONTROLLER_NAME = 'admin';
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
-    getById: function getById(req, res, next) {
+    getById: function getById(req, res) {
         data.contestantsService.getBy(req.params.id).then(function (contestant) {
             return res.render(CONTROLLER_NAME + '/contestants/contestant', contestant);
         }, function (err) {
-            return res.redirect('/not-found');
+            return res.redirect(globalConstants);
         });
     },
-    toggleApprovalById: function toggleApprovalById(req, res, next) {
+    toggleApprovalById: function toggleApprovalById(req, res) {
         data.contestantsService.getBy(req.params.id).then(function (contestant) {
             contestant.approved = !contestant.approved;
             contestant.save();
@@ -42,7 +42,7 @@ module.exports = {
             }
         });
     },
-    postResetApplication: function postResetApplication(req, res, next) {
+    postResetApplication: function postResetApplication(req, res) {
         data.contestantsService.deleteAll().then(function () {
             data.users.deleteAllNonAdmins().then(function (err) {
                 req.session.errorMessage = 'Could not reset the application!' + err;
@@ -57,7 +57,7 @@ module.exports = {
             res.redirect('/error');
         });
     },
-    postResetContest: function postResetContest(req, res, next) {
+    postResetContest: function postResetContest(req, res) {
         data.contestantsService.deleteAll().then(function () {
             return cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME, function () {
                 return res.redirect('/');
@@ -67,7 +67,7 @@ module.exports = {
             res.redirect('/error');
         });
     },
-    getAllContestants: function getAllContestants(req, res, next) {
+    getAllContestants: function getAllContestants(req, res) {
         var queryObject = req.query;
 
         data.contestantsService.getAdminQuery(function (err) {

@@ -1,25 +1,26 @@
 var cloudinary = require('cloudinary'),
     data = require('../data'),
-    globalConstants = require('./../config/global-constants.js'),
-    CONTROLLER_NAME = 'admin';
+    globalConstants = require('../config/global-constants.js'),
+    CONTROLLER_NAME = 'admin',
+    errorHandler = require('../utilities/error-handler');
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
-    getById: function (req, res, next) {
+    getById: function (req, res) {
         data.contestantsService
             .getBy(req.params.id)
             .then(contestant => res.render(CONTROLLER_NAME + '/contestants/contestant', contestant),
-                err => res.redirect('/not-found'));
+            () => errorHandler.redirectToNotFound(res));
     },
-    toggleApprovalById: function (req, res, next) {
+    toggleApprovalById: function (req, res) {
         data.contestantsService
             .getBy(req.params.id)
             .then(contestant => {
                 contestant.approved = !contestant.approved;
                 contestant.save();
                 res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
-            }, () => res.redirect('/not-found'));
+            }, () => errorHandler.redirectToNotFound(res));
     },
     getResetContest: (req, res, next) => res.render("confirm", {
         message: {
@@ -37,42 +38,34 @@ module.exports = {
             buttonText: "Рестарт"
         }
     }),
-    postResetApplication: function (req, res, next) {
+    postResetApplication: function (req, res) {
         data.contestantsService
             .deleteAll()
             .then(() => {
                 data.users
                     .deleteAllNonAdmins()
-                    .then(err => {
-                        req.session.errorMessage = "Could not reset the application!" + err;
-                        res.redirect('/error');
-                    }, () => cloudinary.api.delete_all_resources(() => res.redirect('/')));
-            }, err => {
-                req.session.errorMessage = "Could not reset the application!" + err;
-                res.redirect('/error');
-            });
+                    .then(err => errorHandler.redirectToError(req, res, "Could not reset the application!" + err),
+                    () => cloudinary.api.delete_all_resources(() => res.redirect('/')));
+            }, err => errorHandler.redirectToError(req, res, "Could not reset the application!" + err));
     },
-    postResetContest: function (req, res, next) {
+    postResetContest: function (req, res) {
         data.contestantsService
             .deleteAll()
             .then(() => cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
-                () => res.redirect('/')), err => {
-                req.session.errorMessage = "Could not reset the contest!" + err;
-                res.redirect('/error');
-            });
+                () => res.redirect('/')),
+                err => errorHandler.redirectToError(req, res, "Could not reset the contest!" + err));
     },
-    getAllContestants: function (req, res, next) {
+    getAllContestants: function (req, res) {
         var queryObject = req.query;
 
-        data.contestantsService.getAdminQuery((err) => {
-            req.session.errorMessage = err;
-            res.redirect('/not-found');
-        }, contestants => {
-            contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
-                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
-            }));
+        data.contestantsService
+            .getAdminQuery(err => errorHandler.redirectToError(req, res, "Could not reset the application!" + err),
+                contestants => {
+                contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
+                    picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
+                }));
 
-            res.render(CONTROLLER_NAME + '/contestants/all', contestants);
-        }, queryObject, globalConstants.PAGE_SIZE);
+                res.render(CONTROLLER_NAME + '/contestants/all', contestants);
+            }, queryObject, globalConstants.PAGE_SIZE);
     }
 };

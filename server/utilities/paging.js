@@ -14,6 +14,8 @@ module.exports = {
         addFilters(gridRequest.columns, countQuery);
 
         countQuery.count({}, function (err, totalEntryCount) {
+            var currentPage;
+
             if (err) {
                 console.log('Database error: ' + err);
             }
@@ -21,10 +23,7 @@ module.exports = {
             gridRequest.pager.totalPages = calculateTotalPages(totalEntryCount, pageSize);
             gridRequest.pager.currentPage = gridRequest.pager.currentPage > gridRequest.pager.totalPages ? gridRequest.pager.totalPages : gridRequest.pager.currentPage;
 
-            var currentPage = gridRequest.pager.currentPage;
-            if (currentPage < 1) {
-                currentPage = 1;
-            }
+            currentPage = gridRequest.pager.currentPage < 1 ? 1 : gridRequest.pager.currentPage;
 
             var sortObject = {};
             sortObject[gridRequest.sort.columnName] = gridRequest.sort.order;

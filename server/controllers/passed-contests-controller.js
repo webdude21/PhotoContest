@@ -28,7 +28,7 @@ function _retrieveContest(req, res, deferred) {
         } else {
             deferredContest.resolve(result);
         }
-    }, function (err) {
+    }, function () {
         _showError(req, res, deferred, NO_SUCH_CONTEST);
         deferredContest.reject('Failed to get the contest data');
     });
