@@ -124,7 +124,7 @@ module.exports = {
                 res.render(CONTROLLER_NAME + '/all', { data: contests });
                 deferred.resolve();
             }
-        }, function (err) {
+        }, function () {
             res.redirect('/not-found');
             deferred.reject();
         });
@@ -140,7 +140,7 @@ module.exports = {
                 res.render(CONTROLLER_NAME + '/edit', { data: contests });
                 deferred.resolve();
             }
-        }, function (err) {
+        }, function () {
             res.redirect('/not-found');
             deferred.reject();
         });
@@ -157,7 +157,7 @@ module.exports = {
                 res.render('admin/contest/detail', contest);
                 deferred.resolve();
             }
-        }, function (err) {
+        }, function () {
             res.redirect('/not-found');
             deferred.reject();
         });

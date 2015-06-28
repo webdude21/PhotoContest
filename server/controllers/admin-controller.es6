@@ -43,11 +43,11 @@ module.exports = {
             .then(() => {
                 data.users
                     .deleteAllNonAdmins()
-                    .then((err) => {
+                    .then(err => {
                         req.session.errorMessage = "Could not reset the application!" + err;
                         res.redirect('/error');
                     }, () => cloudinary.api.delete_all_resources(() => res.redirect('/')));
-            }, (err) => {
+            }, err => {
                 req.session.errorMessage = "Could not reset the application!" + err;
                 res.redirect('/error');
             });
@@ -56,8 +56,7 @@ module.exports = {
         data.contestantsService
             .deleteAll()
             .then(() => cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
-                () => res.redirect('/')),
-            (err) => {
+                () => res.redirect('/')), err => {
                 req.session.errorMessage = "Could not reset the contest!" + err;
                 res.redirect('/error');
             });
@@ -68,7 +67,7 @@ module.exports = {
         data.contestantsService.getAdminQuery((err) => {
             req.session.errorMessage = err;
             res.redirect('/not-found');
-        }, (contestants) => {
+        }, contestants => {
             contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
                 picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
             }));

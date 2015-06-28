@@ -41,9 +41,7 @@ module.exports = {
     },
     buildQueryObject: function buildQueryObject(baseQueryObject) {
         var queryObject = baseQueryObject;
-
         queryObject.columns = [{ name: 'approved', label: 'Text', filter: true, filterable: true, sortable: true, method: 'equals' }];
-
         if (!queryObject.pager) {
             queryObject.pager = {
                 currentPage: +queryObject.page || 1

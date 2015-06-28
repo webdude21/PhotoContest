@@ -11,7 +11,7 @@ var processContestants = function (contestants) {
     contestants.data
         .forEach(contestant => contestant.pictures.
             forEach(picture => {
-                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true})
+                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
             }));
 };
 
@@ -32,11 +32,11 @@ module.exports = {
         var deferred = q.defer(),
             queryObject = req.query;
 
-        data.contestantsService.getQuery((err) => {
+        data.contestantsService.getQuery(err => {
             req.session.errorMessage = err;
             res.redirect('/not-found');
             deferred.reject();
-        }, (contestants) => {
+        }, contestants => {
             processContestants(contestants);
             res.render(CONTROLLER_NAME + '/all', contestants);
             deferred.resolve(contestants);

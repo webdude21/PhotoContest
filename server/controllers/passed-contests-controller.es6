@@ -85,7 +85,7 @@ module.exports = {
     postAddWinner: function (req, res, next) {
         var deferred = q.defer();
 
-        _retrieveContest(req, res, deferred).then((contest) => {
+        _retrieveContest(req, res, deferred).then(contest => {
             _addWinner(req, globalConstants.PERMITTED_FORMATS, res, deferred, contest);
         });
 
@@ -112,7 +112,7 @@ module.exports = {
                         res.redirect(EDIT_CONTEST_ROUTE);
                         deferred.resolve();
                     });
-            }, (err) => {
+            }, err => {
                 _showError(req, res, deferred, err);
             });
 
@@ -122,7 +122,7 @@ module.exports = {
         var deferred = q.defer();
         data.contestService
             .getAllVisible()
-            .then((contests) => {
+            .then(contests => {
                 if (contests === null) {
                     res.redirect('/not-found');
                     deferred.reject();
@@ -130,7 +130,7 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/all', {data: contests});
                     deferred.resolve();
                 }
-            }, (err) => {
+            }, () => {
                 res.redirect('/not-found');
                 deferred.reject();
             });
@@ -140,7 +140,7 @@ module.exports = {
         var deferred = q.defer();
         data.contestService
             .getAll()
-            .then((contests) => {
+            .then(contests => {
                 if (contests === null) {
                     res.redirect('/not-found');
                     deferred.reject();
@@ -148,7 +148,7 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/edit', {data: contests});
                     deferred.resolve();
                 }
-            }, (err) => {
+            }, () => {
                 res.redirect('/not-found');
                 deferred.reject();
             });
@@ -158,7 +158,7 @@ module.exports = {
         var deferred = q.defer();
         data.contestService
             .getBy(req.params.id)
-            .then((contest) => {
+            .then(contest => {
                 if (contest === null) {
                     res.redirect('/not-found');
                     deferred.reject();
@@ -167,7 +167,7 @@ module.exports = {
                     res.render("admin/contest/detail", contest);
                     deferred.resolve();
                 }
-            }, (err) => {
+            }, () => {
                 res.redirect('/not-found');
                 deferred.reject();
             });
@@ -176,7 +176,7 @@ module.exports = {
     toggleVisibleById: function (req, res, next) {
         data.contestService
             .getBy(req.params.id)
-            .then((contest) => {
+            .then(contest => {
                 contest.visible = !contest.visible;
                 contest.save();
                 res.redirect(EDIT_CONTEST_ROUTE + contest.id);
@@ -200,7 +200,7 @@ module.exports = {
         var deferred = q.defer();
         data.contestService
             .getBy(req.params.id)
-            .then((contest) => {
+            .then(contest => {
                 if (contest === null) {
                     res.redirect('/not-found');
                     deferred.reject();
@@ -209,7 +209,7 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/details', contest);
                     deferred.resolve();
                 }
-            }, (err) => {
+            }, err => {
                 req.session.errorMessage = err;
                 res.redirect('/not-found');
                 deferred.reject();
