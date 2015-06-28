@@ -15,7 +15,7 @@ module.exports = {
     toggleApprovalById: function (req, res, next) {
         data.contestantsService
             .getBy(req.params.id)
-            .then((contestant) => {
+            .then(contestant => {
                 contestant.approved = !contestant.approved;
                 contestant.save();
                 res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);

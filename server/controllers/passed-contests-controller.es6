@@ -21,14 +21,14 @@ function _retrieveContest(req, res, deferred) {
 
     data.contestService
         .getBy(req.params.id)
-        .then((result) => {
+        .then(result => {
             if (result === null) {
                 _showError(req, res, deferred, NO_SUCH_CONTEST);
                 deferredContest.reject("No such contest");
             } else {
                 deferredContest.resolve(result);
             }
-        }, (err) => {
+        }, () => {
             _showError(req, res, deferred, NO_SUCH_CONTEST);
             deferredContest.reject("Failed to get the contest data");
         });
@@ -50,7 +50,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
 
     req.busboy.on('file', function (fieldname, file, filename) {
         if (helpers.fileHasValidExtension(filename, permittedFormats)) {
-            var stream = cloudinary.uploader.upload_stream(function (result) {
+            var stream = cloudinary.uploader.upload_stream((result) => {
                 newWinner.pictures.push({
                     serviceId: result.public_id,
                     fileName: filename,
@@ -65,11 +65,11 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
         }
     });
 
-    req.busboy.on('field', function (fieldname, val) {
+    req.busboy.on('field', (fieldname, val) => {
         newWinner[fieldname] = val;
     });
 
-    req.busboy.on('finish', function () {
+    req.busboy.on('finish', () => {
         req.session.successMessage = "Участника беше успешно добавен!";
         res.redirect(EDIT_CONTEST_ROUTE + req.params.id);
         deferred.resolve();

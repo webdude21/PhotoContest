@@ -25,7 +25,7 @@ module.exports = {
     getById: function (req, res) {
         return data.contestantsService
             .getBy(req.params.id)
-            .then((contestant) => res.render(CONTROLLER_NAME + '/contestant', contestant),
+            .then(contestant => res.render(CONTROLLER_NAME + '/contestant', contestant),
                 err => res.redirect('/not-found'));
     },
     getAllApproved: function (req, res) {
