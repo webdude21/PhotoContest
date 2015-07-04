@@ -29,7 +29,6 @@ module.exports = function () {
         data.userService.findOrCreate(fbUser, function (err, user) {
             if (err) {
                 console.log('Error loading user: ' + err);
-                return;
             }
 
             return user ? done(err, user) : done(null, false);
@@ -39,7 +38,6 @@ module.exports = function () {
         User.findOne({ username: username }).exec(function (err, user) {
             if (err) {
                 console.log('Error loading user: ' + err);
-                return;
             }
 
             return user && user.authenticate(password) ? done(null, user) : done(null, false);
@@ -54,7 +52,6 @@ module.exports = function () {
         User.findById(id).exec(function (err, user) {
             if (err) {
                 console.log('Error loading user: ' + err);
-                return;
             }
 
             return user ? done(null, user) : done(null, false);

@@ -11,40 +11,40 @@ var MongooseRepository = (function () {
     function MongooseRepository(mongooseModel) {
         _classCallCheck(this, MongooseRepository);
 
-        this.model = mongoose.model(mongooseModel);
+        this.Model = mongoose.model(mongooseModel);
     }
 
     _createClass(MongooseRepository, [{
         key: 'getBy',
         value: function getBy(id) {
-            return MongooseRepository.wrapQueryInPromise(this.model.findById(id));
+            return MongooseRepository.wrapQueryInPromise(this.Model.findById(id));
         }
     }, {
         key: 'getAll',
         value: function getAll() {
-            return MongooseRepository.wrapQueryInPromise(this.model.find());
+            return MongooseRepository.wrapQueryInPromise(this.Model.find());
         }
     }, {
         key: 'deleteBy',
         value: function deleteBy(id) {
-            return MongooseRepository.wrapQueryInPromise(this.model.findByIdAndRemove(id));
+            return MongooseRepository.wrapQueryInPromise(this.Model.findByIdAndRemove(id));
         }
     }, {
         key: 'getCount',
         value: function getCount() {
-            return MongooseRepository.wrapQueryInPromise(this.model.count());
+            return MongooseRepository.wrapQueryInPromise(this.Model.count());
         }
     }, {
         key: 'add',
         value: function add(entity) {
-            var dbEntity = new this.model(entity);
+            var dbEntity = new this.Model(entity);
             dbEntity.save();
             return dbEntity;
         }
     }, {
         key: 'deleteAll',
         value: function deleteAll() {
-            return MongooseRepository.wrapQueryInPromise(this.model.remove({}));
+            return MongooseRepository.wrapQueryInPromise(this.Model.remove({}));
         }
     }], [{
         key: 'wrapQueryInPromise',

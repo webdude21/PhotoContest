@@ -82,7 +82,7 @@ module.exports = {
         deferred.resolve();
         return deferred.promise;
     },
-    postAddWinner: function (req, res, next) {
+    postAddWinner: function (req, res) {
         var deferred = q.defer();
 
         _retrieveContest(req, res, deferred).then(contest => {
@@ -91,7 +91,7 @@ module.exports = {
 
         return deferred.promise;
     },
-    getDeleteContestConfirm: function (req, res, next) {
+    getDeleteContestConfirm: function (req, res) {
         res.render("confirm", {
             message: {
                 title: "Изтриване на конкурс",
@@ -173,14 +173,14 @@ module.exports = {
             });
         return deferred.promise;
     },
-    toggleVisibleById: function (req, res, next) {
+    toggleVisibleById: function (req, res) {
         data.contestService
             .getBy(req.params.id)
             .then(contest => {
                 contest.visible = !contest.visible;
                 contest.save();
                 res.redirect(EDIT_CONTEST_ROUTE + contest.id);
-            }, err => res.redirect('/not-found'));
+            }, () => res.redirect('/not-found'));
     },
     getRegister: function (req, res) {
         var deferred = q.defer();

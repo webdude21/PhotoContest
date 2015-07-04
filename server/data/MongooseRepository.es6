@@ -3,7 +3,7 @@ var q = require('q'),
 
 class MongooseRepository {
     constructor(mongooseModel) {
-        this.model = mongoose.model(mongooseModel);
+        this.Model = mongoose.model(mongooseModel);
     }
 
     static wrapQueryInPromise(query) {
@@ -21,29 +21,29 @@ class MongooseRepository {
     }
 
     getBy(id) {
-        return MongooseRepository.wrapQueryInPromise(this.model.findById(id));
+        return MongooseRepository.wrapQueryInPromise(this.Model.findById(id));
     }
 
     getAll() {
-        return MongooseRepository.wrapQueryInPromise(this.model.find());
+        return MongooseRepository.wrapQueryInPromise(this.Model.find());
     }
 
     deleteBy(id) {
-        return MongooseRepository.wrapQueryInPromise(this.model.findByIdAndRemove(id));
+        return MongooseRepository.wrapQueryInPromise(this.Model.findByIdAndRemove(id));
     }
 
     getCount() {
-        return MongooseRepository.wrapQueryInPromise(this.model.count());
+        return MongooseRepository.wrapQueryInPromise(this.Model.count());
     }
 
     add(entity) {
-        var dbEntity = new this.model(entity);
+        var dbEntity = new this.Model(entity);
         dbEntity.save();
         return dbEntity;
     }
 
     deleteAll() {
-        return MongooseRepository.wrapQueryInPromise(this.model.remove({}));
+        return MongooseRepository.wrapQueryInPromise(this.Model.remove({}));
     }
 }
 

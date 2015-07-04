@@ -8,12 +8,12 @@ module.exports = function (config) {
 
     database.once('open', function (err) {
         if (err) {
-            console.log('Cannot connect to the database ...: ' + err);
+            console.error('Cannot connect to the database ...: ' + err);
         }
     });
 
     database.on('error', function (err) {
-        console.log('Database error: ' + err);
+        console.error('Database error: ' + err);
     });
 
     models.User.seedInitialUsers();
