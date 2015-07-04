@@ -1,4 +1,5 @@
-(function () {
+(function ($, document) {
+    'use strict';
     $(document).ready(function () {
         var $galleryContainer = $('#participants');
         $galleryContainer.masonry({
@@ -9,4 +10,4 @@
             $galleryContainer.masonry();
         });
     });
-}());
+}(window.$, document));

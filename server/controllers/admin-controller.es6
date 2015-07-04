@@ -22,7 +22,7 @@ module.exports = {
                 res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
             }, () => errorHandler.redirectToNotFound(res));
     },
-    getResetContest: (req, res, next) => res.render('confirm', {
+    getResetContest: (req, res) => res.render('confirm', {
         message: {
             title: 'Рестартиране на приложението',
             body: 'Това ще изтрие цялата информация в приложението ' +
@@ -30,7 +30,7 @@ module.exports = {
             buttonText: 'Рестарт'
         }
     }),
-    getResetApplication: (req, res, next) => res.render('confirm', {
+    getResetApplication: (req, res) => res.render('confirm', {
         message: {
             title: 'Рестартиране на конкурса',
             body: 'Това ще изтрие цялата информация в приложението ' +
@@ -38,7 +38,7 @@ module.exports = {
             buttonText: 'Рестарт'
         }
     }),
-    postResetApplication: function (req, res) {
+    postResetApplication: (req, res) => {
         data.contestantsService
             .deleteAll()
             .then(() => {
@@ -48,14 +48,14 @@ module.exports = {
                         err => errorHandler.redirectToError(req, res, 'Could not reset the application!' + err));
             }, err => errorHandler.redirectToError(req, res, 'Could not reset the application!' + err));
     },
-    postResetContest: function (req, res) {
+    postResetContest: (req, res) => {
         data.contestantsService
             .deleteAll()
             .then(() => cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
                 () => res.redirect('/')),
                 err => errorHandler.redirectToError(req, res, 'Could not reset the contest!' + err));
     },
-    getAllContestants: function (req, res) {
+    getAllContestants: (req, res) => {
         var queryObject = req.query;
 
         data.contestantsService

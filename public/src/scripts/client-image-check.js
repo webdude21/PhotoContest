@@ -1,4 +1,6 @@
-(function imageVerifier() {
+(function imageVerifier($, document) {
+    'use strict';
+
     var INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
             'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
         PERMITTED_FORMATS = ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
@@ -13,6 +15,7 @@
     function verifyImage() {
         var fileName = $uploadInput.val();
         if (!_fileHasValidExtension(fileName, PERMITTED_FORMATS)) {
+            /*eslint no-alert: 0*/
             alert(INVALID_IMAGE_ERROR);
             $uploadInput.val('');
             return false;
@@ -24,4 +27,4 @@
     $(document).ready(function () {
         $uploadInput.on('change', verifyImage);
     });
-}());
+}(window.$, document));

@@ -25,7 +25,7 @@ module.exports = {
             return errorHandler.redirectToNotFound(res);
         });
     },
-    getResetContest: function getResetContest(req, res, next) {
+    getResetContest: function getResetContest(req, res) {
         return res.render('confirm', {
             message: {
                 title: 'Рестартиране на приложението',
@@ -34,7 +34,7 @@ module.exports = {
             }
         });
     },
-    getResetApplication: function getResetApplication(req, res, next) {
+    getResetApplication: function getResetApplication(req, res) {
         return res.render('confirm', {
             message: {
                 title: 'Рестартиране на конкурса',
