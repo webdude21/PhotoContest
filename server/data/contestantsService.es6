@@ -8,19 +8,19 @@ class ContestantsService extends MongooseRepository {
     }
 
     getAllVisible() {
-        return MongooseRepository.wrapQueryInPromise(this.model.find().populate('pictures'));
+        return MongooseRepository.wrapQueryInPromise(this.Model.find().populate('pictures'));
     }
 
     getAllApproved() {
-        return MongooseRepository.wrapQueryInPromise(this.model.find().where('approved', true).populate('pictures'));
+        return MongooseRepository.wrapQueryInPromise(this.Model.find().where('approved', true).populate('pictures'));
     }
 
     getQuery(err, success, baseQueryObject, pageSize) {
-        paging.populateResponse(err, success, paging.buildQueryObject(baseQueryObject), this.model, 'pictures', pageSize);
+        paging.populateResponse(err, success, paging.buildQueryObject(baseQueryObject), this.Model, 'pictures', pageSize);
     }
 
     getAdminQuery(err, success, baseQueryObject, pageSize) {
-        paging.populateResponse(err, success, paging.buildAdminQueryObject(baseQueryObject), this.model, 'pictures', pageSize);
+        paging.populateResponse(err, success, paging.buildAdminQueryObject(baseQueryObject), this.Model, 'pictures', pageSize);
     }
 }
 

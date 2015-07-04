@@ -23,7 +23,7 @@ var ContestService = (function (_MongooseRepository) {
     _createClass(ContestService, [{
         key: 'getAllVisible',
         value: function getAllVisible() {
-            return MongooseRepository.wrapQueryInPromise(this.model.find({ visible: true }));
+            return MongooseRepository.wrapQueryInPromise(this.Model.find({ visible: true }));
         }
     }]);
 

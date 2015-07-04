@@ -24,17 +24,17 @@ var UserService = (function (_MongooseRepository) {
     _createClass(UserService, [{
         key: "getAllVisible",
         value: function getAllVisible() {
-            return MongooseRepository.wrapQueryInPromise(this.model.find({ visible: true }));
+            return MongooseRepository.wrapQueryInPromise(this.Model.find({ visible: true }));
         }
     }, {
         key: "getUser",
         value: function getUser(username) {
-            return MongooseRepository.wrapQueryInPromise(this.model.findOne({ username: username }));
+            return MongooseRepository.wrapQueryInPromise(this.Model.findOne({ username: username }));
         }
     }, {
         key: "deleteAllNonAdmins",
         value: function deleteAllNonAdmins() {
-            return MongooseRepository.wrapQueryInPromise(this.model.remove({ roles: [] }));
+            return MongooseRepository.wrapQueryInPromise(this.Model.remove({ roles: [] }));
         }
     }, {
         key: "findOrCreate",

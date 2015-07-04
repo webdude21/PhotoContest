@@ -24,22 +24,22 @@ var ContestantsService = (function (_MongooseRepository) {
     _createClass(ContestantsService, [{
         key: 'getAllVisible',
         value: function getAllVisible() {
-            return MongooseRepository.wrapQueryInPromise(this.model.find().populate('pictures'));
+            return MongooseRepository.wrapQueryInPromise(this.Model.find().populate('pictures'));
         }
     }, {
         key: 'getAllApproved',
         value: function getAllApproved() {
-            return MongooseRepository.wrapQueryInPromise(this.model.find().where('approved', true).populate('pictures'));
+            return MongooseRepository.wrapQueryInPromise(this.Model.find().where('approved', true).populate('pictures'));
         }
     }, {
         key: 'getQuery',
         value: function getQuery(err, success, baseQueryObject, pageSize) {
-            paging.populateResponse(err, success, paging.buildQueryObject(baseQueryObject), this.model, 'pictures', pageSize);
+            paging.populateResponse(err, success, paging.buildQueryObject(baseQueryObject), this.Model, 'pictures', pageSize);
         }
     }, {
         key: 'getAdminQuery',
         value: function getAdminQuery(err, success, baseQueryObject, pageSize) {
-            paging.populateResponse(err, success, paging.buildAdminQueryObject(baseQueryObject), this.model, 'pictures', pageSize);
+            paging.populateResponse(err, success, paging.buildAdminQueryObject(baseQueryObject), this.Model, 'pictures', pageSize);
         }
     }]);
 
