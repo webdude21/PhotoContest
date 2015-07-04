@@ -1,9 +1,10 @@
-var MongooseRepository = require("./MongooseRepository"),
+/*eslint-disable */
+var MongooseRepository = require('./MongooseRepository'),
     paging = require('../utilities/paging');
 
 class ContestantsService extends MongooseRepository {
     constructor() {
-        super("Contestant");
+        super('Contestant');
     }
 
     getAllVisible() {

@@ -1,3 +1,4 @@
+'use strict';
 module.exports = function (req, res, next, app) {
     if (req.session.errorMessage) {
         var msg = req.session.errorMessage;

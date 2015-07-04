@@ -1,3 +1,4 @@
+/*eslint-disable */
 var MongooseRepository = require("./MongooseRepository"),
     q = require('q');
 

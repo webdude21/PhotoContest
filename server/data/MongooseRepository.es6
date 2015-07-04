@@ -1,3 +1,4 @@
+/*eslint-disable */
 var q = require('q'),
     mongoose = require('mongoose');
 

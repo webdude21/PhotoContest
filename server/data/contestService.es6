@@ -1,8 +1,9 @@
-var MongooseRepository = require("./MongooseRepository");
+/*eslint-disable */
+var MongooseRepository = require('./MongooseRepository');
 
 class ContestService extends MongooseRepository {
     constructor() {
-        super("ContestModel");
+        super('ContestModel');
     }
 
     getAllVisible() {

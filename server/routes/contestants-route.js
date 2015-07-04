@@ -1,5 +1,6 @@
-var auth = require('../config/auth');
-var controllers = require('../controllers');
+'use strict';
+var auth = require('../config/auth'),
+    controllers = require('../controllers');
 
 module.exports = function (app) {
     app.route('/contestants/register')

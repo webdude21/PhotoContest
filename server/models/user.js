@@ -1,6 +1,8 @@
-var mongoose = require('mongoose');
-var encryption = require('../utilities/encryption');
-var roles = require('../config/roles');
+'use strict';
+/*eslint-disable */
+var mongoose = require('mongoose'),
+    encryption = require('../utilities/encryption'),
+    roles = require('../config/roles');
 
 var userSchema = mongoose.Schema({
     username: {type: String, require: '{PATH} is required', unique: true},

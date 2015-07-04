@@ -1,6 +1,7 @@
-var auth = require('../config/auth');
-var controllers = require('../controllers');
-var roles = require('../config/roles');
+'use strict';
+var auth = require('../config/auth'),
+    roles = require('../config/roles'),
+    controllers = require('../controllers');
 
 module.exports = function (app) {
     app.route('/admin/reset-contest')
