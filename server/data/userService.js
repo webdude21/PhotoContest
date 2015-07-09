@@ -39,19 +39,17 @@ var UserService = (function (_MongooseRepository) {
     }, {
         key: "findOrCreate",
         value: function findOrCreate(userData, resolve) {
+            var _this = this;
+
             User.findOne({ username: userData.username }).exec(function (err, user) {
                 if (err) {
                     resolve(err, false);
                 }
 
-                if (user) {
-                    resolve(null, user);
-                } else {
-                    var newUser = new User(userData);
-                    newUser.save(function () {
-                        resolve(null, newUser);
-                    });
+                if (!user) {
+                    user = _get(Object.getPrototypeOf(UserService.prototype), "add", _this).call(_this, userData);
                 }
+                resolve(null, user);
             });
         }
     }]);

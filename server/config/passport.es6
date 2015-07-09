@@ -24,14 +24,9 @@ module.exports = function () {
             // very dumb solution here, but FB users don't always come with emails
             fbUser.email = profile.emails ? profile.emails[0].value : "no-email-for-this-user" + fbUser.hashPass;
 
-            data.userService
-                .findOrCreate(fbUser, (err, user) => {
-                    if (err) {
-                        console.log('Error loading user: ' + err);
-                    }
-
-                    return user ? done(err, user) : done(null, false);
-                });
+            data.userService.findOrCreate(fbUser, (user) => {
+                return done(null, user);
+            });
         }
     ));
     passport.use(new LocalPassport(function (username, password, done) {

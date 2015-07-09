@@ -106,7 +106,9 @@ module.exports = {
         data.contestService
             .deleteBy(contestId)
             .then(() => {
-                cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
+                cloudinary
+                    .api
+                    .delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
                     ()  => {
                         req.session.successMessage = "Конкурса беше изтрит успешно";
                         res.redirect(EDIT_CONTEST_ROUTE);
