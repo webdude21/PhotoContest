@@ -4,7 +4,6 @@ var passport = require('passport'),
     LocalPassport = require('passport-local'),
     FacebookStrategy = require('passport-facebook').Strategy,
     User = require('mongoose').model('User'),
-    data = require('../data'),
     encryption = require('../utilities/encryption');
 
 module.exports = function () {
@@ -26,7 +25,7 @@ module.exports = function () {
         // very dumb solution here, but FB users don't always come with emails
         fbUser.email = profile.emails ? profile.emails[0].value : 'no-email-for-this-user' + fbUser.hashPass;
 
-        data.userService.findOrCreate(fbUser, function (err, user) {
+        User.findOrCreate(fbUser, function (err, user) {
             if (err) {
                 console.log('Error loading user: ' + err);
             }
