@@ -42,7 +42,7 @@ var UserService = (function (_MongooseRepository) {
             var _this = this;
 
             this.getUser(userData.username).then(function (user) {
-                resolve(user);
+                resolve(user ? user : _get(Object.getPrototypeOf(UserService.prototype), "add", _this).call(_this, userData));
             }, function () {
                 resolve(_get(Object.getPrototypeOf(UserService.prototype), "add", _this).call(_this, userData));
             });
