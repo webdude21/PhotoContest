@@ -1,7 +1,9 @@
 'use strict';
-module.exports = {
-    users: require('./users-controller'),
-    contestants: require('./contestants-controller'),
-    admin: require('./admin-controller'),
-    passedContests: require('./passed-contests-controller')
-};
+
+var exports = {};
+require('../utilities/helpers').autoRequireFiles(__dirname,
+    function (keyName, transformedFileName) {
+        exports[keyName] = require('./' + transformedFileName);
+    });
+
+module.exports = exports;

@@ -1,6 +1,9 @@
 'use strict';
-module.exports = {
-    userService: require('./userService'),
-    contestService: require('./contestService'),
-    contestantsService: require('./contestantsService')
-};
+
+var exports = {};
+require('../utilities/helpers').autoRequireFiles(__dirname,
+    function (keyName, transformedFileName) {
+        exports[keyName] = require('./' + transformedFileName);
+    });
+
+module.exports = exports;

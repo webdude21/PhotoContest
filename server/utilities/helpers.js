@@ -20,5 +20,37 @@ module.exports = {
         }
 
         return formattedWinner;
+    },
+    autoRequireFiles: function (dirPath, requireCallBack) {
+        var fileSystem = require('fs'),
+            fileExtensionToRequire = '.js',
+            fileExtenstionLength = fileExtensionToRequire.length,
+            javaScriptFileTransform = function (fileName) {
+                if (fileName.slice(-fileExtenstionLength, fileName.length) === fileExtensionToRequire) {
+                    return fileName.slice(0, fileName.length - fileExtenstionLength);
+                } else {
+                    return false;
+                }
+            },
+            convertFileNamesToKeys = function (fileName) {
+                var charArray = fileName.split('');
+                for (var index = 0; index < charArray.length; index++) {
+                    if (charArray[index] === '-') {
+                        charArray.splice(index, 1);
+                        charArray[index] = charArray[index].toUpperCase();
+                    }
+                }
+
+                return charArray.join('');
+            },
+            generateRequireKeyInObject = function (file) {
+                var transformedFileName = javaScriptFileTransform(file);
+                if (transformedFileName) {
+                    requireCallBack(convertFileNamesToKeys(transformedFileName), transformedFileName);
+                }
+            };
+
+
+        fileSystem.readdirSync(dirPath).forEach(generateRequireKeyInObject);
     }
 };
