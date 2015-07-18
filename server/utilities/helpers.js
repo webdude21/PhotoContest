@@ -23,6 +23,7 @@ module.exports = {
     },
     autoRequireFiles: function (dirPath) {
         var fileSystem = require('fs'),
+            pathDelimiter = require('path').sep,
             fileExtensionToRequire = '.js',
             fileExtenstionLength = fileExtensionToRequire.length,
             resultObject = {},
@@ -47,7 +48,7 @@ module.exports = {
             generateRequireKeyInObject = function (file) {
                 var transformedFileName = javaScriptFileTransform(file);
                 if (transformedFileName) {
-                    resultObject[convertFileNamesToKeys(transformedFileName)] = require(dirPath + '/' + transformedFileName);
+                    resultObject[convertFileNamesToKeys(transformedFileName)] = require(dirPath + pathDelimiter + transformedFileName);
                 }
             };
 
