@@ -1,11 +1,13 @@
 (function (window, document) {
     'use strict';
 
+    var scroll;
+
     if (window.location.hash && window.location.hash === '#_=_') {
         if (window.history && history.pushState) {
             window.history.pushState('', document.title, window.location.pathname);
         } else {
-            var scroll = {
+            scroll = {
                 top: document.body.scrollTop,
                 left: document.body.scrollLeft
             };
