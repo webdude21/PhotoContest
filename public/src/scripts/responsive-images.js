@@ -10,4 +10,4 @@
             $galleryContainer.masonry();
         });
     });
-}($, document));
+}(window.$, document));

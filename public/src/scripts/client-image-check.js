@@ -29,4 +29,4 @@
     $(document).ready(function () {
         $uploadInput.on('change', verifyImage);
     });
-}($, document));
+}(window.$, document));
