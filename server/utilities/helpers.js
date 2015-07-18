@@ -21,10 +21,11 @@ module.exports = {
 
         return formattedWinner;
     },
-    autoRequireFiles: function (dirPath, requireCallBack) {
+    autoRequireFiles: function (dirPath) {
         var fileSystem = require('fs'),
             fileExtensionToRequire = '.js',
             fileExtenstionLength = fileExtensionToRequire.length,
+            resultObject = {},
             javaScriptFileTransform = function (fileName) {
                 if (fileName.slice(-fileExtenstionLength, fileName.length) === fileExtensionToRequire) {
                     return fileName.slice(0, fileName.length - fileExtenstionLength);
@@ -46,11 +47,13 @@ module.exports = {
             generateRequireKeyInObject = function (file) {
                 var transformedFileName = javaScriptFileTransform(file);
                 if (transformedFileName) {
-                    requireCallBack(convertFileNamesToKeys(transformedFileName), transformedFileName);
+                    resultObject[convertFileNamesToKeys(transformedFileName)] = require(dirPath + '/' + transformedFileName);
                 }
             };
 
 
         fileSystem.readdirSync(dirPath).forEach(generateRequireKeyInObject);
+
+        return resultObject;
     }
 };
