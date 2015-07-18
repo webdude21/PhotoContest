@@ -6,5 +6,6 @@ module.exports = {
     'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
     PERMITTED_FORMATS: ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
     NOT_FOUND_ROUTE: '/not-found',
-    ERROR_ROUTE: '/error'
+    ERROR_ROUTE: '/error',
+    DEFAULT_PORT: 3000
 };
