@@ -7,13 +7,15 @@
         $uploadInput = $('#file-0');
 
     function _fileHasValidExtension(filename, permittedFormats, inputDelimiter) {
-        var delimiter = inputDelimiter || '.';
-        var indexOfDelimiter = filename.lastIndexOf(delimiter);
+        var delimiter = inputDelimiter || '.',
+            indexOfDelimiter = filename.lastIndexOf(delimiter);
+
         return filename && indexOfDelimiter && (permittedFormats.indexOf(filename.slice(indexOfDelimiter + 1)) > -1);
     }
 
     function verifyImage() {
         var fileName = $uploadInput.val();
+
         if (!_fileHasValidExtension(fileName, PERMITTED_FORMATS)) {
             /*eslint no-alert: 0*/
             alert(INVALID_IMAGE_ERROR);
