@@ -3,10 +3,10 @@ var cloudinary = require('cloudinary'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
     globalConstants = require('./../config/global-constants.js'),
-    ROUTE_ROOT = "/",
+    ROUTE_ROOT = '/',
     CONTROLLER_NAME = 'passed-contests',
-    NO_SUCH_CONTEST = "Не съществува такъв конкурс",
-    EDIT_CONTEST_ROUTE = "/" + CONTROLLER_NAME + "/edit/";
+    NO_SUCH_CONTEST = 'Не съществува такъв конкурс',
+    EDIT_CONTEST_ROUTE = '/' + CONTROLLER_NAME + '/edit/';
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
@@ -24,13 +24,13 @@ function _retrieveContest(req, res, deferred) {
         .then(result => {
             if (result === null) {
                 _showError(req, res, deferred, NO_SUCH_CONTEST);
-                deferredContest.reject("No such contest");
+                deferredContest.reject('No such contest');
             } else {
                 deferredContest.resolve(result);
             }
         }, () => {
             _showError(req, res, deferred, NO_SUCH_CONTEST);
-            deferredContest.reject("Failed to get the contest data");
+            deferredContest.reject('Failed to get the contest data');
         });
 
     return deferredContest.promise;
@@ -61,7 +61,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
             file.pipe(stream);
         } else {
             _showError(req, res, deferred, globalConstants.INVALID_IMAGE_ERROR,
-                EDIT_CONTEST_ROUTE + req.params.id + "/addWinner");
+                EDIT_CONTEST_ROUTE + req.params.id + '/addWinner');
         }
     });
 
@@ -70,7 +70,7 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
     });
 
     req.busboy.on('finish', () => {
-        req.session.successMessage = "Участника беше успешно добавен!";
+        req.session.successMessage = 'Участника беше успешно добавен!';
         res.redirect(EDIT_CONTEST_ROUTE + req.params.id);
         deferred.resolve();
     });
@@ -92,11 +92,11 @@ module.exports = {
         return deferred.promise;
     },
     getDeleteContestConfirm: function (req, res) {
-        res.render("confirm", {
+        res.render('confirm', {
             message: {
-                title: "Изтриване на конкурс",
-                body: "Сигурне ли сте, че искате да изтриете този конкурс (действието е необратимо)",
-                buttonText: "Изтрий"
+                title: 'Изтриване на конкурс',
+                body: 'Сигурне ли сте, че искате да изтриете този конкурс (действието е необратимо)',
+                buttonText: 'Изтрий'
             }
         });
     },
@@ -110,7 +110,7 @@ module.exports = {
                     .api
                     .delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
                     ()  => {
-                        req.session.successMessage = "Конкурса беше изтрит успешно";
+                        req.session.successMessage = 'Конкурса беше изтрит успешно';
                         res.redirect(EDIT_CONTEST_ROUTE);
                         deferred.resolve();
                     });
@@ -166,7 +166,7 @@ module.exports = {
                     deferred.reject();
                 } else {
                     contest.winners.forEach(helpers.formatWinner);
-                    res.render("admin/contest/detail", contest);
+                    res.render('admin/contest/detail', contest);
                     deferred.resolve();
                 }
             }, () => {
@@ -193,7 +193,7 @@ module.exports = {
     postRegister: function (req, res) {
         var deferred = q.defer();
         var savedContest = data.contestService.add(req.body);
-        req.session.successMessage = "Конкурса е успешно записан!";
+        req.session.successMessage = 'Конкурса е успешно записан!';
         res.redirect(savedContest._id);
         deferred.resolve();
         return deferred.promise;
