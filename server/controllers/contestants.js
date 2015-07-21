@@ -65,7 +65,7 @@ module.exports = {
                 };
                 file.pipe(cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
             } else {
-                errorHandler.redirectToRoute(req, res, globalConstants.INVALID_IMAGE_ERROR, null, '/contestants/register');
+                errorHandler.redirectToRoute(req, res, globalConstants.INVALID_IMAGE_ERROR, null, CONTROLLER_NAME + '/register');
             }
         });
 

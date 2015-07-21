@@ -13,13 +13,13 @@ var MongooseRepository = require('./MongooseRepository'),
     paging = require('../utilities/paging');
 
 var ContestantsService = (function (_MongooseRepository) {
+    _inherits(ContestantsService, _MongooseRepository);
+
     function ContestantsService() {
         _classCallCheck(this, ContestantsService);
 
         _get(Object.getPrototypeOf(ContestantsService.prototype), 'constructor', this).call(this, 'Contestant');
     }
-
-    _inherits(ContestantsService, _MongooseRepository);
 
     _createClass(ContestantsService, [{
         key: 'getAllVisible',

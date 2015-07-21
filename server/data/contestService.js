@@ -12,13 +12,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var MongooseRepository = require('./MongooseRepository');
 
 var ContestService = (function (_MongooseRepository) {
+    _inherits(ContestService, _MongooseRepository);
+
     function ContestService() {
         _classCallCheck(this, ContestService);
 
         _get(Object.getPrototypeOf(ContestService.prototype), 'constructor', this).call(this, 'ContestModel');
     }
-
-    _inherits(ContestService, _MongooseRepository);
 
     _createClass(ContestService, [{
         key: 'getAllVisible',

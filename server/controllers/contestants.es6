@@ -10,8 +10,8 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 var processContestants = function (contestants) {
     contestants.data
-        .forEach(contestant => contestant.pictures.
-            forEach(picture => {
+        .forEach(contestant => contestant.pictures
+            .forEach(picture => {
                 picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
             }));
 };
@@ -19,14 +19,14 @@ var processContestants = function (contestants) {
 module.exports = {
     getRegister: function (req, res) {
         var deferred = q.defer();
-        res.render(CONTROLLER_NAME + '/register');
+        res.render(`${CONTROLLER_NAME}/register`);
         deferred.resolve();
         return deferred.promise;
     },
     getById: function (req, res) {
         return data.contestantsService
             .getBy(req.params.id)
-            .then(contestant => res.render(CONTROLLER_NAME + '/contestant', contestant),
+            .then(contestant => res.render(`${CONTROLLER_NAME}/contestant`, contestant),
             () => errorHandler.redirectToNotFound(res));
     },
     getAllApproved: function (req, res) {
@@ -37,7 +37,7 @@ module.exports = {
             .getQuery(() => errorHandler.redirectToNotFound(res, deferred),
                 contestants => {
                 processContestants(contestants);
-                res.render(CONTROLLER_NAME + '/all', contestants);
+                res.render(`${CONTROLLER_NAME}/all`, contestants);
                 deferred.resolve(contestants);
             }, queryObject, globalConstants.PAGE_SIZE);
 
@@ -63,7 +63,7 @@ module.exports = {
                 file.pipe(cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
             } else {
                 errorHandler.redirectToRoute(req, res,
-                    globalConstants.INVALID_IMAGE_ERROR, null, '/contestants/register');
+                    globalConstants.INVALID_IMAGE_ERROR, null, `${CONTROLLER_NAME}/register`);
             }
         });
 

@@ -13,13 +13,13 @@ var MongooseRepository = require("./MongooseRepository"),
     q = require("q");
 
 var UserService = (function (_MongooseRepository) {
+    _inherits(UserService, _MongooseRepository);
+
     function UserService() {
         _classCallCheck(this, UserService);
 
         _get(Object.getPrototypeOf(UserService.prototype), "constructor", this).call(this, "User");
     }
-
-    _inherits(UserService, _MongooseRepository);
 
     _createClass(UserService, [{
         key: "getAllVisible",

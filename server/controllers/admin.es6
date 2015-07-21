@@ -10,7 +10,7 @@ module.exports = {
     getById: function (req, res) {
         data.contestantsService
             .getBy(req.params.id)
-            .then(contestant => res.render(CONTROLLER_NAME + '/contestants/contestant', contestant),
+            .then(contestant => res.render(`${CONTROLLER_NAME}/contestants/contestant`, contestant),
             () => errorHandler.redirectToNotFound(res));
     },
     toggleApprovalById: function (req, res) {
@@ -19,7 +19,7 @@ module.exports = {
             .then(contestant => {
                 contestant.approved = !contestant.approved;
                 contestant.save();
-                res.redirect('/' + CONTROLLER_NAME + '/contestants/' + contestant.id);
+                res.redirect(`/${CONTROLLER_NAME}/contestants/${contestant.id}`);
             }, () => errorHandler.redirectToNotFound(res));
     },
     getResetContest: (req, res) => res.render('confirm', {
