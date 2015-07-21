@@ -23,7 +23,7 @@ describe('#Contestants Controller', function () {
         this.express = getExpressMock();
     });
     describe('Get Approved Contestants', function () {
-        it('should render some the result', function (testDoneCallBack) {
+        it('should render the correct view with the data from the service', function (testDoneCallBack) {
             var express = this.express;
             controllers.contestants.getAllApproved(express.request, express.response)
                 .then(function (resultData) {
@@ -33,7 +33,7 @@ describe('#Contestants Controller', function () {
         });
     });
     describe('Get Register Contestant', function () {
-        it('should return register form', function (testDoneCallBack) {
+        it('should render the register form', function (testDoneCallBack) {
             var express = this.express;
             controllers.contestants.getRegister(express.request, express.response)
                 .then(function () {
