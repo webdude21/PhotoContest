@@ -18,21 +18,23 @@ function getExpressMock() {
     };
 }
 
-describe("#Contestants Controller", function () {
-    describe("Get Approved Contestants", function () {
-        it("should render some the result", function (testDoneCallBack) {
-            var express = getExpressMock();
+describe('#Contestants Controller', function () {
+    before(function () {
+        this.express = getExpressMock();
+    });
+    describe('Get Approved Contestants', function () {
+        it('should render some the result', function (testDoneCallBack) {
+            var express = this.express;
             controllers.contestants.getAllApproved(express.request, express.response)
-                .then(function () {
-                    express.response.render.should.have.been.calledWith('contestants/all');
+                .then(function (resultData) {
+                    express.response.render.should.have.been.calledWith('contestants/all', resultData);
                     testDoneCallBack();
                 }).done(null, testDoneCallBack);
         });
     });
-
-    describe("Get Register Contestant", function () {
-        it("should return register form", function (testDoneCallBack) {
-            var express = getExpressMock();
+    describe('Get Register Contestant', function () {
+        it('should return register form', function (testDoneCallBack) {
+            var express = this.express;
             controllers.contestants.getRegister(express.request, express.response)
                 .then(function () {
                     express.response.render.should.have.been.calledWith('contestants/register');
