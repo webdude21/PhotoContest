@@ -43,3 +43,19 @@ describe('#Contestants Controller', function () {
         });
     });
 });
+
+describe('#Passed Contest Controller', function () {
+    before(function () {
+        this.express = getExpressMock();
+    });
+    describe('Get Add Winner', function () {
+        it('should render the correct view with the data from the service', function (testDoneCallBack) {
+            var express = this.express;
+            controllers.passedContests.getAddWinner(express.request, express.response)
+                .then(function () {
+                    express.response.render.should.have.been.calledWith('passed-contests/addWinner');
+                    testDoneCallBack();
+                }).done(null, testDoneCallBack);
+        });
+    });
+});
