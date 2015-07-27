@@ -1,6 +1,7 @@
 require('../../server/config/mongoose')(require('../../server/config/config')['development']);
 var sinon = require('sinon'),
     chai = require('chai'),
+    SHOULD_RENDER_VIEW = 'should render the correct view with the data from the service',
     sinonChai = require('sinon-chai'),
     controllers = require('../../server/controllers');
 chai.should();
@@ -19,11 +20,11 @@ function getExpressMock() {
 }
 
 describe('#Contestants Controller', function () {
-    before(function () {
+    beforeEach(function () {
         this.express = getExpressMock();
     });
     describe('Get Approved Contestants', function () {
-        it('should render the correct view with the data from the service', function (testDoneCallBack) {
+        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
             controllers.contestants.getAllApproved(express.request, express.response)
                 .then(function (resultData) {
@@ -33,7 +34,7 @@ describe('#Contestants Controller', function () {
         });
     });
     describe('Get Register Contestant', function () {
-        it('should render the register form', function (testDoneCallBack) {
+        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
             controllers.contestants.getRegister(express.request, express.response)
                 .then(function () {
@@ -45,17 +46,26 @@ describe('#Contestants Controller', function () {
 });
 
 describe('#Passed Contest Controller', function () {
-    before(function () {
+    beforeEach(function () {
         this.express = getExpressMock();
     });
     describe('Get Add Winner', function () {
-        it('should render the correct view with the data from the service', function (testDoneCallBack) {
+        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
             controllers.passedContests.getAddWinner(express.request, express.response)
                 .then(function () {
                     express.response.render.should.have.been.calledWith('passed-contests/addWinner');
                     testDoneCallBack();
                 }).done(null, testDoneCallBack);
+        });
+    });
+
+    describe('Get Delete Contest', function () {
+        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
+            var express = this.express;
+            controllers.passedContests.getDeleteContestConfirm(this.express.request, this.express.response);
+            express.response.render.should.have.been.calledWith('confirm');
+            testDoneCallBack();
         });
     });
 });
