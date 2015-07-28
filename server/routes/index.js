@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('../utilities/helpers').autoRequireFiles(__dirname);
+module.exports = require('../utilities/auto-require').autoRequireFiles(__dirname);
