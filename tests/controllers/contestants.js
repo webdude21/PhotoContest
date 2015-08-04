@@ -1,4 +1,4 @@
-require('../../server/config/mongoose')(require('../../server/config/config')['development']);
+require('../../server/config/mongoose')(require('../../server/config')['development']);
 var sinon = require('sinon'),
     chai = require('chai'),
     SHOULD_RENDER_VIEW = 'should render the correct view with the data from the service',

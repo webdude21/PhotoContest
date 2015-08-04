@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = function (app) {
+module.exports = function (_ref) {
+    var app = _ref.app;
+
     app.get('/error', function (req, res) {
         return res.render('error', { currentUser: req.user });
     });

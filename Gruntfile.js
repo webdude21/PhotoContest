@@ -4,7 +4,8 @@ module.exports = function (grunt) {
         project: {
             app: 'public/src',
             build: 'public/compiled',
-            serverApp: 'server'
+            serverApp: 'server',
+            root: './'
         },
         eslint: {
             app: ['Gruntfile.js', '<%= project.app %>/scripts/**/*.js', '<%= project.serverApp %>/**/*.js']
@@ -85,7 +86,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    src: ['<%= project.serverApp %>/**/*.es6'],
+                    src: ['<%= project.root %>/**/*.es6'],
                     ext: '.js',
                     extDot: 'first'
                 }]

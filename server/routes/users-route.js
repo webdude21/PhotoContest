@@ -4,7 +4,9 @@ var auth = require('../config/auth');
 var controllers = require('../controllers');
 var passport = require('passport');
 
-module.exports = function (app) {
+module.exports = function (_ref) {
+    var app = _ref.app;
+
     app.route('/register').get(controllers.users.getRegister).post(controllers.users.postRegister);
 
     app.get('/auth/facebook', passport.authenticate('facebook'));

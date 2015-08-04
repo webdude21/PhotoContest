@@ -1,4 +1,4 @@
-module.exports = function (app) {
+module.exports = function ({app}) {
     app.get('/error', (req, res) => res.render('error', {currentUser: req.user}));
 
     app.get(app.get('/', (req, res) => res.redirect('contestants')));

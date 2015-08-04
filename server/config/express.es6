@@ -11,7 +11,7 @@ var express = require('express'),
     messageHandler = require('../utilities/message-handler'),
     middlewares = require('../middleware');
 
-module.exports = function (app, config, staticCacheAge) {
+module.exports = function ({app, config, staticCacheAge}) {
     app.use(compression());
     app.set('view engine', 'jade');
     app.set('views', config.rootPath + '/server/views');
