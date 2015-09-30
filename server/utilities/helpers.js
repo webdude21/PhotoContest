@@ -15,5 +15,10 @@ module.exports = {
         }
 
         return formattedWinner;
+    },
+    fileHasValidExtension: function (filename, permittedFormats, inputDelimiter) {
+        var delimiter = inputDelimiter || '.';
+        var indexOfDelimiter = filename.lastIndexOf(delimiter);
+        return filename && indexOfDelimiter > 0 && permittedFormats.indexOf(filename.slice(indexOfDelimiter) > -1);
     }
 };
