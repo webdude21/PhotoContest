@@ -16,8 +16,8 @@ module.exports = {
 
         return formattedWinner;
     },
-    fileHasValidExtension: function (filename, permittedFormats, inputDelimiter) {
-        var delimiter = inputDelimiter || '.';
+    fileHasValidExtension: function (filename, permittedFormats, delimiter) {
+        delimiter = delimiter || '.';
         var indexOfDelimiter = filename.lastIndexOf(delimiter);
         return filename && indexOfDelimiter > 0 && permittedFormats.indexOf(filename.slice(indexOfDelimiter) > -1);
     }
