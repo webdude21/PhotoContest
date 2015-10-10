@@ -22,6 +22,22 @@ module.exports = {
                 res.redirect(`/${CONTROLLER_NAME}/contestants/${contestant.id}`);
             }, () => errorHandler.redirectToNotFound(res));
     },
+    getEditTos: function (req, res) {
+        data.pageService
+            .getFirstPage()
+            .then(page => res.render(`${CONTROLLER_NAME}/edit-tos`, page), () => errorHandler.redirectToNotFound(res));
+    },
+    postEditTos: function (req, res) {
+        data.pageService
+            .getFirstPage()
+            .then(function (page) {
+                page.title = req.body.title;
+                page.content = req.body.content;
+                page.save();
+                req.session.successMessage = 'Променихте общите условия успешно!';
+                res.redirect('/')
+            }, () => errorHandler.redirectToNotFound(res));
+    },
     getResetContest: (req, res) => res.render('confirm', {
         message: {
             title: 'Рестартиране на приложението',

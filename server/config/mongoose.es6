@@ -17,4 +17,5 @@ module.exports = function ({config}) {
     });
 
     models.User.seedInitialUsers();
+    models.Page.seedInitialPages();
 };

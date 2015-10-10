@@ -47,7 +47,6 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
     var newWinner = {};
     newWinner.pictures = [];
     req.pipe(req.busboy);
-
     req.busboy.on('file', function (fieldname, file, filename) {
         if (helpers.fileHasValidExtension(filename, permittedFormats)) {
             var stream = cloudinary.uploader.upload_stream(function (result) {

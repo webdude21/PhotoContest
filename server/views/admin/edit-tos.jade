@@ -1,0 +1,20 @@
+extends ../includes/layout
+
+block main-content
+    .well
+        form.form-horizontal(name="edit-tos-form", method="post")
+            fieldset
+                legend Редактиране на общите условия
+                .form-group
+                    label.col-md-2.control-label(for="title") Заглавие
+                    .col-md-10
+                        input.form-control(type="text", id="title",
+                        placeholder="Заглавие", name="title", required, value="#{title}")
+                .form-group
+                    label.col-md-2.control-label(for="content") Съдържание
+                    .col-md-10
+                        textarea.form-control.tos(type="text", id="content"
+                        placeholder="Съдържание", name="content", required) #{content}
+                .pull-right
+                    input.btn.btn-primary(type="submit", value="Запис")
+                    a.btn.btn-primary(href="/") Отказ

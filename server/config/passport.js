@@ -11,7 +11,7 @@ module.exports = function () {
     passport.use(new FacebookStrategy({
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
-        callbackURL: process.env.BASE_URL + '/auth/facebook/callback'
+        callbackURL: process.env.BASE_URL + "/auth/facebook/callback"
     }, function (accessToken, refreshToken, profile, done) {
         var fbUser = {
             facebookId: profile.id,
@@ -24,7 +24,7 @@ module.exports = function () {
         fbUser.hashPass = encryption.generateHashedText(fbUser.salt, encryption.generateSalt());
 
         // very dumb solution here, but FB users don't always come with emails
-        fbUser.email = profile.emails ? profile.emails[0].value : 'no-email-for-this-user' + fbUser.hashPass;
+        fbUser.email = profile.emails ? profile.emails[0].value : "no-email-for-this-user" + fbUser.hashPass;
 
         data.userService.findOrCreate(fbUser, function (user) {
             return done(null, user);

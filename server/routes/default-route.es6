@@ -1,5 +1,9 @@
+var pageController = require('../controllers').page;
+
 module.exports = function ({app}) {
     app.get('/error', (req, res) => res.render('error', {currentUser: req.user}));
+
+    app.get('/tos', pageController.getTos);
 
     app.get(app.get('/', (req, res) => res.redirect('contestants')));
 

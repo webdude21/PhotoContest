@@ -9,47 +9,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var MongooseRepository = require("./MongooseRepository"),
-    q = require('q');
+var MongooseRepository = require("./MongooseRepository");
 
-var UserService = (function (_MongooseRepository) {
-    _inherits(UserService, _MongooseRepository);
+var PageService = (function (_MongooseRepository) {
+    _inherits(PageService, _MongooseRepository);
 
-    function UserService() {
-        _classCallCheck(this, UserService);
+    function PageService() {
+        _classCallCheck(this, PageService);
 
-        _get(Object.getPrototypeOf(UserService.prototype), "constructor", this).call(this, "User");
+        _get(Object.getPrototypeOf(PageService.prototype), "constructor", this).call(this, "Page");
     }
 
-    _createClass(UserService, [{
-        key: "getAllVisible",
-        value: function getAllVisible() {
-            return MongooseRepository.wrapQueryInPromise(this.Model.find({ visible: true }));
-        }
-    }, {
-        key: "getUser",
-        value: function getUser(username) {
-            return MongooseRepository.wrapQueryInPromise(this.Model.findOne({ username: username }));
-        }
-    }, {
-        key: "deleteAllNonAdmins",
-        value: function deleteAllNonAdmins() {
-            return MongooseRepository.wrapQueryInPromise(this.Model.remove({ roles: [] }));
-        }
-    }, {
-        key: "findOrCreate",
-        value: function findOrCreate(userData, resolve) {
-            var _this = this;
-
-            this.getUser(userData.username).then(function (user) {
-                resolve(user ? user : _get(Object.getPrototypeOf(UserService.prototype), "add", _this).call(_this, userData));
-            }, function () {
-                resolve(_get(Object.getPrototypeOf(UserService.prototype), "add", _this).call(_this, userData));
-            });
+    _createClass(PageService, [{
+        key: "getFirstPage",
+        value: function getFirstPage() {
+            return MongooseRepository.wrapQueryInPromise(this.Model.findOne());
         }
     }]);
 
-    return UserService;
+    return PageService;
 })(MongooseRepository);
 
-module.exports = new UserService();
+module.exports = new PageService();

@@ -25,6 +25,24 @@ module.exports = {
             return errorHandler.redirectToNotFound(res);
         });
     },
+    getEditTos: function getEditTos(req, res) {
+        data.pageService.getFirstPage().then(function (page) {
+            return res.render(CONTROLLER_NAME + '/edit-tos', page);
+        }, function () {
+            return errorHandler.redirectToNotFound(res);
+        });
+    },
+    postEditTos: function postEditTos(req, res) {
+        data.pageService.getFirstPage().then(function (page) {
+            page.title = req.body.title;
+            page.content = req.body.content;
+            page.save();
+            req.session.successMessage = 'Променихте общите условия успешно!';
+            res.redirect('/');
+        }, function () {
+            return errorHandler.redirectToNotFound(res);
+        });
+    },
     getResetContest: function getResetContest(req, res) {
         return res.render('confirm', {
             message: {

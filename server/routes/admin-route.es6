@@ -20,4 +20,8 @@ module.exports = function ({app}) {
 
     app.route('/admin/contestants/:id')
         .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.getById);
+
+    app.route('/admin/edit-tos')
+        .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.getEditTos)
+        .post(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.postEditTos);
 };
