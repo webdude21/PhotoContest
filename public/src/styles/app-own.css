@@ -18,3 +18,10 @@ body #toast-container {
 body a.edit-action {
   display: block;
 }
+body .tos {
+  height: 20rem;
+}
+body .tos-title {
+  text-align: center;
+  font-size: 6rem;
+}
