@@ -4,6 +4,7 @@
   "description": "Photo Contest Application",
   "main": "--harmony_destructuring --use_strict server.js",
   "scripts": {
+    "start": "node --harmony_destructuring --use_strict server.js",
     "postinstall": "bower install && grunt build"
   },
   "engines": {
