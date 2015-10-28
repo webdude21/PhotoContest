@@ -2,9 +2,7 @@
 var mongoose = require('mongoose'),
     models = require('../models');
 
-module.exports = function (_ref) {
-    var config = _ref.config;
-
+module.exports = function ({config}) {
     mongoose.connect(config.db);
     var database = mongoose.connection;
 

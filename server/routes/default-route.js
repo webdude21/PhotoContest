@@ -1,25 +1,13 @@
-'use strict';
-
 var pageController = require('../controllers').page;
 
-module.exports = function (_ref) {
-    var app = _ref.app;
-
-    app.get('/error', function (req, res) {
-        return res.render('error', { currentUser: req.user });
-    });
+module.exports = function ({app}) {
+    app.get('/error', (req, res) => res.render('error', {currentUser: req.user}));
 
     app.get('/tos', pageController.getTos);
 
-    app.get(app.get('/', function (req, res) {
-        return res.redirect('contestants');
-    }));
+    app.get(app.get('/', (req, res) => res.redirect('contestants')));
 
-    app.post('/*', function (req, res) {
-        return res.redirect('/');
-    });
+    app.post('/*', (req, res) => res.redirect('/'));
 
-    app.get('*', function (req, res) {
-        return res.render('not-found', { currentUser: req.user });
-    });
+    app.get('*', (req, res) => res.render('not-found', {currentUser: req.user}));
 };

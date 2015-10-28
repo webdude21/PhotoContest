@@ -1,5 +1,3 @@
-'use strict';
-
 var roles = require('../config/roles');
 
 module.exports = function (req, res, next, app) {
