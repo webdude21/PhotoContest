@@ -1,1 +1,1 @@
-web: --harmony_destructuring --use_strict server.js
+web: node --harmony_destructuring --use_strict server.js
