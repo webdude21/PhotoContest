@@ -7,6 +7,9 @@
     "test": "mocha tests/**/",
     "postinstall": "bower install && grunt build"
   },
+  "engines": {
+    "node": "4.2.1"
+  },
   "author": "webdude",
   "license": "MIT",
   "dependencies": {
