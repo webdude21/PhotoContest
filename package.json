@@ -4,7 +4,6 @@
   "description": "Photo Contest Application",
   "main": "--harmony_destructuring --use_strict server.js",
   "scripts": {
-    "test": "mocha tests/**/",
     "postinstall": "bower install && grunt build"
   },
   "engines": {
