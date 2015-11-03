@@ -35,7 +35,7 @@ module.exports = {
                 page.content = req.body.content;
                 page.save();
                 req.session.successMessage = 'Променихте общите условия успешно!';
-                res.redirect('/')
+                res.redirect('/');
             }, () => errorHandler.redirectToNotFound(res));
     },
     getResetContest: (req, res) => res.render('confirm', {
