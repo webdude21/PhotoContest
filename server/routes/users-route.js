@@ -7,8 +7,7 @@ module.exports = function ({app}) {
         .get(controllers.users.getRegister)
         .post(controllers.users.postRegister);
 
-    app.get('/auth/facebook',
-        passport.authenticate('facebook'));
+    app.get('/auth/facebook', passport.authenticate('facebook'));
 
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {failureRedirect: '/login'}), (req, res) => res.redirect('/'));

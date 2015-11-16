@@ -3,7 +3,8 @@ var passport = require('passport'),
     FacebookStrategy = require('passport-facebook').Strategy,
     User = require('mongoose').model('User'),
     data = require('../data'),
-    encryption = require('../utilities/encryption');
+    encryption = require('../utilities/encryption'),
+    FB_USER_PREFIX = 'fb_user';
 
 module.exports = function () {
     passport.use(new FacebookStrategy({
@@ -22,10 +23,13 @@ module.exports = function () {
             fbUser.hashPass = encryption.generateHashedText(fbUser.salt, encryption.generateSalt());
 
             // very dumb solution here, but FB users don't always come with emails
-            fbUser.email = profile.emails ? profile.emails[0].value : "no-email-for-this-user" + fbUser.hashPass;
+            var email = profile.emails ? profile.emails[0].value : "no-email-for-this-user" + fbUser.hashPass;
+
+            // add prefix to emails so there are no conflicts with regular users
+            fbUser.email = '${FB_USER_PREFIX}_${email}'
 
             data.userService.findOrCreate(fbUser, (user) => {
-                return done(null,  user);
+                return done(null, user);
             });
         }
     ));
