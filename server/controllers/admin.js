@@ -11,7 +11,7 @@ module.exports = {
         data.contestantsService
             .getBy(req.params.id)
             .then(contestant => res.render(`${CONTROLLER_NAME}/contestants/contestant`, contestant),
-            () => errorHandler.redirectToNotFound(res));
+                () => errorHandler.redirectToNotFound(res));
     },
     toggleApprovalById: function (req, res) {
         data.contestantsService
@@ -77,11 +77,11 @@ module.exports = {
         data.contestantsService
             .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not reset the application!' + err),
                 contestants => {
-                contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
-                    picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
-                }));
+                    contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
+                        picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
+                    }));
 
-                res.render(CONTROLLER_NAME + '/contestants/all', contestants);
-            }, queryObject, globalConstants.PAGE_SIZE);
+                    res.render(CONTROLLER_NAME + '/contestants/all', contestants);
+                }, queryObject, globalConstants.PAGE_SIZE);
     }
 };

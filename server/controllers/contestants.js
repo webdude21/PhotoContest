@@ -27,7 +27,7 @@ module.exports = {
         return data.contestantsService
             .getBy(req.params.id)
             .then(contestant => res.render(`${CONTROLLER_NAME}/contestant`, contestant),
-            () => errorHandler.redirectToNotFound(res));
+                () => errorHandler.redirectToNotFound(res));
     },
     getAllApproved: function (req, res) {
         var deferred = q.defer(),
@@ -36,10 +36,10 @@ module.exports = {
         data.contestantsService
             .getQuery(() => errorHandler.redirectToNotFound(res, deferred),
                 contestants => {
-                processContestants(contestants);
-                res.render(`${CONTROLLER_NAME}/all`, contestants);
-                deferred.resolve(contestants);
-            }, queryObject, globalConstants.PAGE_SIZE);
+                    processContestants(contestants);
+                    res.render(`${CONTROLLER_NAME}/all`, contestants);
+                    deferred.resolve(contestants);
+                }, queryObject, globalConstants.PAGE_SIZE);
 
         return deferred.promise;
     },
