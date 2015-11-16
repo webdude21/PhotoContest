@@ -26,7 +26,7 @@ module.exports = function () {
             var email = profile.emails ? profile.emails[0].value : "no-email-for-this-user" + fbUser.hashPass;
 
             // add prefix to emails so there are no conflicts with regular users
-            fbUser.email = '${FB_USER_PREFIX}_${email}'
+            fbUser.email = `${FB_USER_PREFIX}_${email}`
 
             data.userService.findOrCreate(fbUser, (user) => {
                 return done(null, user);
