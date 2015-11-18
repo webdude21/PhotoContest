@@ -20,11 +20,13 @@ class UserService extends MongooseRepository {
     }
 
     findOrCreate(userData, resolve) {
+        var that = this;
+
         this.getUser(userData.username)
             .then(function (user) {
-                resolve(user ? user : this.add(userData));
+                resolve(user ? user : that.add(userData));
             }, function () {
-                resolve(this.add(userData));
+                resolve(that.add(userData));
             });
     }
 }
