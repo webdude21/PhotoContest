@@ -5,7 +5,9 @@ module.exports = function ({app}) {
 
     app.get('/tos', pageController.getTos);
 
-    app.get(app.get('/', (req, res) => res.redirect('contestants')));
+    app.get('/home', (req, res) => res.render('home', {currentUser: req.user}));
+
+    app.get(app.get('/', (req, res) => res.redirect('home')));
 
     app.post('/*', (req, res) => res.redirect('/'));
 
