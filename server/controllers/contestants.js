@@ -72,6 +72,11 @@ module.exports = {
         });
 
         req.busboy.on('finish', () => {
+            if (!newContestant.tos_accepted) {
+                errorHandler.redirectToRoute(req, res,
+                    globalConstants.TOS_NOT_ACCEPTED_ERROR, null, `${CONTROLLER_NAME}/register`);
+            }
+
             newContestant.registrant = req.user;
             savedContestant = data.contestantsService.add(newContestant);
             res.redirect(savedContestant._id);

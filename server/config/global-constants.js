@@ -1,6 +1,7 @@
 module.exports = {
     CLOUDINARY_CONTESTANTS_FOLDER_NAME: 'contestants',
     CLOUDINARY_WINNERS_FOLDER_NAME: 'winners',
+    TOS_NOT_ACCEPTED_ERROR: 'За да регистрирате нов участник трябва да се съгласите с общите условия.',
     PAGE_SIZE: 10,
     INVALID_IMAGE_ERROR: 'Моля уверете се, че сте избрали валидно ' +
     'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',

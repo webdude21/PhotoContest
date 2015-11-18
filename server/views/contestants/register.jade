@@ -23,6 +23,10 @@ block main-content
                     .col-md-10
                         input.form-control.upload-picture(id="file-0", type="file",
                         name="file_0", required, pattern='/\.(gif|jpg|jpeg|png)$/i')
+                .form-group
+                    label.col-md-2.control-label(for="file-0") Съгласен съм с общите условия
+                    .col-md-1
+                        input.form-control.upload-picture(type="checkbox", name="tos_accepted", required)
                 #button-panel
                     .pull-right
                         input.btn.btn-primary(type="submit", value="Регистрация")
