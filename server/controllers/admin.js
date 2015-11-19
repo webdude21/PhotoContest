@@ -89,5 +89,12 @@ module.exports = {
                 res.render(`${CONTROLLER_NAME}/users/all`, {users: users})
             },
             err => errorHandler.redirectToError(req, res, 'Could not load registered users' + err));
+    },
+    getRegisteredUserById: (req, res) => {
+        data.userService
+            .getBy(req.params.id).then(user => {
+                res.render(`${CONTROLLER_NAME}/users/detail`, user)
+            },
+            err => errorHandler.redirectToError(req, res, 'Could not load registered user info' + err));
     }
 };
