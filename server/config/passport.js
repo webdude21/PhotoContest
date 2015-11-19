@@ -10,7 +10,7 @@ module.exports = function () {
     passport.use(new FacebookStrategy({
             clientID: process.env.FACEBOOK_APP_ID,
             clientSecret: process.env.FACEBOOK_APP_SECRET,
-            callbackURL: process.env.BASE_URL + "/auth/facebook/callback"
+            callbackURL: process.env.BASE_URL + '/auth/facebook/callback'
         }, function (accessToken, refreshToken, profile, done) {
             var fbUser = {
                 facebookId: profile.id,
