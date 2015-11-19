@@ -80,8 +80,14 @@ module.exports = {
                     contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
                         picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
                     }));
-
-                    res.render(CONTROLLER_NAME + '/contestants/all', contestants);
+                    res.render(`${CONTROLLER_NAME}/contestants/all`, contestants);
                 }, queryObject, globalConstants.PAGE_SIZE);
+    },
+    getAllRegisteredUsers: (req, res) => {
+        data.userService
+            .getAll().then(users => {
+                res.render(`${CONTROLLER_NAME}/users/all`, {users: users})
+            },
+            err => errorHandler.redirectToError(req, res, 'Could not load registered users' + err));
     }
 };

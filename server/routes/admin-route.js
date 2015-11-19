@@ -4,6 +4,9 @@ var auth = require('../config/auth'),
     controllers = require('../controllers');
 
 module.exports = function ({app}) {
+    app.route('/admin/users/all')
+        .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.getAllRegisteredUsers);
+
     app.route('/admin/reset-contest')
         .get(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.getResetContest)
         .post(auth.isAuthenticated, auth.isInRole([roles.admin]), controllers.admin.postResetContest);

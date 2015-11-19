@@ -1,14 +1,9 @@
 /*eslint-disable */
-var MongooseRepository = require("./MongooseRepository"),
-    q = require('q');
+var MongooseRepository = require('./MongooseRepository');
 
 class UserService extends MongooseRepository {
     constructor() {
-        super("User");
-    }
-
-    getAllVisible() {
-        return MongooseRepository.wrapQueryInPromise(this.Model.find({visible: true}));
+        super('User');
     }
 
     getUser(username) {
