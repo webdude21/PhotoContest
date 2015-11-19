@@ -1,12 +1,9 @@
 .navbar-collapse.collapse
+    include ../includes/main-menu
     ul.nav.navbar-nav
         li
-            a(href="/contestants/register") Регистриране на участник
+            a(href="/contestants/register", class="btn btn-warning") Участвай!
         li
             a(href="/contestants") Участници
-        li
-            a(href="/passed-contests") Минали конкурси
-        li
-            a(href="/tos") Общи условия
     include ../includes/profile-menu
     include ../includes/admin-menu
