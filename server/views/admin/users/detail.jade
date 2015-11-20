@@ -4,7 +4,10 @@ block main-content
         h4 Потребител №: #{user._id}
         H4 Потребителско име: #{user.username}
         H4 Име: #{user.firstName + ' ' + user.lastName}
-        H4 Email адрес: #{user.email}
+        H4 Email адрес:&nbsp;
+            a(href="mailto:#{user.email}") #{user.email}
+        H4 Facebook:&nbsp;
+            a(href="http://facebook.com/profile.php?id=#{user.facebookId}") #{user.facebookId}
         hr
     .row#participants
         for contestant in contestants

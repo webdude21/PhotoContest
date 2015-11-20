@@ -20,5 +20,6 @@ block main-content
                             a(href="./#{user._id}") #{user.username}
                         td #{user.firstName + ' ' + user.lastName}
                         td #{user.email}
-                        td #{user.facebookId}
+                        td
+                            a(href="http://facebook.com/profile.php?id=#{user.facebookId}") #{user.facebookId}
                         td #{user.registerDate}
