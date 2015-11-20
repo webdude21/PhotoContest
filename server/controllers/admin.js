@@ -104,7 +104,6 @@ module.exports = {
             })
             .then(contestants => {
                 result.contestants = contestants;
-                console.log(contestants);
                 res.render(`${CONTROLLER_NAME}/users/detail`, result);
             })
             .catch(err => errorHandler.redirectToError(req, res, 'Could not load registered user info' + err));
