@@ -13,11 +13,7 @@ var userSchema = mongoose.Schema({
     registerDate: {type: Date, default: Date.now},
     salt: String,
     hashPass: String,
-    roles: [String],
-    registeredContestants: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Contestant'
-    },
+    roles: [String]
 });
 
 userSchema.method({

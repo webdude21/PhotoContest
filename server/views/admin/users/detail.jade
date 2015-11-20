@@ -1,8 +1,23 @@
 extends ../../includes/layout
 block main-content
-    h4 Потребител № #{_id}
-    H4 Потребителско име: #{username}
-    H4 Име: #{firstName + ' ' + lastName}
-    H4 Потребителско име: #{email}
-    hr
-    include ../../contestants/all
+    .row#userinfo
+        h4 Потребител №: #{user._id}
+        H4 Потребителско име: #{user.username}
+        H4 Име: #{user.firstName + ' ' + user.lastName}
+        H4 Потребителско име: #{user.email}
+        hr
+    .row#participants
+        for contestant in contestants
+            .col-sm-6.col-md-4.item
+                .panel.panel-default
+                    .panel-heading.text-center
+                        span Име: #{contestant.fullName}
+                    div.panel-body.image-container.text-center
+                        a(href=path + "../../../contestants/" + contestant._id)
+                            if contestant.pictures
+                                img.img-rounded.img-thumbnail(src=contestant.pictures[0].url)
+                            else
+                                h5 Няма снимки!
+                    p.text-center Възраст: #{contestant.age} години
+        else
+            h5.text-center Няма участници!

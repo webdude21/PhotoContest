@@ -91,10 +91,22 @@ module.exports = {
             err => errorHandler.redirectToError(req, res, 'Could not load registered users' + err));
     },
     getRegisteredUserById: (req, res) => {
+        var result = {
+            user: {},
+            contestants: []
+        }
+
         data.userService
-            .getBy(req.params.id).then(user => {
-                res.render(`${CONTROLLER_NAME}/users/detail`, user)
-            },
-            err => errorHandler.redirectToError(req, res, 'Could not load registered user info' + err));
+            .getBy(req.params.id)
+            .then(user => {
+                result.user = user;
+                return data.contestantsService.getAllContestantsByUser(user);
+            })
+            .then(contestants => {
+                result.contestants = contestants;
+                console.log(contestants);
+                res.render(`${CONTROLLER_NAME}/users/detail`, result);
+            })
+            .catch(err => errorHandler.redirectToError(req, res, 'Could not load registered user info' + err));
     }
 };
