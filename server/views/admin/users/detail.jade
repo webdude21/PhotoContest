@@ -1,10 +1,10 @@
 extends ../../includes/layout
 block main-content
-    .row#userinfo
+    .row.text-center#userinfo
         h4 Потребител №: #{user._id}
         H4 Потребителско име: #{user.username}
         H4 Име: #{user.firstName + ' ' + user.lastName}
-        H4 Потребителско име: #{user.email}
+        H4 Email адрес: #{user.email}
         hr
     .row#participants
         for contestant in contestants
