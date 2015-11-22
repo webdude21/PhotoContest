@@ -68,7 +68,7 @@ module.exports = {
         });
 
         req.busboy.on('field', (fieldname, val) => {
-            newContestant[fieldname] = val
+            newContestant[fieldname] = val;
         });
 
         req.busboy.on('finish', () => {

@@ -3,8 +3,7 @@ var passport = require('passport'),
     FacebookStrategy = require('passport-facebook').Strategy,
     User = require('mongoose').model('User'),
     data = require('../data'),
-    encryption = require('../utilities/encryption'),
-    FB_USER_PREFIX = 'fb_user';
+    encryption = require('../utilities/encryption');
 
 module.exports = function () {
     passport.use(new FacebookStrategy({
