@@ -3,9 +3,11 @@ extends ../includes/layout
 block main-content
     .well
         H2.text-center Успешно регистрирахте&nbsp;
-            a(href='/contestants/#{id}') участника
+            a(href='/contestants/#{contestant.id}') участника
 block page-scripts
     script(type="text/javascript").
+        var useAdCampagn = #{facebookADCampaignEnabled} || false;
+
         !function (f, b, e, v, n, t, s) {
             if (f.fbq)return;
             n = f.fbq = function () {
@@ -22,9 +24,12 @@ block page-scripts
             s = b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t, s);
         }(window, document, 'script', '//connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1652367131710585');
-        fbq('track', 'CompleteRegistration');
+
+        if (useAdCampagn) {
+            fbq('init', '#{pixelCode}');
+            fbq('track', '#{trackingAction}');
+        }
 
         window.setTimeout(function () {
-            window.location.replace("/contestants/#{id}");
+            window.location.replace("/contestants/#{contestant.id}");
         }, 2000);

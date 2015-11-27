@@ -4,7 +4,9 @@ var cloudinary = require('cloudinary'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
     CONTROLLER_NAME = 'contestants',
-    errorHandler = require('../utilities/error-handler');
+    errorHandler = require('../utilities/error-handler'),
+    FACEBOOK_PIXEL_CODE = process.env.FACEBOOK_PIXEL_CODE,
+    USE_FACEBOOK_AD_CAMPAIGN = process.env.USE_FACEBOOK_AD_CAMPAIGN;
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
@@ -79,7 +81,12 @@ module.exports = {
 
             newContestant.registrant = req.user;
             savedContestant = data.contestantsService.add(newContestant);
-            res.render(`${CONTROLLER_NAME}/register-success`, savedContestant);
+            res.render(`${CONTROLLER_NAME}/register-success`, {
+                contestant: savedContestant,
+                pixelCode: FACEBOOK_PIXEL_CODE,
+                facebookADCampaignEnabled: USE_FACEBOOK_AD_CAMPAIGN,
+                trackingAction: 'CompleteRegistration'
+            });
         });
     }
 };
