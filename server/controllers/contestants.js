@@ -79,7 +79,7 @@ module.exports = {
 
             newContestant.registrant = req.user;
             savedContestant = data.contestantsService.add(newContestant);
-            res.redirect(savedContestant._id);
+            res.render(`${CONTROLLER_NAME}/register-success`, savedContestant);
         });
     }
 };
