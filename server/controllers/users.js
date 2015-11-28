@@ -1,7 +1,8 @@
 var encryption = require('../utilities/encryption'),
     data = require('../data'),
     errorHandler = require('../utilities/error-handler'),
-    CONTROLLER_NAME = 'users';
+    CONTROLLER_NAME = 'users',
+    constants = require('../config/global-constants');
 require('mongoose').model('User');
 
 module.exports = {
@@ -33,7 +34,8 @@ module.exports = {
     },
     getRegister: (req, res) => res.render(CONTROLLER_NAME + '/register'),
     postRegister: function (req, res) {
-        var newUserData = req.body;
+        var newUserData = req.body,
+            newUser;
 
         data.userService
             .getUser(newUserData.username)
@@ -47,17 +49,15 @@ module.exports = {
                 } else {
                     newUserData.salt = encryption.generateSalt();
                     newUserData.hashPass = encryption.generateHashedText(newUserData.salt, newUserData.password);
-                    data.userService
-                        .add(newUserData)
-                        .then(newUser => {
-                            req.logIn(newUser, err => {
-                                if (err) {
-                                    errorHandler.redirectToError(req, res,
-                                        'A terrible error has occurred! ' + err.toString());
-                                }
-                                res.redirect('/');
-                            });
-                        }, err => errorHandler.redirectToRoute(req, res, err, '/register'));
+                    newUser = data.userService.add(newUserData);
+                    req.logIn(newUser, err => {
+                        if (err) {
+                            errorHandler.redirectToError(req, res, 'A terrible error has occurred! ' + err.toString());
+                        }
+
+                        req.session.successMessage = constants.REGISTER_SUCCESS_MESSAGE;
+                        res.redirect('/contestants/register');
+                    });
                 }
             }, err => errorHandler.redirectToRoute(req, res, err, '/register'));
     },

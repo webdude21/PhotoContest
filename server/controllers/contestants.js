@@ -1,12 +1,10 @@
 var cloudinary = require('cloudinary'),
-    globalConstants = require('./../config/global-constants.js'),
+    constants = require('./../config/global-constants.js'),
     q = require('q'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
     CONTROLLER_NAME = 'contestants',
-    errorHandler = require('../utilities/error-handler'),
-    FACEBOOK_PIXEL_CODE = process.env.FACEBOOK_PIXEL_CODE,
-    USE_FACEBOOK_AD_CAMPAIGN = process.env.USE_FACEBOOK_AD_CAMPAIGN;
+    errorHandler = require('../utilities/error-handler');
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
@@ -41,19 +39,19 @@ module.exports = {
                     processContestants(contestants);
                     res.render(`${CONTROLLER_NAME}/all`, contestants);
                     deferred.resolve(contestants);
-                }, queryObject, globalConstants.PAGE_SIZE);
+                }, queryObject, constants.PAGE_SIZE);
 
         return deferred.promise;
     },
     postRegister: function (req, res) {
         var newContestant = {},
-            cloudinaryFolderSettings = {folder: globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME},
+            cloudinaryFolderSettings = {folder: constants.CLOUDINARY_CONTESTANTS_FOLDER_NAME},
             savedContestant;
 
         req.pipe(req.busboy);
 
         req.busboy.on('file', (fieldname, file, filename) => {
-            if (helpers.fileHasValidExtension(filename, globalConstants.PERMITTED_FORMATS)) {
+            if (helpers.fileHasValidExtension(filename, constants.PERMITTED_FORMATS)) {
                 var handleTheStreamResult = function (result) {
                     savedContestant.pictures.push({
                         serviceId: result.public_id,
@@ -65,7 +63,7 @@ module.exports = {
                 file.pipe(cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
             } else {
                 errorHandler.redirectToRoute(req, res,
-                    globalConstants.INVALID_IMAGE_ERROR, null, `${CONTROLLER_NAME}/register`);
+                    constants.INVALID_IMAGE_ERROR, null, `${CONTROLLER_NAME}/register`);
             }
         });
 
@@ -76,16 +74,16 @@ module.exports = {
         req.busboy.on('finish', () => {
             if (!newContestant.tos_accepted) {
                 errorHandler.redirectToRoute(req, res,
-                    globalConstants.TOS_NOT_ACCEPTED_ERROR, null, `${CONTROLLER_NAME}/register`);
+                    constants.TOS_NOT_ACCEPTED_ERROR, null, `${CONTROLLER_NAME}/register`);
             }
 
             newContestant.registrant = req.user;
             savedContestant = data.contestantsService.add(newContestant);
             res.render(`${CONTROLLER_NAME}/register-success`, {
                 contestant: savedContestant,
-                pixelCode: FACEBOOK_PIXEL_CODE,
-                facebookADCampaignEnabled: USE_FACEBOOK_AD_CAMPAIGN,
-                trackingAction: 'CompleteRegistration'
+                pixelCode: constants.FACEBOOK_CAMPAIGN.PIXEL_CODE,
+                facebookADCampaignEnabled: constants.FACEBOOK_CAMPAIGN.ENABLED,
+                trackingAction: constants.FACEBOOK_CAMPAIGN.TRACKING_ACTION
             });
         });
     }
