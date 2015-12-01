@@ -7,7 +7,7 @@ block main-content
         H4 Email адрес:&nbsp;
             a(href="mailto:#{user.email}") #{user.email}
         H4 Facebook:&nbsp;
-            a(href="http://facebook.com/profile.php?id=#{user.facebookId}") #{user.facebookId}
+            a(href="https://facebook.com/#{user.facebookId}") #{user.facebookId}
         hr
     .row#participants
         for contestant in contestants
