@@ -19,4 +19,7 @@ module.exports = function ({config}) {
 
     models.User.seedInitialUsers();
     models.Page.seedInitialPages();
+    if (process.env.NODE_ENV !== 'production'){
+		models.Contestant.seedInitialContestants();
+    }
 };

@@ -19,4 +19,24 @@ var mongoose = require('mongoose'),
             }
         ]
     });
-mongoose.model('Contestant', contestantSchema);
+var Contestant = mongoose.model('Contestant', contestantSchema);
+
+module.exports.seedInitialContestants = function () {
+    Contestant.find({}).exec(function (err, collection) {
+        if (err) {
+            console.log('Cannot find contestants: ' + err);
+            return;
+        }
+
+        if (collection.length === 0) {
+            for (var i = 0; i < 500; i++) {
+                Contestant.create({
+                    fullName: "asfasf",
+                    age: "asfas1",
+                });
+            }
+
+			console.log('Seed contestants...');
+        }
+    });
+};

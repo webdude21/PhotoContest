@@ -10,7 +10,7 @@ block main-content
                         span Име: #{contestant.fullName}
                     div.panel-body.image-container.text-center
                         a(href=path + "/" + contestant._id)
-                            if contestant.pictures
+                            if contestant.pictures.length
                                 img.img-rounded.img-thumbnail(src=contestant.pictures[0].url)
                             else
                                 h5 Няма снимки!
