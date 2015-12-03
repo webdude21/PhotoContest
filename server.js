@@ -5,4 +5,5 @@ var app = require('express')(),
 require('./server/config/')({app, config, staticCacheAge});
 
 app.listen(config.port);
+
 console.log("Server running on port: " + config.port);
