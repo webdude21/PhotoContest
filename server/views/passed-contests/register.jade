@@ -4,6 +4,7 @@ block page-styles
 block main-content
     .well
         form.form-horizontal(name="signUpForm", method="post", id="sign-up-form")
+            input(type="hidden", name="_csrf", value="#{csrf}")
             fieldset
                 legend Регистриране на завършил конкурс
                 .form-group

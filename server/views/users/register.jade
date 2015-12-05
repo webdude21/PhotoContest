@@ -3,6 +3,7 @@ extends ../includes/layout
 block main-content
     .well
         form.form-horizontal(name="signUpForm", method="post")
+            input(type="hidden", name="_csrf", value="#{csrf}")
             fieldset
                 legend Регистрация
                 .form-group

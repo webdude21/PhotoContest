@@ -1,6 +1,7 @@
 extends includes/layout
 block main-content
     form(name="confirm", method="post")
+        input(type="hidden", name="_csrf", value="#{csrf}")
         .jumbotron
             h1 #{message.title}
             p #{message.body}
