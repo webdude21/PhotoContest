@@ -23,11 +23,6 @@ module.exports = function ({app, config, staticCacheAge}) {
     app.use(session({secret: secretPassPhrase, saveUninitialized: true, resave: true}));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use(csrf());
-    app.use(function (req, res, next) {
-        res.locals.csrf = req.csrfToken();
-        next();
-    });
     app.use(express.static(config.rootPath + STATIC_DIRECTORY, {maxAge: staticCacheAge}));
     app.use(morgan('combined'));
     app.use((req, res, next) => messageHandler(req, res, next, app));

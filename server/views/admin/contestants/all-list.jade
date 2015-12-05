@@ -17,10 +17,13 @@ block main-content
                     tr
                         td #{index + 1}
                         td
-                            a(href="./#{contestant._id}") #{contestant.fullName}
+                            a(href="./#{contestant._id}", data-participant="#{contestant._id}") #{contestant.fullName}
                         td
                             span #{contestant.age}
                         td
                             span #{contestant.approved ? 'Да' : 'Не'}
                         td
                         td #{contestant.registerDate}
+block page-scripts-post
+    script(type="text/javascript").
+        var PARTICIPANTS_BASE_URL = "/contestants/";

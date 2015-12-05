@@ -27,21 +27,35 @@ module.exports = {
             currentPage = gridRequest.pager.currentPage < 1 ? 1 : gridRequest.pager.currentPage;
 
             var sortObject = {};
-            sortObject[gridRequest.sort.columnName] = gridRequest.sort.order;
-            query.sort(sortObject).skip((currentPage - 1) * pageSize).limit(pageSize).lean().exec(function (err, entries) {
-                if (err) {
-                    console.log('Database error: ' + err);
-                    errorHandler();
-                }
 
-                gridRequest.data = entries;
-                successHandler(gridRequest);
-            });
+            sortObject[gridRequest.sort.columnName] = gridRequest.sort.order;
+
+            query.sort(sortObject)
+                .skip((currentPage - 1) * pageSize)
+                .limit(pageSize).lean()
+                .exec(function (err, entries) {
+                    if (err) {
+                        console.log('Database error: ' + err);
+                        errorHandler();
+                    }
+
+                    gridRequest.data = entries;
+                    successHandler(gridRequest);
+                });
         });
     },
     buildQueryObject: function buildQueryObject(baseQueryObject) {
         var queryObject = baseQueryObject;
-        queryObject.columns = [{ name: "approved", label: 'Text', filter: true, filterable: true, sortable: true, method: "equals" }];
+
+        queryObject.columns = [{
+            name: 'approved',
+            label: 'Text',
+            filter: true,
+            filterable: true,
+            sortable: true,
+            method: 'equals'
+        }];
+
         if (!queryObject.pager) {
             queryObject.pager = {
                 currentPage: +queryObject.page || 1
