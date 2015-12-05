@@ -54,7 +54,7 @@ module.exports = {
             buttonText: 'Рестарт'
         }
     }),
-    postResetApplication: (req, res) => {
+    postResetApplication: function (req, res) {
         data.contestantsService
             .deleteAll()
             .then(() => {
@@ -64,18 +64,18 @@ module.exports = {
                         err => errorHandler.redirectToError(req, res, 'Could not reset the application!' + err));
             }, err => errorHandler.redirectToError(req, res, 'Could not reset the application!' + err));
     },
-    postResetContest: (req, res) => {
+    postResetContest: function (req, res) {
         data.contestantsService
             .deleteAll()
             .then(() => cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
                 () => res.redirect('/')),
                 err => errorHandler.redirectToError(req, res, 'Could not reset the contest!' + err));
     },
-    getAllContestants: (req, res) => {
+    getAllContestants: function (req, res) {
         var queryObject = req.query;
 
         data.contestantsService
-            .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not reset the application!' + err),
+            .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not get all contestants!' + err),
                 contestants => {
                     contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
                         picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
@@ -83,14 +83,22 @@ module.exports = {
                     res.render(`${CONTROLLER_NAME}/contestants/all`, contestants);
                 }, queryObject, globalConstants.PAGE_SIZE);
     },
-    getAllRegisteredUsers: (req, res) => {
+    getAllContestantsAsList: function (req, res) {
+        var queryObject = req.query;
+
+        data.contestantsService
+            .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not get all contestants!' + err),
+                contestants => res.render(`${CONTROLLER_NAME}/contestants/all-list`, {contestants}),
+                queryObject);
+    },
+    getAllRegisteredUsers: function (req, res) {
         data.userService
             .getAll().then(users => {
                 res.render(`${CONTROLLER_NAME}/users/all`, {users: users});
             },
             err => errorHandler.redirectToError(req, res, 'Could not load registered users' + err));
     },
-    getRegisteredUserById: (req, res) => {
+    getRegisteredUserById: function (req, res) {
         var result = {
             user: {},
             contestants: []
