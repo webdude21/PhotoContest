@@ -25,6 +25,7 @@ module.exports = function ({app, config, staticCacheAge}) {
     app.use(passport.session());
     app.use(csrf({cookie: true}));
     app.use(function (req, res, next) {
+        res.locals.facebookClientID = process.env.FACEBOOK_APP_ID;
         res.locals.csrf = req.csrfToken();
         next();
     });

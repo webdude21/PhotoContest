@@ -3,7 +3,6 @@ var cloudinary = require('cloudinary'),
     globalConstants = require('../config/global-constants.js'),
     CONTROLLER_NAME = 'admin',
     errorHandler = require('../utilities/error-handler');
-
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
