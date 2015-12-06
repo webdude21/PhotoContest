@@ -24,10 +24,3 @@ block main-content
                             span #{contestant.approved ? 'Да' : 'Не'}
                         td
                         td #{contestant.registerDate}
-block inject-data-for-scripts
-    script(type="text/javascript").
-        var FACEBOOK_ADMIN = {
-            clientId: '#{FACEBOOK_ADMIN_INFO.clientID}',
-            clientSecret: '#{FACEBOOK_ADMIN_INFO.clientSecret}',
-            baseUrl: '/contestants/'
-        };

@@ -2,7 +2,8 @@ var cloudinary = require('cloudinary'),
     data = require('../data'),
     globalConstants = require('../config/global-constants.js'),
     CONTROLLER_NAME = 'admin',
-    errorHandler = require('../utilities/error-handler');
+    errorHandler = require('../utilities/error-handler'),
+    graph = require('fbgraph');
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
