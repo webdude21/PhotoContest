@@ -10,17 +10,6 @@
         debugger;
 
         $links.each(function (index, link) {
-
-            FB.api( "/",
-                {
-                    "id": "http:\/\/www.imdb.com\/title\/tt2015381\/"
-                },
-                function (response) {
-                    if (response && !response.error) {
-                        /* handle the result */
-                    }
-                }
-            );
         });
     }
 
@@ -28,4 +17,4 @@
         $(document).ready(getLinksWithParticipantsInfo);
     }
 
-}(window.PARTICIPANTS_BASE_URL, window.$, document, FB));
+}(window.PARTICIPANTS_BASE_URL, window.$, document));
