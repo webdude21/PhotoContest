@@ -2,8 +2,8 @@ block main-content
     .text-center
         .well.well-sm
             span Регистриран от: &nbsp;
-        if registrant && registrant.username
-            a(href="../../admin/users/#{registrant._id}") #{registrant.username}
+            if registrant && registrant.username
+                a(href="../../admin/users/#{registrant._id}") #{registrant.username}
         if approved
             a.btn.btn-danger(href=path + "/editApproval") Отхвърляне
         else
