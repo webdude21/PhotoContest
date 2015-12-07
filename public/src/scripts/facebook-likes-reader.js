@@ -23,7 +23,7 @@
             },
             resolve = function () {
                 if (resonseOne.finished && responseTwo.finished) {
-                    if (resonseOne > responseTwo) {
+                    if (resonseOne.likes > responseTwo.likes) {
                         successHandler(resonseOne.likes);
                     } else {
                         successHandler(responseTwo.likes);
