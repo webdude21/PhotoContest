@@ -3,7 +3,7 @@ var cloudinary = require('cloudinary'),
     globalConstants = require('../config/global-constants.js'),
     CONTROLLER_NAME = 'admin',
     errorHandler = require('../utilities/error-handler'),
-    graph = require('fbgraph');
+    ACCESS_TOKEN = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`;
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
@@ -88,7 +88,7 @@ module.exports = {
 
         data.contestantsService
             .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not get all contestants!' + err),
-                contestants => res.render(`${CONTROLLER_NAME}/contestants/all-list`, {contestants}),
+                contestants => res.render(`${CONTROLLER_NAME}/contestants/all-list`, {contestants, ACCESS_TOKEN}),
                 queryObject);
     },
     getAllRegisteredUsers: function (req, res) {

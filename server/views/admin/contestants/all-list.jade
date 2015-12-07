@@ -23,4 +23,8 @@ block main-content
                         td
                             span #{contestant.approved ? 'Да' : 'Не'}
                         td
+                            span.like-count
                         td #{contestant.registerDate}
+block inject-data-for-scripts
+    script(type="text/javascript").
+        var ACCESS_TOKEN = '#{ACCESS_TOKEN}';

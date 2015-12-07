@@ -29,7 +29,7 @@ module.exports.seedInitialContestants = function () {
         }
 
         if (collection.length === 0) {
-            for (var i = 0; i < 500; i++) {
+            for (var i = 0; i < 10; i++) {
                 Contestant.create({
                     fullName: "asfasf",
                     age: "asfas1",
