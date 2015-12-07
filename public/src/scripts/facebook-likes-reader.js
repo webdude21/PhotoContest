@@ -9,7 +9,7 @@
 
         return {
             access_token: ACCESS_TOKEN,
-            id: protocol + baseUrl + '/' + participantId,
+            id: protocol + baseUrl + participantId,
             fields: 'og_object{engagement{count}}'
         };
     }
