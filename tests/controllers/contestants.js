@@ -26,17 +26,22 @@ describe('#Contestants Controller', function () {
     describe('Get Approved Contestants', function () {
         it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
-            controllers.contestants.getAllApproved(express.request, express.response)
+            controllers
+                .contestants
+                .getAllApproved(express.request, express.response)
                 .then(function (resultData) {
                     express.response.render.should.have.been.calledWith('contestants/all', resultData);
                     testDoneCallBack();
-                }).done(null, testDoneCallBack);
+                })
+                .done(null, testDoneCallBack);
         });
     });
     describe('Get Register Contestant', function () {
         it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
-            controllers.contestants.getRegister(express.request, express.response)
+            controllers
+                .contestants
+                .getRegister(express.request, express.response)
                 .then(function () {
                     express.response.render.should.have.been.calledWith('contestants/register');
                     testDoneCallBack();
