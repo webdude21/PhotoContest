@@ -1,7 +1,6 @@
-/*eslint-disable */
+'use strict';
 var MongooseRepository = require('./MongooseRepository'),
-    paging = require('../utilities/paging'),
-    ObjectId = require('mongoose').Types.ObjectId;
+    paging = require('../utilities/paging');
 
 class ContestantsService extends MongooseRepository {
     constructor() {
