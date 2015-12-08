@@ -19,11 +19,11 @@ function getExpressMock() {
     };
 }
 
-describe('#Contestants Controller', function () {
+describe('#contestants controller', function () {
     beforeEach(function () {
         this.express = getExpressMock();
     });
-    describe('Get Approved Contestants', function () {
+    describe('get approved contestants', function () {
         it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
             controllers
@@ -36,7 +36,7 @@ describe('#Contestants Controller', function () {
                 .done(null, testDoneCallBack);
         });
     });
-    describe('Get Register Contestant', function () {
+    describe('get register contestant', function () {
         it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
             controllers
@@ -50,25 +50,30 @@ describe('#Contestants Controller', function () {
     });
 });
 
-describe('#Passed Contest Controller', function () {
+describe('#passed contest controller', function () {
     beforeEach(function () {
         this.express = getExpressMock();
     });
-    describe('Get Add Winner', function () {
+    describe('get add winner', function () {
         it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
-            controllers.passedContests.getAddWinner(express.request, express.response)
+            controllers
+                .passedContests
+                .getAddWinner(express.request, express.response)
                 .then(function () {
                     express.response.render.should.have.been.calledWith('passed-contests/addWinner');
                     testDoneCallBack();
-                }).done(null, testDoneCallBack);
+                })
+                .done(null, testDoneCallBack);
         });
     });
 
-    describe('Get Delete Contest', function () {
+    describe('get delete contest', function () {
         it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
             var express = this.express;
-            controllers.passedContests.getDeleteContestConfirm(this.express.request, this.express.response);
+            controllers
+                .passedContests
+                .getDeleteContestConfirm(this.express.request, this.express.response);
             express.response.render.should.have.been.calledWith('confirm');
             testDoneCallBack();
         });
