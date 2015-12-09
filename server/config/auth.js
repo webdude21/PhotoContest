@@ -6,6 +6,7 @@ module.exports = {
             if (err) {
                 return next(err);
             }
+
             if (!user) {
                 req.session.errorMessage = 'Username/Password combination is not valid!';
                 next();

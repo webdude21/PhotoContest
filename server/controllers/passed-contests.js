@@ -10,40 +10,40 @@ var cloudinary = require('cloudinary'),
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
-function _showError(req, res, deferred, message, redirectRoute) {
+function showError(req, res, deferred, message, redirectRoute) {
     req.session.errorMessage = message;
     res.redirect(redirectRoute || ROUTE_ROOT);
     deferred.reject();
 }
 
-function _retrieveContest(req, res, deferred) {
+function retrieveContest(req, res, deferred) {
     var deferredContest = q.defer();
 
     data.contestService
         .getBy(req.params.id)
         .then(result => {
             if (result === null) {
-                _showError(req, res, deferred, NO_SUCH_CONTEST);
+                showError(req, res, deferred, NO_SUCH_CONTEST);
                 deferredContest.reject('No such contest');
             } else {
                 deferredContest.resolve(result);
             }
         }, () => {
-            _showError(req, res, deferred, NO_SUCH_CONTEST);
+            showError(req, res, deferred, NO_SUCH_CONTEST);
             deferredContest.reject('Failed to get the contest data');
         });
 
     return deferredContest.promise;
 }
 
-function _saveWinner(contest, newWinner) {
+function saveWinner(contest, newWinner) {
     if (!contest.winners) {
         contest.winners = [];
     }
     contest.winners.push(newWinner);
     contest.save();
 }
-function _addWinner(req, permittedFormats, res, deferred, contest) {
+function addWinner(req, permittedFormats, res, deferred, contest) {
     var newWinner = {};
     newWinner.pictures = [];
     req.pipe(req.busboy);
@@ -55,11 +55,11 @@ function _addWinner(req, permittedFormats, res, deferred, contest) {
                     fileName: filename,
                     url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
                 });
-                _saveWinner(contest, newWinner);
+                saveWinner(contest, newWinner);
             }, {folder: globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contest.id});
             file.pipe(stream);
         } else {
-            _showError(req, res, deferred, globalConstants.INVALID_IMAGE_ERROR,
+            showError(req, res, deferred, globalConstants.INVALID_IMAGE_ERROR,
                 EDIT_CONTEST_ROUTE + req.params.id + '/addWinner');
         }
     });
@@ -84,9 +84,8 @@ module.exports = {
     postAddWinner: function (req, res) {
         var deferred = q.defer();
 
-        _retrieveContest(req, res, deferred).then(contest => {
-            _addWinner(req, globalConstants.PERMITTED_FORMATS, res, deferred, contest);
-        });
+        retrieveContest(req, res, deferred)
+            .then(contest => addWinner(req, globalConstants.PERMITTED_FORMATS, res, deferred, contest));
 
         return deferred.promise;
     },
@@ -113,9 +112,7 @@ module.exports = {
                             res.redirect(EDIT_CONTEST_ROUTE);
                             deferred.resolve();
                         });
-            }, err => {
-                _showError(req, res, deferred, err);
-            });
+            }, err => showError(req, res, deferred, err));
 
         return deferred.promise;
     },
@@ -131,10 +128,7 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/all', {data: contests});
                     deferred.resolve();
                 }
-            }, () => {
-                res.redirect('/not-found');
-                deferred.reject();
-            });
+            }, err => showError(req, res, deferred, err));
         return deferred.promise;
     },
     getEditPassedContests: function (req, res) {
@@ -149,10 +143,7 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/edit', {data: contests});
                     deferred.resolve();
                 }
-            }, () => {
-                res.redirect('/not-found');
-                deferred.reject();
-            });
+            }, err => showError(req, res, deferred, err));
         return deferred.promise;
     },
     getEditPassedContestsById: function (req, res) {
@@ -168,10 +159,7 @@ module.exports = {
                     res.render('admin/contest/detail', contest);
                     deferred.resolve();
                 }
-            }, () => {
-                res.redirect('/not-found');
-                deferred.reject();
-            });
+            }, err => showError(req, res, deferred, err));
         return deferred.promise;
     },
     toggleVisibleById: function (req, res) {
@@ -210,11 +198,7 @@ module.exports = {
                     res.render(CONTROLLER_NAME + '/details', contest);
                     deferred.resolve();
                 }
-            }, err => {
-                req.session.errorMessage = err;
-                res.redirect('/not-found');
-                deferred.reject();
-            });
+            }, err => showError(req, res, deferred, err));
         return deferred.promise;
     }
 };
