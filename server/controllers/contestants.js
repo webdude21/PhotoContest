@@ -4,16 +4,18 @@ var cloudinary = require('cloudinary'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
     CONTROLLER_NAME = 'contestants',
-    errorHandler = require('../utilities/error-handler');
+    errorHandler = require('../utilities/error-handler'),
+    CLOUDINARY_CONFIG = {
+        thumbnail: {transformation: 'thumbnail', secure: true},
+        detail: {transformation: 'detail', secure: true}
+    };
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 var processContestants = function (contestants) {
     contestants.data
         .forEach(contestant => contestant.pictures
-            .forEach(picture => {
-                picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
-            }));
+            .forEach(picture => picture.url = cloudinary.url(picture.serviceId, CLOUDINARY_CONFIG.thumbnail)));
 };
 
 module.exports = {
@@ -55,7 +57,7 @@ module.exports = {
                     savedContestant.pictures.push({
                         serviceId: result.public_id,
                         fileName: filename,
-                        url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
+                        url: cloudinary.url(result.public_id, CLOUDINARY_CONFIG.detail)
                     });
                     savedContestant.save();
                 };
@@ -66,9 +68,7 @@ module.exports = {
             }
         });
 
-        req.busboy.on('field', (fieldname, val) => {
-            newContestant[fieldname] = val;
-        });
+        req.busboy.on('field', (fieldname, val) => newContestant[fieldname] = val);
 
         req.busboy.on('finish', () => {
             if (!newContestant.tos_accepted) {
