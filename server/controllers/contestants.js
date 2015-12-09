@@ -30,8 +30,7 @@ module.exports = {
                 () => errorHandler.redirectToNotFound(res));
     },
     getAllApproved: function (req, res) {
-        var deferred = q.defer(),
-            queryObject = req.query;
+        var deferred = q.defer();
 
         data.contestantsService
             .getQuery(() => errorHandler.redirectToNotFound(res, deferred),
@@ -39,7 +38,7 @@ module.exports = {
                     processContestants(contestants);
                     res.render(`${CONTROLLER_NAME}/all`, contestants);
                     deferred.resolve(contestants);
-                }, queryObject, constants.PAGE_SIZE);
+                }, req.query, constants.PAGE_SIZE);
 
         return deferred.promise;
     },
@@ -62,8 +61,8 @@ module.exports = {
                 };
                 file.pipe(cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
             } else {
-                errorHandler.redirectToRoute(req, res,
-                    constants.INVALID_IMAGE_ERROR, null, `${CONTROLLER_NAME}/register`);
+                errorHandler.redirectToRoute(req, res, constants.INVALID_IMAGE_ERROR,
+                    null, `${CONTROLLER_NAME}/register`);
             }
         });
 

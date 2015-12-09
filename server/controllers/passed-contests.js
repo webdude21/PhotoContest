@@ -64,9 +64,7 @@ function addWinner(req, permittedFormats, res, deferred, contest) {
         }
     });
 
-    req.busboy.on('field', (fieldname, val) => {
-        newWinner[fieldname] = val;
-    });
+    req.busboy.on('field', (fieldname, val) => newWinner[fieldname] = val);
 
     req.busboy.on('finish', () => {
         req.session.successMessage = 'Участника беше успешно добавен!';
@@ -104,8 +102,7 @@ module.exports = {
         data.contestService
             .deleteBy(contestId)
             .then(() => {
-                cloudinary
-                    .api
+                cloudinary.api
                     .delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
                         () => {
                             req.session.successMessage = 'Конкурса беше изтрит успешно';

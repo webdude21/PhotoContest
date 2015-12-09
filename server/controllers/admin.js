@@ -3,7 +3,8 @@ var cloudinary = require('cloudinary'),
     globalConstants = require('../config/global-constants.js'),
     CONTROLLER_NAME = 'admin',
     errorHandler = require('../utilities/error-handler'),
-    ACCESS_TOKEN = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`;
+    ACCESS_TOKEN = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`,
+    COULD_NOT_RESET_APP = 'Could not reset the application!';
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
@@ -61,8 +62,8 @@ module.exports = {
                 data.users
                     .deleteAllNonAdmins()
                     .then(() => cloudinary.api.delete_all_resources(() => res.redirect('/')),
-                        err => errorHandler.redirectToError(req, res, 'Could not reset the application!' + err));
-            }, err => errorHandler.redirectToError(req, res, 'Could not reset the application!' + err));
+                        err => errorHandler.redirectToError(req, res, COULD_NOT_RESET_APP + err));
+            }, err => errorHandler.redirectToError(req, res, COULD_NOT_RESET_APP + err));
     },
     postResetContest: function (req, res) {
         data.contestantsService
@@ -72,8 +73,6 @@ module.exports = {
                 err => errorHandler.redirectToError(req, res, 'Could not reset the contest!' + err));
     },
     getAllContestants: function (req, res) {
-        var queryObject = req.query;
-
         data.contestantsService
             .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not get all contestants!' + err),
                 contestants => {
@@ -81,15 +80,13 @@ module.exports = {
                         picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
                     }));
                     res.render(`${CONTROLLER_NAME}/contestants/all`, contestants);
-                }, queryObject, globalConstants.PAGE_SIZE);
+                }, req.query, globalConstants.PAGE_SIZE);
     },
     getAllContestantsAsList: function (req, res) {
-        var queryObject = req.query;
-
         data.contestantsService
             .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not get all contestants!' + err),
                 contestants => res.render(`${CONTROLLER_NAME}/contestants/all-list`, {contestants, ACCESS_TOKEN}),
-                queryObject);
+                req.query);
     },
     getAllRegisteredUsers: function (req, res) {
         data.userService
