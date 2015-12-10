@@ -32,8 +32,7 @@ module.exports = {
             .getBy(req.params.id)
             .then(function (contestant) {
                 if (!contestant.approved) {
-                    disapproved = 'Участието на този участник е спряно от администратора на приложението ' +
-                        'поради не спазване на обшите условия.';
+                    disapproved = 'Участникът е изключен от конкурса по решение на администратора на приложението!';
                 }
                 res.render(`${CONTROLLER_NAME}/contestant`, {contestant, disapproved});
             }, () => errorHandler.redirectToNotFound(res));
