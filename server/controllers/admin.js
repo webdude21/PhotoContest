@@ -11,7 +11,7 @@ module.exports = {
     getById: function (req, res) {
         data.contestantsService
             .getBy(req.params.id)
-            .then(contestant => res.render(`${CONTROLLER_NAME}/contestants/contestant`, contestant),
+            .then(contestant => res.render(`${CONTROLLER_NAME}/contestants/contestant`, {contestant}),
                 () => errorHandler.redirectToNotFound(res));
     },
     toggleApprovalById: function (req, res) {

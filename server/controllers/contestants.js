@@ -26,10 +26,17 @@ module.exports = {
         return deferred.promise;
     },
     getById: function (req, res) {
+        var disapproved;
+
         return data.contestantsService
             .getBy(req.params.id)
-            .then(contestant => res.render(`${CONTROLLER_NAME}/contestant`, contestant),
-                () => errorHandler.redirectToNotFound(res));
+            .then(function (contestant) {
+                if (!contestant.approved) {
+                    disapproved = 'Участието на този участник е спряно от администратора на приложението ' +
+                        'поради не спазване на обшите условия.';
+                }
+                res.render(`${CONTROLLER_NAME}/contestant`, {contestant, disapproved});
+            }, () => errorHandler.redirectToNotFound(res));
     },
     getAllApproved: function (req, res) {
         var deferred = q.defer();
