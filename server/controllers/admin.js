@@ -3,7 +3,7 @@ var cloudinary = require('cloudinary'),
     globalConstants = require('../config/global-constants.js'),
     CONTROLLER_NAME = 'admin',
     errorHandler = require('../utilities/error-handler'),
-    ACCESS_TOKEN = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`,
+    ACCESS_TOKEN = `${process.env.FACEBOOK_APP_CLIENT_TOKEN}`,
     COULD_NOT_RESET_APP = 'Could not reset the application!';
 cloudinary.config(process.env.CLOUDINARY_URL);
 
