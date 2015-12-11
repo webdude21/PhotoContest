@@ -12,7 +12,7 @@ block main-content
                 h5 Няма снимки!
             hr
             p Възраст: #{contestant.age}
-            if comment
+            if contestant.comment
                 p.break-word Коментар: #{contestant.comment}
             hr
             .fb-like(data-href=path, data-layout="button_count", data-action="like",
