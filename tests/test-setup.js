@@ -10,22 +10,20 @@ var sinon = require('sinon'),
 chai.should();
 chai.use(sinonChai);
 
-var getExpressMock = function () {
-    var req, res;
+var getExpressMock = function (request) {
+    var request = request || {},
+        response = {};
 
-    req = res = {};
-    req.query = {};
-    res.render = sinon.spy();
+    request.query = {};
+    response.render = sinon.spy();
 
-    return {
-        request: req, response: res
-    };
+    return {request, response};
 }, isPromise = function (actionResult) {
     return actionResult && actionResult.then;
-}, callingActionReturnsView = function (action, expectedView, expectData) {
+}, callingActionReturnsView = function (action, expectedView, expectData, request) {
     return function () {
         it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
-            var express = getExpressMock(),
+            var express = getExpressMock(request),
                 successhandler = function (resultData) {
                     if (expectData) {
                         express.response.render.should.have.been.calledWith(expectedView, resultData);
@@ -46,4 +44,4 @@ var getExpressMock = function () {
     };
 };
 
-module.exports = {callingActionReturnsView, controllers}
+module.exports = {callingActionReturnsView, controllers};

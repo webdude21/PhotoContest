@@ -91,5 +91,6 @@ module.exports = {
                 trackingAction: constants.FACEBOOK_CAMPAIGN.TRACKING_ACTION
             });
         });
-    }
+    },
+    CONTROLLER_NAME: CONTROLLER_NAME
 };
