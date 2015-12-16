@@ -1,4 +1,4 @@
-require('../../server/config/mongoose')({config: require('../../server/config/config')['development']});
+require('../../server/config/mongoose')({config: require('../../server/config/config').development});
 var sinon = require('sinon'),
     chai = require('chai'),
     SHOULD_RENDER_VIEW = 'should render the correct view with the data from the service',
@@ -7,7 +7,7 @@ var sinon = require('sinon'),
 chai.should();
 chai.use(sinonChai);
 
-function getExpressMock() {
+var getExpressMock = function () {
     var req, res;
 
     req = res = {};
@@ -17,65 +17,42 @@ function getExpressMock() {
     return {
         request: req, response: res
     };
-}
+}, isPromise = function (actionResult) {
+    return actionResult && actionResult.then;
+}, callingActionReturnsView = function (action, expectedView, expectData) {
+    return function () {
+        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
+            var express = getExpressMock(),
+                successhandler = function (resultData) {
+                    if (expectData) {
+                        express.response.render.should.have.been.calledWith(expectedView, resultData);
+                    } else {
+                        express.response.render.should.have.been.calledWith(expectedView);
+                    }
+                    testDoneCallBack();
+                },
+                actionResult = action(express.request, express.response);
+
+            if (isPromise(actionResult)) {
+                actionResult.then(successhandler).done(null, testDoneCallBack);
+            } else {
+                express.response.render.should.have.been.calledWith(expectedView);
+                testDoneCallBack();
+            }
+        });
+    };
+};
 
 describe('#contestants controller', function () {
-    beforeEach(function () {
-        this.express = getExpressMock();
-    });
-    describe('get approved contestants', function () {
-        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
-            var express = this.express;
-            controllers
-                .contestants
-                .getAllApproved(express.request, express.response)
-                .then(function (resultData) {
-                    express.response.render.should.have.been.calledWith('contestants/all', resultData);
-                    testDoneCallBack();
-                })
-                .done(null, testDoneCallBack);
-        });
-    });
-    describe('get register contestant', function () {
-        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
-            var express = this.express;
-            controllers
-                .contestants
-                .getRegister(express.request, express.response)
-                .then(function () {
-                    express.response.render.should.have.been.calledWith('contestants/register');
-                    testDoneCallBack();
-                }).done(null, testDoneCallBack);
-        });
-    });
+    describe('get approved contestants',
+        callingActionReturnsView(controllers.contestants.getAllApproved, 'contestants/all', true));
+    describe('get register contestant',
+        callingActionReturnsView(controllers.contestants.getRegister, 'contestants/register'));
 });
 
 describe('#passed contest controller', function () {
-    beforeEach(function () {
-        this.express = getExpressMock();
-    });
-    describe('get add winner', function () {
-        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
-            var express = this.express;
-            controllers
-                .passedContests
-                .getAddWinner(express.request, express.response)
-                .then(function () {
-                    express.response.render.should.have.been.calledWith('passed-contests/addWinner');
-                    testDoneCallBack();
-                })
-                .done(null, testDoneCallBack);
-        });
-    });
-
-    describe('get delete contest', function () {
-        it(SHOULD_RENDER_VIEW, function (testDoneCallBack) {
-            var express = this.express;
-            controllers
-                .passedContests
-                .getDeleteContestConfirm(this.express.request, this.express.response);
-            express.response.render.should.have.been.calledWith('confirm');
-            testDoneCallBack();
-        });
-    });
+    describe('get add winner',
+        callingActionReturnsView(controllers.passedContests.getAddWinner, 'passed-contests/addWinner'));
+    describe('get delete contest',
+        callingActionReturnsView(controllers.passedContests.getDeleteContestConfirm, 'confirm'));
 });

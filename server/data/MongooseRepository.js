@@ -22,7 +22,7 @@ class MongooseRepository {
     }
 
     getBy(id) {
-        return MongooseRepository.wrapQueryInPromise(this.Model.findById(id).populate("registrant"));
+        return MongooseRepository.wrapQueryInPromise(this.Model.findById(id).populate('registrant'));
     }
 
     getAll() {
