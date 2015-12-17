@@ -5,6 +5,7 @@ require('../server/config/mongoose')({config: require('../server/config/config')
 var sinon = require('sinon'),
     chai = require('chai'),
     SHOULD_RENDER_VIEW = 'should render the correct view with the data from the service',
+    SHOULD_REDIRECT_TO_ROUTE = 'should redirect to the correct route',
     sinonChai = require('sinon-chai'),
     controllers = require('../server/controllers');
 chai.should();
@@ -16,6 +17,7 @@ var getExpressMock = function (request) {
 
     request.query = {};
     response.render = sinon.spy();
+    response.redirect = sinon.spy();
 
     return {request, response};
 }, isPromise = function (actionResult) {
@@ -42,6 +44,24 @@ var getExpressMock = function (request) {
             }
         });
     };
+}, callingActionRedirectsTo = function (action, redirectRoute, request) {
+    return function () {
+        it(SHOULD_REDIRECT_TO_ROUTE, function (testDoneCallBack) {
+            var express = getExpressMock(request),
+                successhandler = function (resultData) {
+                    express.response.redirect.should.have.been.calledWith(redirectRoute);
+                    testDoneCallBack();
+                },
+                actionResult = action(express.request, express.response);
+
+            if (isPromise(actionResult)) {
+                actionResult.then(successhandler).done(null, testDoneCallBack);
+            } else {
+                express.response.redirect.should.have.been.calledWith(redirectRoute);
+                testDoneCallBack();
+            }
+        });
+    };
 };
 
-module.exports = {callingActionReturnsView, controllers};
+module.exports = {callingActionReturnsView, controllers, callingActionRedirectsTo};
