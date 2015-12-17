@@ -119,7 +119,7 @@ module.exports = {
             .getAllVisible()
             .then(contests => {
                 if (contests === null) {
-                    res.redirect('/not-found');
+                    res.redirect(globalConstants.NOT_FOUND_ROUTE);
                     deferred.reject();
                 } else {
                     res.render(CONTROLLER_NAME + '/all', {data: contests});
@@ -134,7 +134,7 @@ module.exports = {
             .getAll()
             .then(contests => {
                 if (contests === null) {
-                    res.redirect('/not-found');
+                    res.redirect(globalConstants.NOT_FOUND_ROUTE);
                     deferred.reject();
                 } else {
                     res.render(CONTROLLER_NAME + '/edit', {data: contests});
@@ -149,7 +149,7 @@ module.exports = {
             .getBy(req.params.id)
             .then(contest => {
                 if (contest === null) {
-                    res.redirect('/not-found');
+                    res.redirect(globalConstants.NOT_FOUND_ROUTE);
                     deferred.reject();
                 } else {
                     contest.winners.forEach(helpers.formatWinner);
@@ -166,7 +166,7 @@ module.exports = {
                 contest.visible = !contest.visible;
                 contest.save();
                 res.redirect(EDIT_CONTEST_ROUTE + contest.id);
-            }, () => res.redirect('/not-found'));
+            }, () => res.redirect(globalConstants.NOT_FOUND_ROUTE));
     },
     getRegister: function (req, res) {
         var deferred = q.defer();
@@ -188,7 +188,7 @@ module.exports = {
             .getBy(req.params.id)
             .then(contest => {
                 if (contest === null) {
-                    res.redirect('/not-found');
+                    res.redirect(globalConstants.NOT_FOUND_ROUTE);
                     deferred.reject();
                 } else {
                     contest.winners.forEach(helpers.formatWinner);
