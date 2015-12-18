@@ -9,7 +9,7 @@
     "test": "mocha --harmony_destructuring tests/**/"
   },
   "engines": {
-    "node": "4.2.1"
+    "node": "5.3.0"
   },
   "author": "webdude",
   "license": "MIT",
