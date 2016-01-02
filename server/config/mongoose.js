@@ -7,6 +7,7 @@ module.exports = function ({config}) {
     mongoose.connect(config.db);
     var database = mongoose.connection;
 
+    /*eslint-disable no-console */
     database.once('open', function (err) {
         if (err) {
             console.error('Cannot connect to the database ...: ' + err);

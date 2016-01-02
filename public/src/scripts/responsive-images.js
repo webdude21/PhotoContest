@@ -1,5 +1,4 @@
 (function ($, document) {
-    'use strict';
     $(document).ready(function () {
         var $galleryContainer = $('#participants');
         $galleryContainer.masonry({

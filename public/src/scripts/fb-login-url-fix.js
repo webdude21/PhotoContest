@@ -1,6 +1,4 @@
 (function (window, document) {
-    'use strict';
-
     var scroll;
 
     if (window.location.hash && window.location.hash === '#_=_') {

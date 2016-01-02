@@ -1,12 +1,11 @@
 (function (ACCESS_TOKEN, $, document, setTimeout, window) {
-    'use strict';
-
     var WAIT_TIME = 2000;
     var baseUrl = 'divastore.herokuapp.com' + '/contestants/';
 
     function getRequestObject(https, participantId) {
         var protocol = https ? 'https://' : 'http://';
 
+        /* eslint-disable camelcase*/
         return {
             access_token: ACCESS_TOKEN,
             id: protocol + baseUrl + participantId,

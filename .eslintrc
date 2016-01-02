@@ -1,6 +1,6 @@
 {
   "ecmaFeatures": {},
-  "parser": "espree",
+  "parser": "babel-eslint",
   "env": {
     "browser": false,
     "node": true,

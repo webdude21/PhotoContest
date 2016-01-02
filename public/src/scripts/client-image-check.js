@@ -1,6 +1,4 @@
 (function imageVerifier($, document) {
-    'use strict';
-
     var INVALID_IMAGE_ERROR = 'Моля уверете се, че сте избрали валидно ' +
             'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
         PERMITTED_FORMATS = ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
