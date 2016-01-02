@@ -1,6 +1,4 @@
-/**
- * Created by webdude on 16.12.15.
- */
+'use strict';
 require('../server/config/mongoose')({config: require('../server/config/config').development});
 var sinon = require('sinon'),
     chai = require('chai'),
@@ -12,13 +10,11 @@ chai.should();
 chai.use(sinonChai);
 
 var getExpressMock = function (request) {
-    var request = request || {},
-        response = {};
-
+    var response = {};
+    request = request || {};
     request.query = {};
     response.render = sinon.spy();
     response.redirect = sinon.spy();
-
     return {request, response};
 }, isPromise = function (actionResult) {
     return actionResult && actionResult.then;
@@ -48,7 +44,7 @@ var getExpressMock = function (request) {
     return function () {
         it(SHOULD_REDIRECT_TO_ROUTE, function (testDoneCallBack) {
             var express = getExpressMock(request),
-                successhandler = function (resultData) {
+                successhandler = function () {
                     express.response.redirect.should.have.been.calledWith(redirectRoute);
                     testDoneCallBack();
                 },
