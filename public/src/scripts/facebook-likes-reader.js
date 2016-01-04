@@ -5,7 +5,7 @@
     function getRequestObject(https, participantId) {
         var protocol = https ? 'https://' : 'http://';
 
-        /* eslint-disable camelcase*/
+        /* eslint-disable camelcase */
         return {
             access_token: ACCESS_TOKEN,
             id: protocol + baseUrl + participantId,
