@@ -6,4 +6,5 @@ Features to come
 ================
 
 - Show users the current rankings of the contestants (transperancy)
-- Add canonical pages for contestants (now there's a diferrence between http & https)
+- Add canonical pages for contestants (now there's a difference between HTTP & HTTPS)
+- Optional side banner for advertising 
