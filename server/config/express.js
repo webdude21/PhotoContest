@@ -10,9 +10,13 @@ var express = require('express'),
     STATIC_DIRECTORY = '/public/compiled',
     secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF',
     messageHandler = require('../utilities/message-handler'),
-    middlewares = require('../middleware');
+    middlewares = require('../middleware'),
+    onProduction = process.env.NODE_ENV === 'production';
 
 module.exports = function ({app, config, staticCacheAge}) {
+    if (onProduction) {
+        app.use(middlewares.forceHttps);
+    }
     app.use(compression());
     app.set('view engine', 'jade');
     app.set('views', config.rootPath + '/server/views');
