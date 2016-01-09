@@ -34,6 +34,10 @@ local.properties
 # PDT-specific
 .buildpath
 
+#################
+## Project specific
+#################
+serve.sh
 
 #################
 ## WebStorm
