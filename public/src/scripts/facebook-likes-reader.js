@@ -2,44 +2,18 @@
     var WAIT_TIME = 2000;
     var baseUrl = 'divastore.herokuapp.com' + '/contestants/';
 
-    function getRequestObject(https, participantId) {
-        var protocol = https ? 'https://' : 'http://';
-
+    function getRequestObject(participantId) {
         /* eslint-disable camelcase */
         return {
             access_token: ACCESS_TOKEN,
-            id: protocol + baseUrl + participantId,
+            id: 'https://' + baseUrl + participantId,
             fields: 'og_object{engagement{count}}'
         };
     }
 
     function getLikesCount(participantId, successHandler) {
-        var resonseOne = {
-                finished: false
-            },
-            responseTwo = {
-                finished: false
-            },
-            resolve = function () {
-                if (resonseOne.finished && responseTwo.finished) {
-                    if (resonseOne.likes > responseTwo.likes) {
-                        successHandler(resonseOne.likes);
-                    } else {
-                        successHandler(responseTwo.likes);
-                    }
-                }
-            };
-
-        window.FB.api('/', getRequestObject(true, participantId), function (response) {
-            resonseOne.likes = response.og_object.engagement.count;
-            resonseOne.finished = true;
-            resolve();
-        });
-
-        window.FB.api('/', getRequestObject(false, participantId), function (response) {
-            responseTwo.likes = response.og_object.engagement.count;
-            responseTwo.finished = true;
-            resolve();
+        window.FB.api('/', getRequestObject(participantId), function (response) {
+            successHandler(response.og_object.engagement.count);
         });
     }
 
