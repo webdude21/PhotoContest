@@ -5,13 +5,11 @@ var fb = require('fb'),
     getUserVotes = function (participantId) {
         var deferred = q.defer();
 
-        fb.api('/', 'get', {id: `${baseUrl}/${participantId}`}, function (res) {
+        fb.api('/', 'get', {id: `${baseUrl}/contestants/${participantId}`}, function (res) {
             if (res.error) {
                 return deferred.reject(res.error);
             }
 
-            /*eslint-disable no-console */
-            console.log(res);
             deferred.resolve(res.shares || 0);
         });
 
