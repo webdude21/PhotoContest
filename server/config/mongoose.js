@@ -1,7 +1,9 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    rankingRefreshFrequency = (1000 * 60 * 60 * 2), // every two hours
+    minute = 1000 * 60,
+    hour = minute * 60,
+    rankingRefreshFrequency = hour * 4,
     models = require('../models');
 
 module.exports = function ({config}) {
@@ -16,7 +18,7 @@ module.exports = function ({config}) {
 
         var updateRanking = require('../tasks/update-ranking');
         setInterval(updateRanking, rankingRefreshFrequency);
-        setTimeout(updateRanking, 10000);
+        setTimeout(updateRanking, 10 * minute);
     });
 
     database.on('error', function (err) {
