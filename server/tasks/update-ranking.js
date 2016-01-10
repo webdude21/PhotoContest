@@ -9,16 +9,20 @@ var fb = require('fb'),
             if (res.error) {
                 return deferred.reject(res.error);
             }
+
+            /*eslint-disable no-console */
+            console.log(res);
             deferred.resolve(res.shares || 0);
         });
 
         return deferred.promise;
     },
     saveUserVotes = function (contestant) {
-        getUserVotes(contestant._id).then(votes => {
-            contestant.votes = votes;
-            contestant.save();
-        }, err => console.warn(err));
+        getUserVotes(contestant._id)
+            .then(votes => {
+                contestant.votes = votes;
+                contestant.save();
+            }, err => console.warn(err));
     };
 
 fb.setAccessToken(ACCESS_TOKEN);
