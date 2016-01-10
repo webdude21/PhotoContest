@@ -1,4 +1,3 @@
-'use strict';
 var app = require('express')(),
     env = process.env.NODE_ENV || 'development',
     config = require('./server/config/config')[env],

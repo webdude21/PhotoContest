@@ -1,6 +1,7 @@
 'use strict';
 var MongooseRepository = require('./MongooseRepository'),
-    paging = require('../utilities/paging');
+    paging = require('../utilities/paging'),
+    approved = {approved: true};
 
 class ContestantsService extends MongooseRepository {
     constructor() {
@@ -8,7 +9,7 @@ class ContestantsService extends MongooseRepository {
     }
 
     getByVoteCount() {
-        return MongooseRepository.wrapQueryInPromise(this.Model.find().sort({votes: 'descending'}));
+        return MongooseRepository.wrapQueryInPromise(this.Model.find(approved).sort({votes: 'descending'}));
     }
 
     getAllVisible() {
@@ -16,7 +17,7 @@ class ContestantsService extends MongooseRepository {
     }
 
     getAllApproved() {
-        return MongooseRepository.wrapQueryInPromise(this.Model.find().where('approved', true).populate('pictures'));
+        return MongooseRepository.wrapQueryInPromise(this.Model.find(approved).populate('pictures'));
     }
 
     getQuery(err, success, baseQueryObject, pageSize) {
