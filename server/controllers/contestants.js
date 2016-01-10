@@ -37,6 +37,18 @@ module.exports = {
                 res.render(`${CONTROLLER_NAME}/contestant`, {contestant, disapproved});
             }, () => errorHandler.redirectToNotFound(res));
     },
+    getRanking: function (req, res) {
+        var deferred = q.defer();
+
+        data.contestantsService
+           .getByVoteCount()
+           .then(contestants => {
+                res.render(`${CONTROLLER_NAME}/ranking`, {contestants});
+                deferred.resolve(contestants);
+            }, err => errorHandler.redirectToError(req, res, err, deferred));
+
+        return deferred.promise;
+    },
     getAllApproved: function (req, res) {
         var deferred = q.defer();
 

@@ -7,6 +7,10 @@ class ContestantsService extends MongooseRepository {
         super('Contestant');
     }
 
+    getByVoteCount() {
+        return MongooseRepository.wrapQueryInPromise(this.Model.find().sort({votes: 'descending'}));
+    }
+
     getAllVisible() {
         return MongooseRepository.wrapQueryInPromise(this.Model.find().populate('pictures'));
     }

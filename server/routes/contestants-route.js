@@ -10,6 +10,9 @@ module.exports = function ({app}) {
     app.route('/contestants')
         .get(controllers.contestants.getAllApproved);
 
+    app.route('/ranking')
+        .get(controllers.contestants.getRanking);
+
     app.route('/contestants/:id')
         .get(controllers.contestants.getById);
 };

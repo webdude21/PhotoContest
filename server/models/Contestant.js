@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
         age: {type: String, require: '{PATH} is required'},
         registerDate: {type: Date, default: Date.now},
         approved: {type: Boolean, default: true},
+        votes: {type: Number, default: 0},
         registrant: {
             type: mongoose.Schema.ObjectId,
             ref: 'User'
