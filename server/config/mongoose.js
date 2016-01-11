@@ -3,7 +3,7 @@
 var mongoose = require('mongoose'),
     minute = 1000 * 60,
     hour = minute * 60,
-    rankingRefreshFrequency = hour * 4,
+    rankingRefreshFrequency = hour * 2,
     models = require('../models');
 
 module.exports = function ({config}) {

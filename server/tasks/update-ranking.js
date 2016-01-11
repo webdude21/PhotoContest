@@ -18,8 +18,10 @@ var fb = require('fb'),
     saveUserVotes = function (contestant) {
         getUserVotes(contestant._id)
             .then(votes => {
-                contestant.votes = votes;
-                contestant.save();
+                if (contestant.votes !== votes) {
+                    contestant.votes = votes;
+                    contestant.save();
+                }
             }, err => console.warn(err));
     };
 
