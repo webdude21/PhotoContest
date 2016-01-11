@@ -4,7 +4,7 @@
         PERMITTED_FORMATS = ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
         $uploadInput = $('#file-0');
 
-    function _fileHasValidExtension(filename, permittedFormats, inputDelimiter) {
+    function fileHasValidExtension(filename, permittedFormats, inputDelimiter) {
         var delimiter = inputDelimiter || '.',
             indexOfDelimiter = filename.lastIndexOf(delimiter);
 
@@ -14,7 +14,7 @@
     function verifyImage() {
         var fileName = $uploadInput.val();
 
-        if (!_fileHasValidExtension(fileName, PERMITTED_FORMATS)) {
+        if (!fileHasValidExtension(fileName, PERMITTED_FORMATS)) {
             /*eslint no-alert: 0*/
             alert(INVALID_IMAGE_ERROR);
             $uploadInput.val('');
