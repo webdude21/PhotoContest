@@ -38,6 +38,7 @@ local.properties
 ## Project specific
 #################
 serve.sh
+test.sh
 
 #################
 ## WebStorm

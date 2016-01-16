@@ -9,10 +9,10 @@ var cloudinary = require('cloudinary'),
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
-function showError(req, res, deferred, message, redirectRoute) {
+function showError(req, res, reject, message, redirectRoute) {
     req.session.errorMessage = message;
     res.redirect(redirectRoute || ROUTE_ROOT);
-    deferred.reject();
+    reject();
 }
 
 function retrieveContest(req, res, contestReject) {
@@ -40,35 +40,39 @@ function saveWinner(contest, newWinner) {
     contest.winners.push(newWinner);
     contest.save();
 }
-function addWinner(req, permittedFormats, res, deferred, contest) {
+function addWinner(req, permittedFormats, res, contest) {
     var newWinner = {};
     newWinner.pictures = [];
     req.pipe(req.busboy);
-    req.busboy.on('file', function (fieldname, file, filename) {
-        if (helpers.fileHasValidExtension(filename, permittedFormats)) {
-            var stream = cloudinary.uploader.upload_stream((result) => {
-                newWinner.pictures.push({
-                    serviceId: result.public_id,
-                    fileName: filename,
-                    url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
-                });
-                saveWinner(contest, newWinner);
-            }, {folder: globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contest.id});
-            file.pipe(stream);
-        } else {
-            showError(req, res, deferred, globalConstants.INVALID_IMAGE_ERROR,
-                EDIT_CONTEST_ROUTE + req.params.id + '/addWinner');
-        }
-    });
 
-    req.busboy.on('field', (fieldname, val) => newWinner[fieldname] = val);
+    return new Promise(function (resolve, reject) {
+        req.busboy.on('file', function (fieldname, file, filename) {
+            if (helpers.fileHasValidExtension(filename, permittedFormats)) {
+                var stream = cloudinary.uploader.upload_stream((result) => {
+                    newWinner.pictures.push({
+                        serviceId: result.public_id,
+                        fileName: filename,
+                        url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
+                    });
+                    saveWinner(contest, newWinner);
+                }, {folder: globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contest.id});
+                file.pipe(stream);
+            } else {
+                showError(req, res, reject, globalConstants.INVALID_IMAGE_ERROR,
+                    EDIT_CONTEST_ROUTE + req.params.id + '/addWinner');
+            }
+        });
 
-    req.busboy.on('finish', () => {
-        req.session.successMessage = 'Участника беше успешно добавен!';
-        res.redirect(EDIT_CONTEST_ROUTE + req.params.id);
-        deferred.resolve();
+        req.busboy.on('field', (fieldname, val) => newWinner[fieldname] = val);
+
+        req.busboy.on('finish', () => {
+            req.session.successMessage = 'Участника беше успешно добавен!';
+            res.redirect(EDIT_CONTEST_ROUTE + req.params.id);
+            resolve();
+        });
     });
 }
+
 module.exports = {
     getAddWinner: function (req, res) {
         return new Promise(resolve => {
@@ -79,7 +83,7 @@ module.exports = {
     postAddWinner: function (req, res) {
 		return new Promise(function (resolve, reject) {
 			retrieveContest(req, res, reject)
-				.then(contest => addWinner(req, globalConstants.PERMITTED_FORMATS, res, reject, contest));
+				.then(contest => addWinner(req, globalConstants.PERMITTED_FORMATS, res, contest));
 		});
     },
     getDeleteContestConfirm: function (req, res) {
