@@ -1,6 +1,5 @@
 var cloudinary = require('cloudinary'),
     constants = require('./../config/global-constants.js'),
-    q = require('q'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
     CONTROLLER_NAME = 'contestants',
@@ -19,12 +18,12 @@ var processContestants = function (contestants) {
 };
 
 module.exports = {
-    getRegister: function (req, res) {
-        var deferred = q.defer();
-        res.render(`${CONTROLLER_NAME}/register`);
-        deferred.resolve();
-        return deferred.promise;
-    },
+	getRegister: function (req, res) {
+		return new Promise(resolve => {
+			res.render(`${CONTROLLER_NAME}/register`);
+			resolve();
+		});
+	},
     getById: function (req, res) {
         var disapproved;
 
@@ -38,29 +37,25 @@ module.exports = {
             }, () => errorHandler.redirectToNotFound(res));
     },
     getRanking: function (req, res) {
-        var deferred = q.defer();
-
-        data.contestantsService
-           .getByVoteCount()
-           .then(contestants => {
-                res.render(`${CONTROLLER_NAME}/ranking`, {contestants});
-                deferred.resolve(contestants);
-            }, err => errorHandler.redirectToError(req, res, err, deferred));
-
-        return deferred.promise;
+        return new Promise(function (resolve, reject) {
+            data.contestantsService
+               .getByVoteCount()
+               .then(contestants => {
+                    res.render(`${CONTROLLER_NAME}/ranking`, {contestants});
+                    resolve(contestants);
+                }, err => errorHandler.redirectToError(req, res, err, reject));
+        });
     },
     getAllApproved: function (req, res) {
-        var deferred = q.defer();
-
-        data.contestantsService
-            .getQuery(() => errorHandler.redirectToNotFound(res, deferred),
-                contestants => {
-                    processContestants(contestants);
-                    res.render(`${CONTROLLER_NAME}/all`, contestants);
-                    deferred.resolve(contestants);
-                }, req.query, constants.PAGE_SIZE);
-
-        return deferred.promise;
+        return new Promise(function (resolve, reject) {
+            data.contestantsService
+                .getQuery(() => errorHandler.redirectToNotFound(res, reject),
+                    contestants => {
+                        processContestants(contestants);
+                        res.render(`${CONTROLLER_NAME}/all`, contestants);
+                        resolve(contestants);
+                    }, req.query, constants.PAGE_SIZE);
+        });
     },
     postRegister: function (req, res) {
         var newContestant = {},

@@ -1,21 +1,21 @@
 var globalConstants = require('../config/global-constants.js');
 
 module.exports = {
-    redirectToNotFound: function (res, deferred) {
-        this.rejectPromise(deferred);
+    redirectToNotFound: function (res, reject) {
+        this.rejectPromise(reject);
         res.redirect(globalConstants.NOT_FOUND_ROUTE);
     },
-    redirectToError: function (req, res, err, deferred) {
-        this.redirectToRoute(req, res, err, globalConstants.ERROR_ROUTE, deferred);
+    redirectToError: function (req, res, err, reject) {
+        this.redirectToRoute(req, res, err, globalConstants.ERROR_ROUTE, reject);
     },
-    redirectToRoute: function (req, res, err, route, deferred) {
+    redirectToRoute: function (req, res, err, route, reject) {
         var messageToDisplay = 'No message specified';
 
         if (!req || !res) {
             throw new Error('You should provide the request & response objects');
         }
 
-        this.rejectPromise(deferred, err);
+        this.rejectPromise(reject, err);
 
         if (typeof err === 'string') {
             messageToDisplay = err;
@@ -26,12 +26,12 @@ module.exports = {
         req.session.errorMessage = messageToDisplay;
         res.redirect(route || globalConstants.ERROR_ROUTE);
     },
-    rejectPromise: function (deferred, err) {
-        if (deferred && deferred.reject) {
+    rejectPromise: function (reject, err) {
+        if (typeof reject === 'function') {
             if (err) {
-                deferred.reject(err);
+                reject(err);
             } else {
-                deferred.reject();
+                reject();
             }
         }
     }

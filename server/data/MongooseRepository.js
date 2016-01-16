@@ -1,6 +1,5 @@
 'use strict';
-var q = require('q'),
-    mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 class MongooseRepository {
     constructor(mongooseModel) {
@@ -8,17 +7,17 @@ class MongooseRepository {
     }
 
     static wrapQueryInPromise(query) {
-        var deferred = q.defer();
-
-        query.exec((err, entity) => {
-            if (err) {
-                deferred.reject(err);
-            } else {
-                deferred.resolve(entity);
-            }
+        var promise = new Promise(function (resolve, reject) {
+            query.exec((err, entity) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(entity);
+                }
+            });
         });
 
-        return deferred.promise;
+        return promise;
     }
 
     getBy(id) {

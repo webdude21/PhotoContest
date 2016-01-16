@@ -1,9 +1,9 @@
 'use strict';
-var MongooseRepository = require("./MongooseRepository");
+var MongooseRepository = require('./MongooseRepository');
 
 class PageService extends MongooseRepository {
     constructor() {
-        super("Page");
+        super('Page');
     }
 
     getFirstPage() {
