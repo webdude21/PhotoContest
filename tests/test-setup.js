@@ -33,7 +33,7 @@ var getExpressMock = function (request) {
                 actionResult = action(express.request, express.response);
 
             if (isPromise(actionResult)) {
-                actionResult.then(successhandler).done(null, testDoneCallBack);
+                actionResult.then(successhandler);
             } else {
                 express.response.render.should.have.been.calledWith(expectedView);
                 testDoneCallBack();
@@ -51,7 +51,7 @@ var getExpressMock = function (request) {
                 actionResult = action(express.request, express.response);
 
             if (isPromise(actionResult)) {
-                actionResult.then(successhandler).done(null, testDoneCallBack);
+                actionResult.then(successhandler);
             } else {
                 express.response.redirect.should.have.been.calledWith(redirectRoute);
                 testDoneCallBack();
