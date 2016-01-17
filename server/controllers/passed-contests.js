@@ -96,22 +96,21 @@ module.exports = {
         });
     },
     deleteContest: function (req, res) {
-        var contestId = req.params.id;
+	var contestId = req.params.id;
 
-        return new Promise(function (resolve, reject) {
-            data.contestService
-                .deleteBy(contestId)
-                .then(() => {
-                    cloudinary.api
-                        .delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId,
-                            () => {
-                                req.session.successMessage = 'Конкурса беше изтрит успешно';
-                                res.redirect(EDIT_CONTEST_ROUTE);
-                                resolve();
-                            });
-                }, err => showError(req, res, reject, err));
-        });
-    },
+	return new Promise(function (resolve, reject) {
+		data.contestService
+			.deleteBy(contestId)
+			.then(() => {
+				cloudinary.api
+					.delete_resources_by_prefix(globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contestId, () => {
+						req.session.successMessage = 'Конкурса беше изтрит успешно';
+						res.redirect(EDIT_CONTEST_ROUTE);
+						resolve();
+					});
+			}, err => showError(req, res, reject, err));
+	});
+},
     getPassedContests: function (req, res) {
         return new Promise(function (resolve, reject) {
             data.contestService
