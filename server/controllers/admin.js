@@ -4,7 +4,10 @@ var cloudinary = require('cloudinary'),
     CONTROLLER_NAME = 'admin',
     errorHandler = require('../utilities/error-handler'),
     ACCESS_TOKEN = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`,
-    COULD_NOT_RESET_APP = 'Could not reset the application!';
+    COULD_NOT_RESET_APP = 'Could not reset the application!',
+    RESET_BODY = 'Това ще изтрие цялата информация в приложението (потребители,' +
+    ' участници, снимки и гласове) с изключение на администраторските акаунти';
+
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 module.exports = {
@@ -26,12 +29,13 @@ module.exports = {
     getEditTos: function (req, res) {
         data.pageService
             .getFirstPage()
-            .then(page => res.render(`${CONTROLLER_NAME}/edit-tos`, page), () => errorHandler.redirectToNotFound(res));
+            .then(page => res.render(`${CONTROLLER_NAME}/edit-tos`, page)
+            , () => errorHandler.redirectToNotFound(res));
     },
     postEditTos: function (req, res) {
         data.pageService
             .getFirstPage()
-            .then(function (page) {
+            .then((page) => {
                 page.title = req.body.title;
                 page.content = req.body.content;
                 page.save();
@@ -42,33 +46,29 @@ module.exports = {
     getResetContest: (req, res) => res.render('confirm', {
         message: {
             title: 'Рестартиране на приложението',
-            body: 'Това ще изтрие цялата информация в приложението ' +
-            '(потребители, участници, снимки и гласове) с изключение на администраторските акаунти',
+            body: RESET_BODY,
             buttonText: 'Рестарт'
         }
     }),
     getResetApplication: (req, res) => res.render('confirm', {
         message: {
             title: 'Рестартиране на конкурса',
-            body: 'Това ще изтрие цялата информация в приложението ' +
-            '(потребители, участници, снимки и гласове) с изключение на администраторските акаунти',
+            body: RESET_BODY,
             buttonText: 'Рестарт'
         }
     }),
     postResetApplication: function (req, res) {
         data.contestantsService
             .deleteAll()
-            .then(() => {
-                data.users
-                    .deleteAllNonAdmins()
-                    .then(() => cloudinary.api.delete_all_resources(() => res.redirect('/')),
-                        err => errorHandler.redirectToError(req, res, COULD_NOT_RESET_APP + err));
-            }, err => errorHandler.redirectToError(req, res, COULD_NOT_RESET_APP + err));
+            .then(() => data.users.deleteAllNonAdmins())
+            .then(() => cloudinary.api.delete_all_resources(() => res.redirect('/')))
+            .catch(err => errorHandler.redirectToError(req, res, COULD_NOT_RESET_APP + err));
     },
     postResetContest: function (req, res) {
         data.contestantsService
             .deleteAll()
-            .then(() => cloudinary.api.delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
+            .then(() => cloudinary.api
+            .delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
                 () => res.redirect('/')),
                 err => errorHandler.redirectToError(req, res, 'Could not reset the contest!' + err));
     },
@@ -90,9 +90,8 @@ module.exports = {
     },
     getAllRegisteredUsers: function (req, res) {
         data.userService
-            .getAll().then(users => {
-                res.render(`${CONTROLLER_NAME}/users/all`, {users: users});
-            },
+            .getAll()
+            .then(users => res.render(`${CONTROLLER_NAME}/users/all`, {users: users}),
             err => errorHandler.redirectToError(req, res, 'Could not load registered users' + err));
     },
     getRegisteredUserById: function (req, res) {

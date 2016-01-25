@@ -2,9 +2,9 @@ var cloudinary = require('cloudinary'),
     constants = require('./../config/global-constants.js'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
-    CONTROLLER_NAME = 'contestants',
-    errorHandler = require('../utilities/error-handler'),
-    CLOUDINARY_CONFIG = {
+    errorHandler = require('../utilities/error-handler');
+    const CONTROLLER_NAME = 'contestants';
+    const CLOUDINARY_CONFIG = {
         thumbnail: {transformation: 'thumbnail', secure: true},
         detail: {transformation: 'detail', secure: true}
     };
@@ -13,8 +13,10 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 var processContestants = function (contestants) {
     contestants.data
-        .forEach(contestant => contestant.pictures
-            .forEach(picture => picture.url = cloudinary.url(picture.serviceId, CLOUDINARY_CONFIG.thumbnail)));
+        .forEach(contestant => contestant
+            .pictures
+            .forEach(picture => picture.url = cloudinary
+                .url(picture.serviceId, CLOUDINARY_CONFIG.thumbnail)));
 };
 
 module.exports = {
@@ -74,7 +76,8 @@ module.exports = {
                     });
                     savedContestant.save();
                 };
-                file.pipe(cloudinary.uploader.upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
+                file.pipe(cloudinary.uploader
+                    .upload_stream(handleTheStreamResult, cloudinaryFolderSettings));
             } else {
                 errorHandler.redirectToRoute(req, res, constants.INVALID_IMAGE_ERROR,
                     null, `${CONTROLLER_NAME}/register`);
