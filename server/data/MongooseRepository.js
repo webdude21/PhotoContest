@@ -7,7 +7,7 @@ class MongooseRepository {
     }
 
     static wrapQueryInPromise(query) {
-        var promise = new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             query.exec((err, entity) => {
                 if (err) {
                     reject(err);
@@ -16,12 +16,10 @@ class MongooseRepository {
                 }
             });
         });
-
-        return promise;
     }
 
     getBy(id) {
-        return MongooseRepository.wrapQueryInPromise(this.Model.findById(id).populate('registrant'));
+        return MongooseRepository.wrapQueryInPromise(thiss.Model.findById(id).populate('registrant'));
     }
 
     getAll() {
