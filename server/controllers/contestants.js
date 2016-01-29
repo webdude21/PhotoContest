@@ -3,11 +3,11 @@ var cloudinary = require('cloudinary'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
     errorHandler = require('../utilities/error-handler');
-    const CONTROLLER_NAME = 'contestants';
-    const CLOUDINARY_CONFIG = {
-        thumbnail: {transformation: 'thumbnail', secure: true},
-        detail: {transformation: 'detail', secure: true}
-    };
+const CONTROLLER_NAME = 'contestants';
+const CLOUDINARY_CONFIG = {
+    thumbnail: { transformation: 'thumbnail', secure: true },
+    detail: { transformation: 'detail', secure: true }
+};
 
 cloudinary.config(process.env.CLOUDINARY_URL);
 
@@ -20,12 +20,12 @@ var processContestants = function (contestants) {
 };
 
 module.exports = {
-	getRegister: function (req, res) {
-		return new Promise(resolve => {
-			res.render(`${CONTROLLER_NAME}/register`);
-			resolve();
-		});
-	},
+    getRegister: function (req, res) {
+        return new Promise(resolve => {
+            res.render(`${CONTROLLER_NAME}/register`);
+            resolve();
+        });
+    },
     getById: function (req, res) {
         var disapproved;
 
@@ -35,15 +35,15 @@ module.exports = {
                 if (!contestant.approved) {
                     disapproved = 'Участникът е изключен от конкурса по решение на администратора на приложението!';
                 }
-                res.render(`${CONTROLLER_NAME}/contestant`, {contestant, disapproved});
+                res.render(`${CONTROLLER_NAME}/contestant`, { contestant, disapproved });
             }, () => errorHandler.redirectToNotFound(res));
     },
     getRanking: function (req, res) {
         return new Promise(function (resolve, reject) {
             data.contestantsService
-               .getByVoteCount()
-               .then(contestants => {
-                    res.render(`${CONTROLLER_NAME}/ranking`, {contestants});
+                .getByVoteCount()
+                .then(contestants => {
+                    res.render(`${CONTROLLER_NAME}/ranking`, { contestants });
                     resolve(contestants);
                 }, err => errorHandler.redirectToError(req, res, err, reject));
         });
@@ -61,7 +61,7 @@ module.exports = {
     },
     postRegister: function (req, res) {
         var newContestant = {},
-            cloudinaryFolderSettings = {folder: constants.CLOUDINARY_CONTESTANTS_FOLDER_NAME},
+            cloudinaryFolderSettings = { folder: constants.CLOUDINARY_CONTESTANTS_FOLDER_NAME },
             savedContestant;
 
         req.pipe(req.busboy);

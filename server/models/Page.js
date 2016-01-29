@@ -2,9 +2,9 @@
 /*eslint-disable */
 var mongoose = require('mongoose'),
     pageSchema = mongoose.Schema({
-        title: {type: String, require: '{PATH} is required'},
-        content: {type: String, require: '{PATH} is required'},
-        publishedDate: {type: Date, default: Date.now}
+        title: { type: String, require: '{PATH} is required' },
+        content: { type: String, require: '{PATH} is required' },
+        publishedDate: { type: Date, default: Date.now }
     });
 var Page = mongoose.model('Page', pageSchema);
 

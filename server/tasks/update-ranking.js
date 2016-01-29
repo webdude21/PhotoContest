@@ -3,7 +3,7 @@ var fb = require('fb'),
     baseUrl = process.env.BASE_URL,
     getUserVotes = function (participantId) {
         return new Promise(function (resolve, reject) {
-            fb.api('/', 'get', {id: `${baseUrl}/contestants/${participantId}`}, function (res) {
+            fb.api('/', 'get', { id: `${baseUrl}/contestants/${participantId}` }, function (res) {
                 if (res.error) {
                     return reject(res.error);
                 }

@@ -52,10 +52,10 @@ function addWinner(req, permittedFormats, res, contest) {
                     newWinner.pictures.push({
                         serviceId: result.public_id,
                         fileName: filename,
-                        url: cloudinary.url(result.public_id, {transformation: 'detail', secure: true})
+                        url: cloudinary.url(result.public_id, { transformation: 'detail', secure: true })
                     });
                     saveWinner(contest, newWinner);
-                }, {folder: globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contest.id});
+                }, { folder: globalConstants.CLOUDINARY_WINNERS_FOLDER_NAME + '/' + contest.id });
                 file.pipe(stream);
             } else {
                 showError(req, res, reject, globalConstants.INVALID_IMAGE_ERROR,
@@ -81,10 +81,10 @@ module.exports = {
         });
     },
     postAddWinner: function (req, res) {
-		return new Promise(function (resolve, reject) {
-			retrieveContest(req, res, reject)
-				.then(contest => addWinner(req, globalConstants.PERMITTED_FORMATS, res, contest));
-		});
+        return new Promise(function (resolve, reject) {
+            retrieveContest(req, res, reject)
+                .then(contest => addWinner(req, globalConstants.PERMITTED_FORMATS, res, contest));
+        });
     },
     getDeleteContestConfirm: function (req, res) {
         res.render('confirm', {
@@ -121,7 +121,7 @@ module.exports = {
                         res.redirect(globalConstants.NOT_FOUND_ROUTE);
                         reject();
                     } else {
-                        res.render(CONTROLLER_NAME + '/all', {data: contests});
+                        res.render(CONTROLLER_NAME + '/all', { data: contests });
                         resolve();
                     }
                 }, err => showError(req, res, reject, err));
@@ -136,7 +136,7 @@ module.exports = {
                         res.redirect(globalConstants.NOT_FOUND_ROUTE);
                         reject();
                     } else {
-                        res.render(CONTROLLER_NAME + '/edit', {data: contests});
+                        res.render(CONTROLLER_NAME + '/edit', { data: contests });
                         resolve();
                     }
                 }, err => showError(req, res, reject, err));

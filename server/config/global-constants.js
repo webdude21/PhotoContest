@@ -5,7 +5,7 @@ module.exports = {
     PAGE_SIZE: 10,
     REGISTER_SUCCESS_MESSAGE: 'Регистрирахте се успешно като потребител, ако искате да участвате в конкурса ще трябва да регистрирате участник!',
     INVALID_IMAGE_ERROR: 'Моля уверете се, че сте избрали валидно ' +
-        'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
+    'изображение от следните формати (gif, jpg, jpeg, tiff, png)!',
     PERMITTED_FORMATS: ['gif', 'jpg', 'jpeg', 'tiff', 'png'],
     NOT_FOUND_ROUTE: '/not-found',
     ERROR_ROUTE: '/error',
