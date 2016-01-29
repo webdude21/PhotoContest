@@ -6,11 +6,11 @@
     "url": "https://github.com/webdude21/PhotoContest.git"
   },
   "description": "Photo Contest Application",
-  "main": "--harmony_destructuring --use_strict server.js",
+  "main": "--harmony --use_strict server.js",
   "scripts": {
-    "start": "node --harmony_destructuring server.js",
+    "start": "node --harmony server.js",
     "postinstall": "bower install && grunt build",
-    "test": "mocha --harmony_destructuring tests/**/"
+    "test": "mocha --harmony tests/**/"
   },
   "engines": {
     "node": "5.3.0"
