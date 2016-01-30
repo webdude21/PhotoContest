@@ -8,6 +8,13 @@ class ContestantsService extends MongooseRepository {
         super('Contestant');
     }
 
+    getBy(id) {
+        return MongooseRepository.wrapQueryInPromise(this
+            .Model
+            .findById(id)
+            .populate('registrant'));
+    }
+
     getByVoteCount() {
         return MongooseRepository.wrapQueryInPromise(this
             .Model

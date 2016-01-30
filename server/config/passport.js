@@ -1,10 +1,10 @@
 var passport = require('passport'),
     LocalPassport = require('passport-local'),
     FacebookStrategy = require('passport-facebook').Strategy,
-    User = require('mongoose').model('User'),
     data = require('../data'),
+    logError = err => console.log(`Error loading user: ${err}`),
     encryption = require('../utilities/encryption'),
-    registerFacebookUser = function (accessToken, refreshToken, profile, done) {
+    registerFacebookUser = function(accessToken, refreshToken, profile, done) {
         var fbUser = {
             facebookId: profile.id,
             firstName: profile._json.first_name,
@@ -23,34 +23,22 @@ var passport = require('passport'),
         });
     };
 
-module.exports = function () {
+module.exports = function() {
     passport.use(new FacebookStrategy({
         clientID: process.env.FACEBOOK_APP_ID,
         clientSecret: process.env.FACEBOOK_APP_SECRET,
-        callbackURL: process.env.BASE_URL + '/auth/facebook/callback'
+        callbackURL: `${process.env.BASE_URL}/auth/facebook/callback`
     }, registerFacebookUser));
-
-    passport.use(new LocalPassport(function (username, password, done) {
-        User.findOne({ username }).exec(function (err, user) {
-            if (err) {
-                console.log('Error loading user: ' + err);
-            }
-
-            return user && user.authenticate(password) ? done(null, user) : done(null, false);
-        });
+    passport.use(new LocalPassport(function(username, password, done) {
+        data.userService
+            .getUser(username)
+            .then(user => user && user.authenticate(password) ? done(null, user) : done(null, false)
+            , logError);
     }));
-    passport.serializeUser(function (user, done) {
-        if (user) {
-            return done(null, user.id);
-        }
-    });
-    passport.deserializeUser(function (id, done) {
-        User.findById(id).exec(function (err, user) {
-            if (err) {
-                console.log('Error loading user: ' + err);
-            }
-
-            return user ? done(null, user) : done(null, false);
-        });
+    passport.serializeUser((user, done) => done(null, user.id));
+    passport.deserializeUser(function(id, done) {
+        data.userService
+            .getBy(id)
+            .then(user => user ? done(null, user) : done(null, false), logError);
     });
 };
