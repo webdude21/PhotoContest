@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
-    'admin',
-    'editor',
-    'author',
-    'user'
+    'admin': 'admin',
+    'editor': 'editor',
+    'author': 'author',
+    'user': 'user'
 };

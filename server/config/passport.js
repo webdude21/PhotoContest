@@ -1,11 +1,11 @@
-var passport = require('passport'),
+let passport = require('passport'),
     LocalPassport = require('passport-local'),
     FacebookStrategy = require('passport-facebook').Strategy,
     data = require('../data'),
     logError = err => console.log(`Error loading user: ${err}`),
     encryption = require('../utilities/encryption'),
     registerFacebookUser = function(accessToken, refreshToken, profile, done) {
-        var fbUser = {
+        let fbUser = {
             facebookId: profile.id,
             firstName: profile._json.first_name,
             lastName: profile._json.last_name,

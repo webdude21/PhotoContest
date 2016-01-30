@@ -1,6 +1,6 @@
 'use strict';
 
-var mongoose = require('mongoose'),
+let mongoose = require('mongoose'),
     minute = 1000 * 60,
     hour = minute * 60,
     rankingRefreshFrequency = hour * 2,
@@ -8,7 +8,7 @@ var mongoose = require('mongoose'),
 
 module.exports = function ({config}) {
     mongoose.connect(config.db);
-    var database = mongoose.connection;
+    let database = mongoose.connection;
 
     /*eslint-disable no-console */
     database.once('open', function (err) {
@@ -16,7 +16,7 @@ module.exports = function ({config}) {
             console.error('Cannot connect to the database ...: ' + err);
         }
 
-        var updateRanking = require('../tasks/update-ranking');
+        let updateRanking = require('../tasks/update-ranking');
         setInterval(updateRanking, rankingRefreshFrequency);
         setTimeout(updateRanking, 10 * minute);
     });
