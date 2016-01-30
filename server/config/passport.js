@@ -1,3 +1,4 @@
+'use strict';
 let passport = require('passport'),
     LocalPassport = require('passport-local'),
     FacebookStrategy = require('passport-facebook').Strategy,
