@@ -5,7 +5,7 @@ var data = require('../data'),
 
 module.exports = {
     getTos: function getTos(req, res) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             data.pageService
                 .getFirstPage()
                 .then(page => {

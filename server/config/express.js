@@ -12,7 +12,7 @@ var express = require('express'),
     messageHandler = require('../utilities/message-handler'),
     middlewares = require('../middleware');
 
-module.exports = function({ app, config, staticCacheAge, env }) {
+module.exports = function ({ app, config, staticCacheAge, env }) {
     if (env === 'production') {
         app.use(middlewares.forceHttps);
     }
@@ -27,7 +27,7 @@ module.exports = function({ app, config, staticCacheAge, env }) {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(csrf({ cookie: true }));
-    app.use(function(req, res, next) {
+    app.use(function (req, res, next) {
         res.locals.facebookClientID = env.FACEBOOK_APP_ID;
         res.locals.csrf = req.csrfToken();
         next();

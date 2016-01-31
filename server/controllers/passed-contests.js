@@ -17,7 +17,7 @@ function showError(req, res, reject, message, redirectRoute) {
 }
 
 function retrieveContest(req, res, contestReject) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         data.contestService
             .getBy(req.params.id)
             .then(result => {
@@ -47,8 +47,8 @@ function addWinner(req, permittedFormats, res, contest) {
     newWinner.pictures = [];
     req.pipe(req.busboy);
 
-    return new Promise(function(resolve, reject) {
-        req.busboy.on('file', function(fieldname, file, filename) {
+    return new Promise(function (resolve, reject) {
+        req.busboy.on('file', function (fieldname, file, filename) {
             if (helpers.fileHasValidExtension(filename, permittedFormats)) {
                 let stream = cloudinary.uploader.upload_stream((result) => {
                     newWinner.pictures.push({
@@ -76,19 +76,19 @@ function addWinner(req, permittedFormats, res, contest) {
 }
 
 module.exports = {
-    getAddWinner: function(req, res) {
+    getAddWinner: function (req, res) {
         return new Promise(resolve => {
             res.render(CONTROLLER_NAME + '/addWinner');
             resolve();
         });
     },
-    postAddWinner: function(req, res) {
-        return new Promise(function(resolve, reject) {
+    postAddWinner: function (req, res) {
+        return new Promise(function (resolve, reject) {
             retrieveContest(req, res, reject)
                 .then(contest => addWinner(req, globalConstants.PERMITTED_FORMATS, res, contest));
         });
     },
-    getDeleteContestConfirm: function(req, res) {
+    getDeleteContestConfirm: function (req, res) {
         res.render('confirm', {
             message: {
                 title: 'Изтриване на конкурс',
@@ -97,10 +97,10 @@ module.exports = {
             }
         });
     },
-    deleteContest: function(req, res) {
+    deleteContest: function (req, res) {
         var contestId = req.params.id;
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             data.contestService
                 .deleteBy(contestId)
                 .then(() => {
@@ -114,8 +114,8 @@ module.exports = {
                 }, err => showError(req, res, reject, err));
         });
     },
-    getPassedContests: function(req, res) {
-        return new Promise(function(resolve, reject) {
+    getPassedContests: function (req, res) {
+        return new Promise(function (resolve, reject) {
             data.contestService
                 .getAllVisible()
                 .then(contests => {
@@ -129,8 +129,8 @@ module.exports = {
                 }, err => showError(req, res, reject, err));
         });
     },
-    getEditPassedContests: function(req, res) {
-        return new Promise(function(resolve, reject) {
+    getEditPassedContests: function (req, res) {
+        return new Promise(function (resolve, reject) {
             data.contestService
                 .getAll()
                 .then(contests => {
@@ -144,8 +144,8 @@ module.exports = {
                 }, err => showError(req, res, reject, err));
         });
     },
-    getEditPassedContestsById: function(req, res) {
-        return new Promise(function(resolve, reject) {
+    getEditPassedContestsById: function (req, res) {
+        return new Promise(function (resolve, reject) {
             data.contestService
                 .getBy(req.params.id)
                 .then(contest => {
@@ -160,7 +160,7 @@ module.exports = {
                 }, err => showError(req, res, reject, err));
         });
     },
-    toggleVisibleById: function(req, res) {
+    toggleVisibleById: function (req, res) {
         data.contestService
             .getBy(req.params.id)
             .then(contest => {
@@ -169,13 +169,13 @@ module.exports = {
                 res.redirect(EDIT_CONTEST_ROUTE + contest.id);
             }, () => res.redirect(globalConstants.NOT_FOUND_ROUTE));
     },
-    getRegister: function(req, res) {
+    getRegister: function (req, res) {
         return new Promise(resolve => {
             res.render(CONTROLLER_NAME + '/register');
             resolve();
         });
     },
-    postRegister: function(req, res) {
+    postRegister: function (req, res) {
         var savedContest = data.contestService.add(req.body);
         req.session.successMessage = 'Конкурса е успешно записан!';
 
@@ -184,8 +184,8 @@ module.exports = {
             resolve();
         });
     },
-    getPassedContestById: function(req, res) {
-        return new Promise(function(resolve, reject) {
+    getPassedContestById: function (req, res) {
+        return new Promise(function (resolve, reject) {
             data.contestService
                 .getBy(req.params.id)
                 .then(contest => {

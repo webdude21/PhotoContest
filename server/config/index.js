@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(applicationConfig) {
+module.exports = function (applicationConfig) {
     require('./express')(applicationConfig);
     require('./mongoose')(applicationConfig);
     require('./passport')();

@@ -6,7 +6,7 @@ let passport = require('passport'),
     env = require('../config/global-variables'),
     logError = err => console.log(`Error loading user: ${err}`),
     encryption = require('../utilities/encryption'),
-    registerFacebookUser = function(accessToken, refreshToken, profile, done) {
+    registerFacebookUser = function (accessToken, refreshToken, profile, done) {
         let fbUser = {
             facebookId: profile.id,
             firstName: profile._json.first_name,
@@ -33,16 +33,15 @@ module.exports = function() {
         callbackURL: `${env.BASE_URL}/auth/facebook/callback`
     }, registerFacebookUser));
 
-    passport.use(new LocalPassport(function(username, password, done) {
+    passport.use(new LocalPassport(function (username, password, done) {
         data.userService
             .getUser(username)
-            .then(user => user && user.authenticate(password) ? done(null, user) : done(null, false)
-            , logError);
+            .then(user => user && user.authenticate(password) ? done(null, user) : done(null, false), logError);
     }));
 
     passport.serializeUser((user, done) => done(null, user.id));
 
-    passport.deserializeUser(function(id, done) {
+    passport.deserializeUser(function (id, done) {
         data.userService
             .getBy(id)
             .then(user => user ? done(null, user) : done(null, false), logError);
