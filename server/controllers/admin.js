@@ -1,14 +1,15 @@
 var cloudinary = require('cloudinary'),
     data = require('../data'),
-    globalConstants = require('../config/global-constants.js'),
+    env = require('../config/global-variables'),
+    globalConstants = require('../config/global-constants'),
     CONTROLLER_NAME = 'admin',
     errorHandler = require('../utilities/error-handler'),
-    ACCESS_TOKEN = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`,
+    ACCESS_TOKEN = `${env.FACEBOOK_APP_ID}|${env.FACEBOOK_APP_SECRET}`,
     COULD_NOT_RESET_APP = 'Could not reset the application!',
     RESET_BODY = 'Това ще изтрие цялата информация в приложението (потребители,' +
     ' участници, снимки и гласове) с изключение на администраторските акаунти';
 
-cloudinary.config(process.env.CLOUDINARY_URL);
+cloudinary.config(env.CLOUDINARY_URL);
 
 module.exports = {
     getById: function (req, res) {

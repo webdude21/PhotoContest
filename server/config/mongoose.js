@@ -6,7 +6,7 @@ let mongoose = require('mongoose'),
     rankingRefreshFrequency = hour * 2,
     models = require('../models');
 
-module.exports = function ({config}) {
+module.exports = function ({config, env}) {
     mongoose.connect(config.db);
     let database = mongoose.connection;
 
@@ -27,7 +27,8 @@ module.exports = function ({config}) {
 
     models.User.seedInitialUsers();
     models.Page.seedInitialPages();
-    if (process.env.NODE_ENV !== 'production'){
+
+    if (env.NODE_ENV !== 'production'){
 		models.Contestant.seedInitialContestants();
     }
 };

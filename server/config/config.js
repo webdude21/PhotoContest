@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path'),
+    env = require('./global-variables'),
     rootPath = path.normalize(__dirname + '/../../'),
     localDatabase = 'mongodb://localhost/photoContest',
     globalConstants = require('./global-constants');
@@ -9,11 +10,11 @@ module.exports = {
     development: {
         rootPath: rootPath,
         db: localDatabase,
-        port: process.env.PORT || globalConstants.DEFAULT_PORT
+        port: env.PORT || globalConstants.DEFAULT_PORT
     },
     production: {
         rootPath: rootPath,
-        db: process.env.MONGOLAB_URI,
-        port: process.env.PORT || globalConstants.DEFAULT_PORT
+        db: env.MONGOLAB_URI,
+        port: env.PORT || globalConstants.DEFAULT_PORT
     }
 };

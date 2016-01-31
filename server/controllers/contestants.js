@@ -1,5 +1,6 @@
 var cloudinary = require('cloudinary'),
-    constants = require('./../config/global-constants.js'),
+    constants = require('./../config/global-constants'),
+    env = require('../config/global-variables'),
     data = require('../data'),
     helpers = require('../utilities/helpers'),
     errorHandler = require('../utilities/error-handler');
@@ -9,7 +10,7 @@ const CLOUDINARY_CONFIG = {
     detail: { transformation: 'detail', secure: true }
 };
 
-cloudinary.config(process.env.CLOUDINARY_URL);
+cloudinary.config(env.CLOUDINARY_URL);
 
 var processContestants = function (contestants) {
     contestants.data

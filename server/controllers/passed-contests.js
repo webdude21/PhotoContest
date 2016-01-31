@@ -1,13 +1,14 @@
 var cloudinary = require('cloudinary'),
     data = require('../data'),
+    env = require('../config/global-variables'),
     helpers = require('../utilities/helpers'),
-    globalConstants = require('./../config/global-constants.js'),
+    globalConstants = require('./../config/global-constants'),
     ROUTE_ROOT = '/',
     CONTROLLER_NAME = 'passed-contests',
     NO_SUCH_CONTEST = 'Не съществува такъв конкурс',
     EDIT_CONTEST_ROUTE = '/' + CONTROLLER_NAME + '/edit/';
 
-cloudinary.config(process.env.CLOUDINARY_URL);
+cloudinary.config(env.CLOUDINARY_URL);
 
 function showError(req, res, reject, message, redirectRoute) {
     req.session.errorMessage = message;

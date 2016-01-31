@@ -10,11 +10,10 @@ var express = require('express'),
     STATIC_DIRECTORY = '/public/compiled',
     secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF',
     messageHandler = require('../utilities/message-handler'),
-    middlewares = require('../middleware'),
-    onProduction = process.env.NODE_ENV === 'production';
+    middlewares = require('../middleware');
 
-module.exports = function ({app, config, staticCacheAge}) {
-    if (onProduction) {
+module.exports = function ({app, config, staticCacheAge, env}) {
+    if (env === 'production') {
         app.use(middlewares.forceHttps);
     }
     app.use(compression());
@@ -29,7 +28,7 @@ module.exports = function ({app, config, staticCacheAge}) {
     app.use(passport.session());
     app.use(csrf({ cookie: true }));
     app.use(function (req, res, next) {
-        res.locals.facebookClientID = process.env.FACEBOOK_APP_ID;
+        res.locals.facebookClientID = env.FACEBOOK_APP_ID;
         res.locals.csrf = req.csrfToken();
         next();
     });

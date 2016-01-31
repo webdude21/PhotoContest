@@ -3,6 +3,7 @@ let passport = require('passport'),
     LocalPassport = require('passport-local'),
     FacebookStrategy = require('passport-facebook').Strategy,
     data = require('../data'),
+    env = require('../config/global-variables'),
     logError = err => console.log(`Error loading user: ${err}`),
     encryption = require('../utilities/encryption'),
     registerFacebookUser = function(accessToken, refreshToken, profile, done) {
@@ -27,9 +28,9 @@ let passport = require('passport'),
 module.exports = function() {
 
     passport.use(new FacebookStrategy({
-        clientID: process.env.FACEBOOK_APP_ID,
-        clientSecret: process.env.FACEBOOK_APP_SECRET,
-        callbackURL: `${process.env.BASE_URL}/auth/facebook/callback`
+        clientID: env.FACEBOOK_APP_ID,
+        clientSecret: env.FACEBOOK_APP_SECRET,
+        callbackURL: `${env.BASE_URL}/auth/facebook/callback`
     }, registerFacebookUser));
 
     passport.use(new LocalPassport(function(username, password, done) {

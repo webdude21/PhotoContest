@@ -1,9 +1,9 @@
 var fb = require('fb'),
-    ACCESS_TOKEN = `${process.env.FACEBOOK_APP_ID}|${process.env.FACEBOOK_APP_SECRET}`,
-    baseUrl = process.env.BASE_URL,
+    env = require('../config/global-variables'),
+    ACCESS_TOKEN = `${env.FACEBOOK_APP_ID}|${env.FACEBOOK_APP_SECRET}`,
     getUserVotes = function (participantId) {
         return new Promise(function (resolve, reject) {
-            fb.api('/', 'get', { id: `${baseUrl}/contestants/${participantId}` }, function (res) {
+            fb.api('/', 'get', { id: `${env.BASE_URL}/contestants/${participantId}` }, function (res) {
                 if (res.error) {
                     return reject(res.error);
                 }
@@ -26,5 +26,6 @@ fb.setAccessToken(ACCESS_TOKEN);
 module.exports = function () {
     require('../data').contestantsService
         .getAllApproved()
-        .then(contestants => contestants.forEach(saveUserVotes), err => console.warn(err));
+        .then(contestants => contestants.forEach(saveUserVotes)
+        , err => console.warn(err));
 };

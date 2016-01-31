@@ -1,9 +1,10 @@
 'use strict';
 var app = require('express')(),
-    env = process.env.NODE_ENV || 'development',
-    config = require('./server/config/config')[env],
+    env = require('./server/config/global-variables'),
+    config = require('./server/config/config')[env.NODE_ENV || 'development'],
     staticCacheAge = 86400000;
-require('./server/config/')({ app, config, staticCacheAge });
+
+require('./server/config/')({ app, config, staticCacheAge, env });
 
 app.listen(config.port);
 
