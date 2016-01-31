@@ -1,12 +1,13 @@
 'use strict';
 
 let mongoose = require('mongoose'),
+    env = require('../config/global-variables'),
     minute = 1000 * 60,
     hour = minute * 60,
     rankingRefreshFrequency = hour * 2,
     models = require('../models');
 
-module.exports = function ({config, env}) {
+module.exports = function ({config}) {
     mongoose.connect(config.db);
     let database = mongoose.connection;
 
