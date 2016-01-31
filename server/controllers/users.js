@@ -10,7 +10,7 @@ module.exports = {
         firstName: req.user.firstName,
         lastName: req.user.lastName
     }),
-    postProfile: function (req, res) {
+    postProfile: function(req, res) {
         var newUserData = req.body;
 
         data.userService
@@ -33,7 +33,7 @@ module.exports = {
             }, err => errorHandler.redirectToError(req, res, err));
     },
     getRegister: (req, res) => res.render(CONTROLLER_NAME + '/register'),
-    postRegister: function (req, res) {
+    postRegister: function(req, res) {
         var newUserData = req.body,
             newUser;
 

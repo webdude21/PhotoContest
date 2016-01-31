@@ -7,12 +7,12 @@ let mongoose = require('mongoose'),
     rankingRefreshFrequency = hour * 2,
     models = require('../models');
 
-module.exports = function ({config}) {
+module.exports = function({ config }) {
     mongoose.connect(config.db);
     let database = mongoose.connection;
 
     /*eslint-disable no-console */
-    database.once('open', function (err) {
+    database.once('open', function(err) {
         if (err) {
             console.error('Cannot connect to the database ...: ' + err);
         }
@@ -22,14 +22,14 @@ module.exports = function ({config}) {
         setTimeout(updateRanking, 10 * minute);
     });
 
-    database.on('error', function (err) {
+    database.on('error', function(err) {
         console.error('Database error: ' + err);
     });
 
     models.User.seedInitialUsers();
     models.Page.seedInitialPages();
 
-    if (env.NODE_ENV !== 'production'){
-		models.Contestant.seedInitialContestants();
+    if (env.NODE_ENV !== 'production') {
+        models.Contestant.seedInitialContestants();
     }
 };
