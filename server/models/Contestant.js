@@ -12,13 +12,11 @@ var mongoose = require('mongoose'),
             ref: 'User'
         },
         comment: String,
-        pictures: [
-            {
-                serviceId: String,
-                url: String,
-                fileName: String
-            }
-        ]
+        pictures: [{
+            serviceId: String,
+            url: String,
+            fileName: String
+        }]
     });
 var Contestant = mongoose.model('Contestant', contestantSchema);
 

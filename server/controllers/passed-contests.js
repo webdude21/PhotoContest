@@ -1,3 +1,4 @@
+'use strict';
 var cloudinary = require('cloudinary'),
     data = require('../data'),
     env = require('../config/global-variables'),
