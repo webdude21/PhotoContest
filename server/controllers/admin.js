@@ -15,7 +15,7 @@ module.exports = {
     getById: function (req, res) {
         data.contestantsService
             .getBy(req.params.id)
-            .then(contestant => res.render(`${CONTROLLER_NAME}/contestants/contestant`, {contestant}),
+            .then(contestant => res.render(`${CONTROLLER_NAME}/contestants/contestant`, { contestant }),
                 () => errorHandler.redirectToNotFound(res));
     },
     toggleApprovalById: function (req, res) {
@@ -30,8 +30,8 @@ module.exports = {
     getEditTos: function (req, res) {
         data.pageService
             .getFirstPage()
-            .then(page => res.render(`${CONTROLLER_NAME}/edit-tos`, page)
-            , () => errorHandler.redirectToNotFound(res));
+            .then(page => res.render(`${CONTROLLER_NAME}/edit-tos`, page),
+                () => errorHandler.redirectToNotFound(res));
     },
     postEditTos: function (req, res) {
         data.pageService
@@ -69,8 +69,8 @@ module.exports = {
         data.contestantsService
             .deleteAll()
             .then(() => cloudinary.api
-            .delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
-                () => res.redirect('/')),
+                .delete_resources_by_prefix(globalConstants.CLOUDINARY_CONTESTANTS_FOLDER_NAME,
+                    () => res.redirect('/')),
                 err => errorHandler.redirectToError(req, res, 'Could not reset the contest!' + err));
     },
     getAllContestants: function (req, res) {
@@ -78,7 +78,7 @@ module.exports = {
             .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not get all contestants!' + err),
                 contestants => {
                     contestants.data.forEach(contestant => contestant.pictures.forEach(picture => {
-                        picture.url = cloudinary.url(picture.serviceId, {transformation: 'thumbnail', secure: true});
+                        picture.url = cloudinary.url(picture.serviceId, { transformation: 'thumbnail', secure: true });
                     }));
                     res.render(`${CONTROLLER_NAME}/contestants/all`, contestants);
                 }, req.query, globalConstants.PAGE_SIZE);
@@ -86,14 +86,14 @@ module.exports = {
     getAllContestantsAsList: function (req, res) {
         data.contestantsService
             .getAdminQuery(err => errorHandler.redirectToError(req, res, 'Could not get all contestants!' + err),
-                contestants => res.render(`${CONTROLLER_NAME}/contestants/all-list`, {contestants, ACCESS_TOKEN}),
+                contestants => res.render(`${CONTROLLER_NAME}/contestants/all-list`, { contestants, ACCESS_TOKEN }),
                 req.query);
     },
     getAllRegisteredUsers: function (req, res) {
         data.userService
             .getAll()
-            .then(users => res.render(`${CONTROLLER_NAME}/users/all`, {users: users}),
-            err => errorHandler.redirectToError(req, res, 'Could not load registered users' + err));
+            .then(users => res.render(`${CONTROLLER_NAME}/users/all`, { users: users }),
+                err => errorHandler.redirectToError(req, res, 'Could not load registered users' + err));
     },
     getRegisteredUserById: function (req, res) {
         var result = {
