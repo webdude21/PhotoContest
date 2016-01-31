@@ -26,6 +26,5 @@ fb.setAccessToken(ACCESS_TOKEN);
 module.exports = function () {
     require('../data').contestantsService
         .getAllApproved()
-        .then(contestants => contestants.forEach(saveUserVotes)
-        , err => console.warn(err));
+        .then(contestants => contestants.forEach(saveUserVotes), err => console.warn(err));
 };

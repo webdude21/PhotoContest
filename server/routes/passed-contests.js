@@ -5,7 +5,7 @@ var auth = require('../config/auth'),
     roles = require('../config/roles'),
     ROUTE_ROOT = '/passed-contests';
 
-module.exports = function ({app}) {
+module.exports = function ({ app }) {
     app.route(ROUTE_ROOT + '/register')
         .get(auth.isAuthenticated, auth.isInRole(roles.admin), controllers.passedContests.getRegister)
         .post(auth.isAuthenticated, auth.isInRole(roles.admin), controllers.passedContests.postRegister);

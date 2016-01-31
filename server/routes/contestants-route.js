@@ -2,7 +2,7 @@
 var auth = require('../config/auth'),
     controllers = require('../controllers');
 
-module.exports = function ({app}) {
+module.exports = function ({ app }) {
     app.route('/contestants/register')
         .get(auth.isAuthenticated, controllers.contestants.getRegister)
         .post(auth.isAuthenticated, controllers.contestants.postRegister);

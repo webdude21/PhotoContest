@@ -25,7 +25,7 @@ let passport = require('passport'),
         });
     };
 
-module.exports = function() {
+module.exports = function () {
 
     passport.use(new FacebookStrategy({
         clientID: env.FACEBOOK_APP_ID,

@@ -4,7 +4,7 @@ var auth = require('../config/auth'),
     controllers = require('../controllers');
 const ROUTE_BASE = '/admin/';
 
-module.exports = function ({app}) {
+module.exports = function ({ app }) {
 
     app.route(ROUTE_BASE + 'users/all')
         .get(auth.isAuthenticated, auth.isInRole(roles.admin), controllers.admin.getAllRegisteredUsers);
