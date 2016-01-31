@@ -7,7 +7,7 @@ var auth = require('../config/auth'),
 
 module.exports = function ({app}) {
     app.route(ROUTE_ROOT + '/register')
-        .get(auth.isAuthenticated, auth.isInRoleroles.admin, controllers.passedContests.getRegister)
+        .get(auth.isAuthenticated, auth.isInRole(roles.admin), controllers.passedContests.getRegister)
         .post(auth.isAuthenticated, auth.isInRole(roles.admin), controllers.passedContests.postRegister);
 
     app.route(ROUTE_ROOT + '/edit')

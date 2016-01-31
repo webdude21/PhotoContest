@@ -40,6 +40,7 @@ module.exports.seedInitialUsers = function () {
 
             salt = encryption.generateSalt();
             hashedPwd = encryption.generateHashedText(salt, 'secret');
+
             User.create({
                 username: 'webdude', firstName: 'Димо', email: 'webdude@webdude.eu',
                 lastName: 'Петров', salt: salt, hashPass: hashedPwd, roles: [roles.admin]
@@ -49,6 +50,7 @@ module.exports.seedInitialUsers = function () {
                 username: 'iva', firstName: 'Ива', email: 'miss_ivona@yahoo.com',
                 lastName: 'Петрова', salt: salt, hashPass: hashedPwd, roles: [roles.admin]
             });
+
             console.log('Users added to database...');
         }
     });
