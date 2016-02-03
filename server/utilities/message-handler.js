@@ -1,7 +1,7 @@
 'use strict';
 module.exports = function (req, res, next, app) {
     if (req.session.errorMessage) {
-        var msg = req.session.errorMessage;
+        let msg = req.session.errorMessage;
         req.session.errorMessage = undefined;
         app.locals.errorMessage = msg;
     } else {
@@ -9,7 +9,7 @@ module.exports = function (req, res, next, app) {
     }
 
     if (req.session.successMessage) {
-        var successMessage = req.session.successMessage;
+        let successMessage = req.session.successMessage;
         req.session.successMessage = undefined;
         app.locals.successMessage = successMessage;
     } else {

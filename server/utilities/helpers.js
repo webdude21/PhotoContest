@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
     formatWinner: function (winner) {
-        var formattedWinner = winner;
+        let formattedWinner = winner;
         formattedWinner.text = winner.prize.slice(0, 1).toLocaleUpperCase() + winner.prize.slice(1) +
             ', ' + winner.award.toLocaleLowerCase() + ' спечели ';
         formattedWinner.text += winner.fullName;
@@ -18,7 +18,7 @@ module.exports = {
     },
     fileHasValidExtension: function (filename, permittedFormats, delimiter) {
         delimiter = delimiter || '.';
-        var indexOfDelimiter = filename.lastIndexOf(delimiter);
+        let indexOfDelimiter = filename.lastIndexOf(delimiter);
         return filename && indexOfDelimiter > 0 && permittedFormats.indexOf(filename.slice(indexOfDelimiter) > -1);
     }
 };

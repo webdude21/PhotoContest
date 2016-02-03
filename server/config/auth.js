@@ -38,16 +38,13 @@ module.exports = {
     },
     isInRole: function (...roles) {
         return function (req, res, next) {
-            if (req.isAuthenticated()) {
-                roles.forEach(function (role) {
-                    if (req.user.roles.indexOf(role) > -1) {
-                        next();
-                        return;
-                    }
-                });
-            }
+            var authorized = roles.some(role => req.user.roles.indexOf(role) > -1);
 
-            res.redirect('/login');
+            if (req.isAuthenticated() && authorized) {
+                next();
+            } else {
+                res.redirect('/login');
+            }
         };
     }
 };
