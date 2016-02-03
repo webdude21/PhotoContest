@@ -16,8 +16,7 @@ var processContestants = function (contestants) {
     contestants.data
         .forEach(contestant => contestant
             .pictures
-            .forEach(picture => picture.url = cloudinary
-                .url(picture.serviceId, CLOUDINARY_CONFIG.thumbnail)));
+            .forEach(picture => picture.url = cloudinary.url(picture.serviceId, CLOUDINARY_CONFIG.thumbnail)));
 };
 
 module.exports = {

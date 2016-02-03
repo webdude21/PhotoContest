@@ -6,8 +6,8 @@ var cloudinary = require('cloudinary'),
     errorHandler = require('../utilities/error-handler'),
     ACCESS_TOKEN = `${env.FACEBOOK_APP_ID}|${env.FACEBOOK_APP_SECRET}`,
     COULD_NOT_RESET_APP = 'Could not reset the application!',
-    RESET_BODY = 'Това ще изтрие цялата информация в приложението (потребители,' +
-    ' участници, снимки и гласове) с изключение на администраторските акаунти';
+    RESET_BODY = 'Това ще изтрие цялата информация в приложението (потребители, участници,' +
+        ' снимки и гласове) с изключение на администраторските акаунти';
 
 cloudinary.config(env.CLOUDINARY_URL);
 
