@@ -1,56 +1,56 @@
 'use strict';
 var MongooseRepository = require('./MongooseRepository'),
-    paging = require('../utilities/paging'),
-    approved = { approved: true };
+  paging = require('../utilities/paging'),
+  approved = { approved: true };
 
 class ContestantsService extends MongooseRepository {
-    constructor() {
-        super('Contestant');
-    }
+  constructor() {
+    super('Contestant');
+  }
 
-    getBy(id) {
-        return MongooseRepository.wrapQueryInPromise(this
-            .Model
-            .findById(id)
-            .populate('registrant'));
-    }
+  getBy(id) {
+    return MongooseRepository.wrapQueryInPromise(this
+      .Model
+      .findById(id)
+      .populate('registrant'));
+  }
 
-    getByVoteCount() {
-        return MongooseRepository.wrapQueryInPromise(this
-            .Model
-            .find(approved)
-            .sort({ votes: 'descending' }));
-    }
+  getByVoteCount() {
+    return MongooseRepository.wrapQueryInPromise(this
+      .Model
+      .find(approved)
+      .sort({ votes: 'descending' }));
+  }
 
-    getAllVisible() {
-        return MongooseRepository.wrapQueryInPromise(this
-            .Model
-            .find()
-            .populate('pictures'));
-    }
+  getAllVisible() {
+    return MongooseRepository.wrapQueryInPromise(this
+      .Model
+      .find()
+      .populate('pictures'));
+  }
 
-    getAllApproved() {
-        return MongooseRepository.wrapQueryInPromise(this
-            .Model
-            .find(approved)
-            .populate('pictures'));
-    }
+  getAllApproved() {
+    return MongooseRepository.wrapQueryInPromise(this
+      .Model
+      .find(approved)
+      .populate('pictures'));
+  }
 
-    getQuery(err, success, baseQueryObject, pageSize) {
-        paging.populateResponse(err, success, paging
-            .buildQueryObject(baseQueryObject), this.Model, 'pictures', pageSize);
-    }
+  getQuery(err, success, baseQueryObject, pageSize) {
+    paging.populateResponse(err, success, paging
+      .buildQueryObject(baseQueryObject), this.Model, 'pictures', pageSize);
+  }
 
-    getAdminQuery(err, success, baseQueryObject, pageSize) {
-        paging.populateResponse(err, success, paging
-            .buildAdminQueryObject(baseQueryObject), this.Model, 'pictures', pageSize);
-    }
+  getAdminQuery(err, success, baseQueryObject, pageSize) {
+    paging.populateResponse(err, success, paging
+      .buildAdminQueryObject(baseQueryObject), this.Model, 'pictures', pageSize);
+  }
 
-    getAllContestantsByUser(user) {
-        return MongooseRepository.wrapQueryInPromise(this
-            .Model
-            .find({ registrant: user._id }));
-    }
+  getAllContestantsByUser(user) {
+    return MongooseRepository.wrapQueryInPromise(this
+      .Model
+      .find({ registrant: user._id }));
+  }
 }
 
 module.exports = new ContestantsService();

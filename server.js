@@ -1,8 +1,8 @@
 'use strict';
 var app = require('express')(),
-    env = require('./server/config/global-variables'),
-    config = require('./server/config/config')[env.NODE_ENV || 'development'],
-    staticCacheAge = 86400000;
+  env = require('./server/config/global-variables'),
+  config = require('./server/config/config')[env.NODE_ENV || 'development'],
+  staticCacheAge = 86400000;
 
 require('./server/config/')({ app, config, staticCacheAge, env });
 

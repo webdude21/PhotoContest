@@ -2,47 +2,47 @@
 var mongoose = require('mongoose');
 
 class MongooseRepository {
-    constructor(mongooseModel) {
-        this.Model = mongoose.model(mongooseModel);
-    }
+  constructor(mongooseModel) {
+    this.Model = mongoose.model(mongooseModel);
+  }
 
-    static wrapQueryInPromise(query) {
-        return new Promise(function (resolve, reject) {
-            query.exec((err, entity) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(entity);
-                }
-            });
-        });
-    }
+  static wrapQueryInPromise(query) {
+    return new Promise(function (resolve, reject) {
+      query.exec((err, entity) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(entity);
+        }
+      });
+    });
+  }
 
-    getBy(id) {
-        return MongooseRepository.wrapQueryInPromise(this.Model.findById(id));
-    }
+  getBy(id) {
+    return MongooseRepository.wrapQueryInPromise(this.Model.findById(id));
+  }
 
-    getAll() {
-        return MongooseRepository.wrapQueryInPromise(this.Model.find());
-    }
+  getAll() {
+    return MongooseRepository.wrapQueryInPromise(this.Model.find());
+  }
 
-    deleteBy(id) {
-        return MongooseRepository.wrapQueryInPromise(this.Model.findByIdAndRemove(id));
-    }
+  deleteBy(id) {
+    return MongooseRepository.wrapQueryInPromise(this.Model.findByIdAndRemove(id));
+  }
 
-    getCount() {
-        return MongooseRepository.wrapQueryInPromise(this.Model.count());
-    }
+  getCount() {
+    return MongooseRepository.wrapQueryInPromise(this.Model.count());
+  }
 
-    add(entity) {
-        var dbEntity = new this.Model(entity);
-        dbEntity.save();
-        return dbEntity;
-    }
+  add(entity) {
+    var dbEntity = new this.Model(entity);
+    dbEntity.save();
+    return dbEntity;
+  }
 
-    deleteAll() {
-        return MongooseRepository.wrapQueryInPromise(this.Model.remove({}));
-    }
+  deleteAll() {
+    return MongooseRepository.wrapQueryInPromise(this.Model.remove({}));
+  }
 }
 
 module.exports = MongooseRepository;
