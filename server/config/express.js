@@ -13,7 +13,7 @@ var express = require('express'),
   middlewares = require('../middleware');
 
 module.exports = function ({ app, config, staticCacheAge, env }) {
-  if (env === 'production') {
+  if (env.NODE_ENV === 'production') {
     app.use(middlewares.forceHttps);
   }
   app.use(compression());

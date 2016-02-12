@@ -28,10 +28,10 @@ module.exports.seedInitialContestants = function () {
     }
 
     if (collection.length === 0) {
-      for (var i = 0; i < 10; i++) {
+      for (let i = 0; i < 10; i++) {
         Contestant.create({
-          fullName: "asfasf",
-          age: "asfas1",
+          fullName: `Георги Георгиев ${i}`,
+          age: `${i}`,
         });
       }
 
