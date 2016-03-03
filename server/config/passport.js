@@ -42,7 +42,11 @@ module.exports = function () {
       });
   }));
 
-  passport.serializeUser((user, done) => done(null, user.id));
+  passport.serializeUser(function (user, done) {
+    if (user) {
+      return done(null, user.id);
+    }
+  });
 
   passport.deserializeUser(function (id, done) {
     data.userService
