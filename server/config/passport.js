@@ -26,7 +26,6 @@ let passport = require('passport'),
   };
 
 module.exports = function () {
-
   passport.use(new FacebookStrategy({
     clientID: env.FACEBOOK_APP_ID,
     clientSecret: env.FACEBOOK_APP_SECRET,
@@ -36,7 +35,11 @@ module.exports = function () {
   passport.use(new LocalPassport(function (username, password, done) {
     data.userService
       .getUser(username)
-      .then(user => user && user.authenticate(password) ? done(null, user) : done(null, false), logError);
+      .then(user => user && user.authenticate(password) ? done(null, user) : done(null, false))
+      .catch(err => {
+        logError(err);
+        done(null, false);
+      });
   }));
 
   passport.serializeUser((user, done) => done(null, user.id));
@@ -44,6 +47,10 @@ module.exports = function () {
   passport.deserializeUser(function (id, done) {
     data.userService
       .getBy(id)
-      .then(user => user ? done(null, user) : done(null, false), logError);
+      .then(user => user ? done(null, user) : done(null, false))
+      .catch(err => {
+        logError(err);
+        done(null, false);
+      });
   });
 };
