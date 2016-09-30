@@ -8,6 +8,7 @@ let mongoose = require('mongoose'),
   models = require('../models');
 
 module.exports = function ({ config }) {
+  mongoose.Promise = global.Promise;
   mongoose.connect(config.db);
   let database = mongoose.connection;
 

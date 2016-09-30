@@ -6,32 +6,20 @@ class MongooseRepository {
     this.Model = mongoose.model(mongooseModel);
   }
 
-  static wrapQueryInPromise(query) {
-    return new Promise(function (resolve, reject) {
-      query.exec((err, entity) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(entity);
-        }
-      });
-    });
-  }
-
   getBy(id) {
-    return MongooseRepository.wrapQueryInPromise(this.Model.findById(id));
+    return this.Model.findById(id);
   }
 
   getAll() {
-    return MongooseRepository.wrapQueryInPromise(this.Model.find());
+    return this.Model.find();
   }
 
   deleteBy(id) {
-    return MongooseRepository.wrapQueryInPromise(this.Model.findByIdAndRemove(id));
+    return this.Model.findByIdAndRemove(id);
   }
 
   getCount() {
-    return MongooseRepository.wrapQueryInPromise(this.Model.count());
+    return this.Model.count();
   }
 
   add(entity) {
@@ -41,7 +29,7 @@ class MongooseRepository {
   }
 
   deleteAll() {
-    return MongooseRepository.wrapQueryInPromise(this.Model.remove({}));
+    return this.Model.remove({});
   }
 }
 

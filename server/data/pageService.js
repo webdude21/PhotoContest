@@ -7,7 +7,7 @@ class PageService extends MongooseRepository {
   }
 
   getFirstPage() {
-    return MongooseRepository.wrapQueryInPromise(this.Model.findOne());
+    return this.Model.findOne();
   }
 }
 

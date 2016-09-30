@@ -9,31 +9,31 @@ class ContestantsService extends MongooseRepository {
   }
 
   getBy(id) {
-    return MongooseRepository.wrapQueryInPromise(this
+    return this
       .Model
       .findById(id)
-      .populate('registrant'));
+      .populate('registrant');
   }
 
   getByVoteCount() {
-    return MongooseRepository.wrapQueryInPromise(this
+    return this
       .Model
       .find(approved)
-      .sort({ votes: 'descending' }));
+      .sort({ votes: 'descending' });
   }
 
   getAllVisible() {
-    return MongooseRepository.wrapQueryInPromise(this
+    return this
       .Model
       .find()
-      .populate('pictures'));
+      .populate('pictures');
   }
 
   getAllApproved() {
-    return MongooseRepository.wrapQueryInPromise(this
+    return this
       .Model
       .find(approved)
-      .populate('pictures'));
+      .populate('pictures');
   }
 
   getQuery(err, success, baseQueryObject, pageSize) {
@@ -47,9 +47,9 @@ class ContestantsService extends MongooseRepository {
   }
 
   getAllContestantsByUser(user) {
-    return MongooseRepository.wrapQueryInPromise(this
+    return this
       .Model
-      .find({ registrant: user._id }));
+      .find({ registrant: user._id });
   }
 }
 

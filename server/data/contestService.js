@@ -7,7 +7,7 @@ class ContestService extends MongooseRepository {
   }
 
   getAllVisible() {
-    return MongooseRepository.wrapQueryInPromise(this.Model.find({ visible: true }));
+    return this.Model.find({ visible: true });
   }
 }
 

@@ -7,11 +7,11 @@ class UserService extends MongooseRepository {
   }
 
   getUser(username) {
-    return MongooseRepository.wrapQueryInPromise(this.Model.findOne({ username: username }));
+    return this.Model.findOne({ username: username });
   }
 
   deleteAllNonAdmins() {
-    return MongooseRepository.wrapQueryInPromise(this.Model.remove({ roles: [] }));
+    return this.Model.remove({ roles: [] });
   }
 
   findOrCreate(userData, resolve) {
