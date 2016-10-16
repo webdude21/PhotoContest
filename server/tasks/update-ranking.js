@@ -1,14 +1,15 @@
-var fb = require('fb'),
+let fb = require('fb'),
   env = require('../config/global-variables'),
   ACCESS_TOKEN = `${env.FACEBOOK_APP_ID}|${env.FACEBOOK_APP_SECRET}`,
   logError = err => console.warn(err),
   getUserVotes = function (participantId) {
     return new Promise(function (resolve, reject) {
-      fb.api('/', 'get', { id: `${env.BASE_URL}/contestants/${participantId}` }, function (res) {
-        if (res.error) {
-          return reject(res.error);
+      fb.api('/', 'get', { id: `${env.BASE_URL}/contestafnts/${participantId}` }, function ({ error, share: { share_count = 0 } = {} }) {
+        if (error) {
+          reject(error);
+          return;
         }
-        resolve(res.shares || 0);
+        resolve(share_count);
       });
     });
   },

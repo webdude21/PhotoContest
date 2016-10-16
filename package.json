@@ -31,7 +31,7 @@
     "csurf": "^1.8.3",
     "express": "^4.9.5",
     "express-session": "^1.8.2",
-    "fb": "^0.7.3",
+    "fb": "^1.1.1",
     "grunt": "~0.4.5",
     "grunt-cli": "~0.1.13",
     "grunt-contrib-clean": "~0.6.0",
