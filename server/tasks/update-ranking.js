@@ -4,7 +4,7 @@ let fb = require('fb'),
   logError = err => console.warn(err),
   getUserVotes = function (participantId) {
     return new Promise(function (resolve, reject) {
-      fb.api('/', 'get', { id: `${env.BASE_URL}/contestafnts/${participantId}` }, function ({ error, share: { share_count = 0 } = {} }) {
+      fb.api('/', 'get', { id: `${env.BASE_URL}/contestants/${participantId}` }, function ({error, share: {share_count = 0} = {}}) {
         if (error) {
           reject(error);
           return;
