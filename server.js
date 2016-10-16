@@ -1,4 +1,3 @@
-'use strict';
 let app = require('express')(),
   env = require('./server/config/global-variables'),
   config = require('./server/config/config')[env.NODE_ENV || 'development'],
