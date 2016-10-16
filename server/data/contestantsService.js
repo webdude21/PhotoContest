@@ -1,4 +1,3 @@
-'use strict';
 var MongooseRepository = require('./MongooseRepository'),
   paging = require('../utilities/paging'),
   approved = { approved: true };

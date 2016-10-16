@@ -1,10 +1,8 @@
-'use strict';
-
 let mongoose = require('mongoose'),
   env = require('../config/global-variables'),
   minute = 1000 * 60,
   hour = minute * 60,
-  initialRankingUpdateDelay =  10 * minute,
+  initialRankingUpdateDelay = 10 * minute,
   rankingRefreshFrequency = hour * 2,
   models = require('../models');
 

@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   fileHasValidExtension: function (filename, permittedFormats, delimiter) {
     delimiter = delimiter || '.';

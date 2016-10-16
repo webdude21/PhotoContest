@@ -4,7 +4,8 @@ module.exports = {
   login: function (req, res, next) {
     var auth = passport.authenticate('local', function (err, user) {
       if (err) {
-        return next(err);
+        next(err);
+        return;
       }
 
       if (!user) {
@@ -14,7 +15,8 @@ module.exports = {
 
       req.logIn(user, function (loginErr) {
         if (loginErr) {
-          return next(loginErr);
+          next(loginErr);
+          return;
         }
         next();
       });

@@ -1,4 +1,3 @@
-'use strict';
 /*eslint-disable */
 var mongoose = require('mongoose'),
   encryption = require('../utilities/encryption'),

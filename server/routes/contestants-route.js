@@ -1,4 +1,3 @@
-'use strict';
 var auth = require('../config/auth'),
   controllers = require('../controllers');
 

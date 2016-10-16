@@ -1,4 +1,3 @@
-'use strict';
 var MongooseRepository = require('./MongooseRepository');
 
 class ContestService extends MongooseRepository {

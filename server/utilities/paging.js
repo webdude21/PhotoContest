@@ -1,6 +1,4 @@
 /*eslint-disable */
-'use strict';
-
 module.exports = {
   populateResponse: function populateResponse(errorHandler, successHandler, gridRequest, model, populateString, pageSize) {
     var query = model.find({});

@@ -1,5 +1,3 @@
-'use strict';
-
 var path = require('path'),
   env = require('./global-variables'),
   rootPath = path.normalize(__dirname + '/../../'),

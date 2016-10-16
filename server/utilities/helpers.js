@@ -1,4 +1,3 @@
-'use strict';
 module.exports = {
   formatWinner: function (winner) {
     let formattedWinner = winner;

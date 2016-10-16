@@ -1,4 +1,3 @@
-'use strict';
 let passport = require('passport'),
   LocalPassport = require('passport-local'),
   FacebookStrategy = require('passport-facebook').Strategy,
@@ -44,7 +43,8 @@ module.exports = function () {
 
   passport.serializeUser(function (user, done) {
     if (user) {
-      return done(null, user.id);
+     done(null, user.id);
+     return;
     }
   });
 

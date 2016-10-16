@@ -1,5 +1,3 @@
-'use strict';
-
 var data = require('../data'),
   errorHandler = require('../utilities/error-handler');
 

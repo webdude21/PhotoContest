@@ -1,4 +1,3 @@
-'use strict';
 /*eslint-disable */
 var mongoose = require('mongoose'),
   contestantSchema = mongoose.Schema({
