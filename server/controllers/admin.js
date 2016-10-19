@@ -46,14 +46,14 @@ module.exports = {
   },
   getResetContest: (req, res) => res.render('confirm', {
     message: {
-      title: 'Рестартиране на приложението',
+      title: 'Рестартиране на конкурса',
       body: RESET_BODY,
       buttonText: 'Рестарт'
     }
   }),
   getResetApplication: (req, res) => res.render('confirm', {
     message: {
-      title: 'Рестартиране на конкурса',
+      title: 'Рестартиране на приложението',
       body: RESET_BODY,
       buttonText: 'Рестарт'
     }
