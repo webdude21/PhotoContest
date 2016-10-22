@@ -6,19 +6,16 @@ let passport = require('passport'),
   logError = err => console.log(`Error loading user: ${err}`),
   encryption = require('../utilities/encryption'),
   registerFacebookUser = function (accessToken, refreshToken, profile, done) {
-    console.log(profile);
     let fbUser = {
       facebookId: profile.id,
-      firstName: profile._json.first_name,
-      lastName: profile._json.last_name,
-      username: profile.username ? profile.username : profile._json.first_name + '_' + profile._json.last_name
+      firstName: profile.name.givenName,
+      lastName: profile.name.familyName,
+      username: profile.username || profile.displayName
     };
 
     fbUser.salt = encryption.generateSalt();
     fbUser.hashPass = encryption.generateHashedText(fbUser.salt, encryption.generateSalt());
-
-    // very dumb solution here, but FB users don't always come with emails
-    fbUser.email = profile.emails ? profile.emails[0].value : `${fbUser.facebookId}@facebook.com`;
+    fbUser.email = `${fbUser.facebookId}@facebook.com`;
 
     data.userService.findOrCreate(fbUser, (user) => {
       return done(null, user);
