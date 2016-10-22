@@ -6,6 +6,7 @@ let passport = require('passport'),
   logError = err => console.log(`Error loading user: ${err}`),
   encryption = require('../utilities/encryption'),
   registerFacebookUser = function (accessToken, refreshToken, profile, done) {
+    console.log(profile);
     let fbUser = {
       facebookId: profile.id,
       firstName: profile._json.first_name,
