@@ -8,8 +8,6 @@ let passport = require('passport'),
   registerFacebookUser = function (accessToken, refreshToken, profile, done) {
     let fbUser = {
       facebookId: profile.id,
-      firstName: profile.name.givenName,
-      lastName: profile.name.familyName,
       username: profile.username || profile.displayName
     };
 
