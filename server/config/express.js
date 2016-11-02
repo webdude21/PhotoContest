@@ -30,6 +30,7 @@ module.exports = function ({ app, config, staticCacheAge, env }) {
   app.use(function (req, res, next) {
     res.locals.facebookClientID = env.FACEBOOK_APP_ID;
     res.locals.csrf = req.csrfToken();
+    res.locals.fullPath = `${env.BASE_URL}${req.path}`;
     next();
   });
   app.use(express.static(config.rootPath + STATIC_DIRECTORY, { maxAge: staticCacheAge }));
