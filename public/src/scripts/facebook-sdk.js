@@ -5,7 +5,7 @@
       window.FB.init({
         appId: facebookClientID,
         xfbml: true,
-        version: 'v2.5'
+        version: 'v2.8'
       });
     });
   });
