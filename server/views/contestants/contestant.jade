@@ -1,4 +1,9 @@
 extends ../includes/layout
+block meta-data
+    meta(property="og:url" content=path)
+    meta(property="og:title" content="#{contestant.fullName}")
+    meta(property="og:image" content=contestant.pictures[0].url)
+    meta(property="fb:app_id" content=facebookClientID)
 block main-content
     if disapproved
         .alert.alert-dismissible.alert-danger #{disapproved}
