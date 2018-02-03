@@ -1,4 +1,4 @@
-var express = require('express'),
+let express = require('express'),
   bodyParser = require('body-parser'),
   compression = require('compression'),
   cookieParser = require('cookie-parser'),
@@ -8,7 +8,8 @@ var express = require('express'),
   morgan = require('morgan'),
   csrf = require('csurf'),
   STATIC_DIRECTORY = '/public/compiled',
-  secretPassPhrase = 'XZASDIAJSuiasfjuuhasfuhSAFHuhasffaioASJF',
+  encryption = require('../utilities/encryption'),
+  secretPassPhrase = encryption.generateSalt(),
   messageHandler = require('../utilities/message-handler'),
   middlewares = require('../middleware');
 

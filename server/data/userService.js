@@ -1,4 +1,4 @@
-var MongooseRepository = require('./MongooseRepository');
+const MongooseRepository = require('./MongooseRepository');
 
 class UserService extends MongooseRepository {
   constructor() {
@@ -14,14 +14,10 @@ class UserService extends MongooseRepository {
   }
 
   findOrCreate(userData, resolve) {
-    var that = this;
-
     this.getUser(userData.username)
-      .then(function (user) {
-        resolve(user ? user : that.add(userData));
-      }, function () {
-        resolve(that.add(userData));
-      });
+      .then(
+        (user) => resolve(user ? user : this.add(userData)),
+        () => resolve(this.add(userData)));
   }
 }
 
